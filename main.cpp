@@ -11,10 +11,9 @@ int main()
 
     const std::string& name {location->getName()};
 
-    location->getName().append("-");
+    // location->getName().append("-");
     //
     // name = "reee";
-
     std::cout << name;
 
     return 0;

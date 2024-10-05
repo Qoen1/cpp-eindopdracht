@@ -26,4 +26,6 @@ add_executable(cpp_eindopdracht main.cpp
         backend/enemy/Enemy.cpp
         backend/enemy/Enemy.hpp
         backend/enemy/EnemyFactory.cpp
-        backend/enemy/EnemyFactory.hpp)
+        backend/enemy/EnemyFactory.hpp
+        helpers/TypoTrap.hpp
+        helpers/DynamicDoodad.hpp)

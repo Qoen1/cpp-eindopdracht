@@ -7,6 +7,9 @@
 
 namespace helpers {
 
+    /**
+     * a custom implementation of the unique pointer class
+     */
     template<typename T>
     class BigBrainPointer {
     private:
