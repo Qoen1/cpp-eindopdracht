@@ -42,6 +42,11 @@ namespace helpers {
         T* operator->() {
             return item;
         }
+
+        //dereference operator
+        T& operator*() const {
+            return *item;
+        }
     };
 } // helpers
 

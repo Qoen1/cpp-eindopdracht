@@ -8,7 +8,6 @@ add_executable(cpp_eindopdracht main.cpp
         backend/objects/Item.hpp
         frontend/player/Player.cpp
         frontend/player/Player.hpp
-        helpers/SharedBigBrainPointer.hpp
         helpers/BigBrainPointer.hpp
         backend/objects/Gold.cpp
         backend/objects/Gold.hpp

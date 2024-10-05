@@ -1,19 +1,21 @@
 #include <iostream>
 
 #include "backend/enemy/Enemy.hpp"
+#include "backend/location/Location.hpp"
 #include "helpers/BigBrainPointer.hpp"
 
-void test(backend::Enemy* e) {
-    helpers::BigBrainPointer<backend::Enemy> enemy = helpers::BigBrainPointer(e);
-}
 
 int main()
 {
-    backend::Enemy* e = new backend::Enemy();
-    e->name = "je moeder";
+    auto location = new backend::Location(new std::string("naam"), new std::string(" beshcrijving"));
 
-    test(e);
+    const std::string& name {location->getName()};
 
+    location->getName().append("-");
+    //
+    // name = "reee";
+
+    std::cout << name;
 
     return 0;
 }
