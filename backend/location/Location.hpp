@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "../../helpers/BigBrainPointer.hpp"
+#include "../../helpers/TypoTrap.hpp"
 #include "../objects/Item.hpp"
 
 namespace backend {
@@ -15,13 +16,13 @@ class Location {
 private:
     std::vector<helpers::BigBrainPointer<Item>> hiddenItems;
     std::vector<helpers::BigBrainPointer<Item>> visibleItems;
-    helpers::BigBrainPointer<std::string> name;
-    helpers::BigBrainPointer<std::string> description;
+    helpers::BigBrainPointer<helpers::TypoTrap> name;
+    helpers::BigBrainPointer<helpers::TypoTrap> description;
 public:
-    Location(std::string *passedName, std::string *passedDescription);
+    Location(helpers::TypoTrap *passedName, helpers::TypoTrap *passedDescription);
 
-    const std::string& getName();
-    std::string& getDescription() const;
+    const helpers::TypoTrap& getName();
+    helpers::TypoTrap& getDescription() const;
 };
 
 } // backend

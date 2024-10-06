@@ -5,15 +5,15 @@
 #include "Location.hpp"
 
 namespace backend {
-    Location::Location(std::string* passedName, std::string* passedDescription)
-    :name(helpers::BigBrainPointer<std::string>(passedName)), description(helpers::BigBrainPointer<std::string>(passedDescription)) {
+    Location::Location(helpers::TypoTrap* passedName, helpers::TypoTrap* passedDescription)
+    :name(helpers::BigBrainPointer<helpers::TypoTrap>(passedName)), description(helpers::BigBrainPointer<helpers::TypoTrap>(passedDescription)) {
     }
 
-    const std::string & Location::getName() {
+    const helpers::TypoTrap & Location::getName() {
         return *name;
     }
 
-    std::string & Location::getDescription() const {
+    helpers::TypoTrap & Location::getDescription() const {
         return *description;
     }
 } // backend

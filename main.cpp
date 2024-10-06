@@ -7,14 +7,14 @@
 
 int main()
 {
-    auto location = new backend::Location(new std::string("naam"), new std::string(" beshcrijving"));
+    auto location = new backend::Location(new helpers::TypoTrap("je moeder"), new helpers::TypoTrap(" beschrijving"));
 
-    const std::string& name {location->getName()};
+    const helpers::TypoTrap& name {location->getName()};
 
     // location->getName().append("-");
     //
     // name = "reee";
-    std::cout << name;
+    std::cout << name.cstring() << name.size();
 
     return 0;
 }
