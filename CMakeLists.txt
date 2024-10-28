@@ -4,7 +4,6 @@ project(cpp_eindopdracht)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(cpp_eindopdracht main.cpp
-        backend/objects/Item.cpp
         backend/objects/Item.hpp
         frontend/player/Player.cpp
         frontend/player/Player.hpp
@@ -28,4 +27,17 @@ add_executable(cpp_eindopdracht main.cpp
         backend/enemy/EnemyFactory.cpp
         backend/enemy/EnemyFactory.hpp
         helpers/TypoTrap.hpp
-        helpers/DynamicDoodad.hpp)
+        helpers/DynamicDoodad.hpp
+        frontend/player/IPlayerState.hpp
+        frontend/player/GodState.cpp
+        frontend/player/GodState.hpp
+        frontend/player/RegularState.cpp
+        frontend/player/RegularState.hpp
+        frontend/configReader/IMapGenerator.hpp
+        frontend/configReader/FileMapGenerator.cpp
+        frontend/configReader/FileMapGenerator.hpp
+        frontend/configReader/RandomMapGenerator.cpp
+        frontend/configReader/RandomMapGenerator.hpp
+        frontend/commands/ICommand.hpp
+        frontend/commands/LookInRoomCommand.cpp
+        frontend/commands/LookInRoomCommand.hpp)

@@ -5,4 +5,7 @@
 #include "./Weapon.hpp"
 
 namespace backend {
+    helpers::TypoTrap* Weapon::ToString() {
+        return new helpers::TypoTrap("super gevaarlijk");
+    }
 } // backend

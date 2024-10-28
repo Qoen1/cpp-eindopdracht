@@ -1,20 +1,16 @@
-#include <iostream>
-
-#include "backend/enemy/Enemy.hpp"
 #include "backend/location/Location.hpp"
-#include "helpers/BigBrainPointer.hpp"
+#include "backend/objects/Weapon.hpp"
+#include "frontend/commands/LookInRoomCommand.hpp"
+#include "frontend/configReader/RandomMapGenerator.hpp"
 
 
 int main()
 {
-    auto location = new backend::Location(new helpers::TypoTrap("je moeder"), new helpers::TypoTrap(" beschrijving"));
-
-    const helpers::TypoTrap& name {location->getName()};
-
-    // location->getName().append("-");
-    //
-    // name = "reee";
-    std::cout << name.cstring() << name.size();
-
+    auto generator = RandomMapGenerator();
+    auto locations = std::make_unique<std::vector<backend::Location*>>(*generator.Generate());
+    auto* ree {new backend::Weapon()};
+    locations->at(0)->AddVisibleItem(ree);
+    auto* command = new frontend::LookInRoomCommand(*locations->at(0));
+    command->Execute();
     return 0;
 }

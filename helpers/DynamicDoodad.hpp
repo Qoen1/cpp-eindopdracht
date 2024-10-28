@@ -14,7 +14,7 @@ namespace helpers {
     /**
      * custom implementation of the vector class
      */
-    class DynamicDoodad<T>{
+    class DynamicDoodad{
     private:
         T* _array;
         size_t _capacity;
@@ -22,7 +22,7 @@ namespace helpers {
     public:
         DynamicDoodad(const size_t initSize) : _used(0), _capacity(1) {
             if(initSize > _capacity) {
-                _capacity {initSize};
+                _capacity = initSize;
             }
             _array = new T[_capacity];
         }
@@ -39,26 +39,48 @@ namespace helpers {
             return _used;
         }
 
-        T& get(size_t index) {
+        T& get(size_t index) const {
             if(index >= _used) {
                 throw std::out_of_range("Index out of range");
             }
             return _array[index];
         }
 
+        size_t indexOf(T value) {
+            for(size_t i = 0; i < _used; i++) {
+                if(_array[i] == value) {
+                    return i;
+                }
+            }
+            throw std::out_of_range("value not found");
+        }
+
+        void erase(T value) {
+            erase(indexOf(value));
+        }
+        void erase(size_t index) {
+            if(index >= _used) {
+                throw std::out_of_range("Index out of range");
+            }
+
+            for(size_t i = index; i < _used - 1; ++i) {
+                _array[i] = _array[i + 1];
+            }
+        }
+
         //rule of 5
-        DynamicDoodad::~DynamicDoodad() {
+        ~DynamicDoodad() {
             delete[] _array;
         }
 
-        DynamicDoodad::DynamicDoodad(const DynamicDoodad &other) {
-            _array = new int[other._capacity];
+        DynamicDoodad(const DynamicDoodad &other) {
+            _array = new T[other._capacity];
             _used = other._used;
             _capacity = other._capacity;
             std::memcpy(_array, other._array, other._capacity);
         }
 
-        DynamicDoodad::DynamicDoodad(DynamicDoodad &&other) noexcept {
+        DynamicDoodad(DynamicDoodad &&other) noexcept {
             _array = other._array;
             _capacity = other._capacity;
             _used =other._used;
@@ -66,7 +88,7 @@ namespace helpers {
             other._array = nullptr;
         }
 
-        DynamicDoodad& DynamicDoodad::operator=(const DynamicDoodad& other) {
+        DynamicDoodad& operator=(const DynamicDoodad& other) {
             if(this == &other) {
                 return *this;
             }
@@ -80,7 +102,7 @@ namespace helpers {
             return *this;
         }
 
-        DynamicDoodad & DynamicDoodad::operator=(DynamicDoodad &&other) noexcept {
+        DynamicDoodad & operator=(DynamicDoodad &&other) noexcept {
             if(this != &other) {
                 delete[] _array;
                 _array = other._array;

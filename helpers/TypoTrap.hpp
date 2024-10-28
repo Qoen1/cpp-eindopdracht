@@ -23,6 +23,11 @@ namespace helpers {
             _array[0] = '\0';
         }
 
+        TypoTrap(const char* from) : _used(0), _capacity(2) {
+            _array = new char[std::strlen(from) + 1];
+            strcpy(_array, from);
+        }
+
         TypoTrap(char* from) : _used(0), _capacity(2) {
             _array = new char[std::strlen(from) + 1];
             for(char* it = from; *it; ++it) {

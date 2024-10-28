@@ -4,14 +4,16 @@
 
 #ifndef SPELOBJECT_HPP
 #define SPELOBJECT_HPP
-#include <string>
+#include "../../helpers/TypoTrap.hpp"
 
 namespace backend {
 
 class Item {
 public:
-    std::string Name;
-    std::string Description;
+    helpers::TypoTrap Name;
+    helpers::TypoTrap Description;
+
+    virtual helpers::TypoTrap* ToString() = 0;
 };
 
 } // backend

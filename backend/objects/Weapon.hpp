@@ -4,11 +4,13 @@
 
 #ifndef WEAPON_HPP
 #define WEAPON_HPP
+#include "Item.hpp"
 
 namespace backend {
 
-class Weapon {
-
+class Weapon: public Item{
+public:
+    helpers::TypoTrap* ToString() override;
 };
 
 } // backend

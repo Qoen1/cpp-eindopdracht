@@ -4,9 +4,9 @@
 
 #ifndef LOCATION_HPP
 #define LOCATION_HPP
-#include <vector>
 
 #include "../../helpers/BigBrainPointer.hpp"
+#include "../../helpers/DynamicDoodad.hpp"
 #include "../../helpers/TypoTrap.hpp"
 #include "../objects/Item.hpp"
 
@@ -14,12 +14,20 @@ namespace backend {
 
 class Location {
 private:
-    std::vector<helpers::BigBrainPointer<Item>> hiddenItems;
-    std::vector<helpers::BigBrainPointer<Item>> visibleItems;
+    helpers::DynamicDoodad<Item*> hiddenItems;
+    helpers::DynamicDoodad<Item*> visibleItems;
     helpers::BigBrainPointer<helpers::TypoTrap> name;
     helpers::BigBrainPointer<helpers::TypoTrap> description;
+    helpers::DynamicDoodad<Location*> neighbors;
 public:
-    Location(helpers::TypoTrap *passedName, helpers::TypoTrap *passedDescription);
+    Location(helpers::TypoTrap* passedName, helpers::TypoTrap* passedDescription);
+    void AddHiddenItem(Item* passedItem);
+    const helpers::DynamicDoodad<Item*> &GetHiddenItems();
+    void AddVisibleItem(Item* passedItem);
+    const helpers::DynamicDoodad<Item*> &GetVisibleItems();
+
+    void MakeItemVisible(const Item &passedItem);
+    void MakeItemInvisible(const Item &passedItem);
 
     const helpers::TypoTrap& getName();
     helpers::TypoTrap& getDescription() const;
