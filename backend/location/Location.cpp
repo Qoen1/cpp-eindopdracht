@@ -29,6 +29,24 @@ namespace backend {
         return visibleItems;
     }
 
+    const Item * Location::GetItemByName(const std::string &passedName) const {
+        for (int i = 0; i < visibleItems.size(); ++i) {
+            if(visibleItems.get(i)->Name.cstring() == passedName) {
+                return visibleItems.get(i);
+            }
+        }
+        return nullptr;
+    }
+
+    Enemy * Location::GetEnemyByName(const std::string &passedName) const {
+        for (int i = 0; i < enemies.size(); ++i) {
+            if(enemies.get(i)->name == passedName) {
+                return enemies.get(i);
+            }
+        }
+        return nullptr;
+    }
+
     void Location::MakeItemVisible(const Item &passedItem) {
         for (int i = 0; i < hiddenItems.size(); ++i) {
             if(&*hiddenItems.get(i) == &passedItem) {

@@ -40,4 +40,13 @@ add_executable(cpp_eindopdracht main.cpp
         frontend/configReader/RandomMapGenerator.hpp
         frontend/commands/ICommand.hpp
         frontend/commands/LookInRoomCommand.cpp
-        frontend/commands/LookInRoomCommand.hpp)
+        frontend/commands/LookInRoomCommand.hpp
+        frontend/inputHandler/BaseInputHandler.hpp
+        frontend/inputHandler/BaseInputHandler.cpp
+        frontend/inputHandler/BaseInputHandler.hpp
+        frontend/inputHandler/LookInputHandler.cpp
+        frontend/inputHandler/LookInputHandler.hpp
+        frontend/inputHandler/BaseInputHandlerBuilder.cpp
+        frontend/inputHandler/BaseInputHandlerBuilder.hpp
+        frontend/commands/LookForItemCommand.cpp
+        frontend/commands/LookForItemCommand.hpp)
