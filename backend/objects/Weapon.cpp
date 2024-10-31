@@ -5,7 +5,14 @@
 #include "./Weapon.hpp"
 
 namespace backend {
-    helpers::TypoTrap* Weapon::ToString() {
-        return new helpers::TypoTrap("super gevaarlijk");
+    Weapon::Weapon(helpers::TypoTrap &name, helpers::TypoTrap &description) : name_(&name), description_(&description) {
+    }
+
+    const helpers::TypoTrap & Weapon::GetName() const {
+        return *name_;
+    }
+
+    const helpers::TypoTrap & Weapon::GetDescription() const {
+        return *description_;
     }
 } // backend

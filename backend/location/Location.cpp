@@ -9,69 +9,73 @@
 namespace backend {
 
     Location::Location(helpers::TypoTrap* passedName,
-                       helpers::TypoTrap* passedDescription) : hiddenItems(0), visibleItems(0), name(passedName),
-                                                               description(passedDescription), neighbors(0) {
+                       helpers::TypoTrap* passedDescription) : hiddenItems_(new helpers::DynamicDoodad<Item*>(0)), visibleItems_(new helpers::DynamicDoodad<Item*>(0)), enemies_(new helpers::DynamicDoodad<Enemy*>(0)),
+                                                               name_(passedName), description_(passedDescription), neighbors_(new helpers::DynamicDoodad<Location*>(4)) {
     }
 
     void Location::AddHiddenItem(Item* passedItem) {
-        hiddenItems.push_back(passedItem);
+        hiddenItems_->push_back(passedItem);
     }
 
     void Location::AddVisibleItem(Item* passedItem) {
-        visibleItems.push_back(passedItem);
+        visibleItems_->push_back(passedItem);
     }
 
     const helpers::DynamicDoodad<Item*>& Location::GetHiddenItems() {
-        return hiddenItems;
+        return *hiddenItems_;
     }
 
     const helpers::DynamicDoodad<Item*> & Location::GetVisibleItems() {
-        return visibleItems;
+        return *visibleItems_;
     }
 
-    const Item * Location::GetItemByName(const std::string &passedName) const {
-        for (int i = 0; i < visibleItems.size(); ++i) {
-            if(visibleItems.get(i)->Name.cstring() == passedName) {
-                return visibleItems.get(i);
+    void Location::AddEnemy(Enemy *passedEnemy) {
+        enemies_->push_back(passedEnemy);
+    }
+
+    const Item * Location::GetItemByName(const helpers::TypoTrap &passedName) const {
+        for (int i = 0; i < visibleItems_->size(); ++i) {
+            if(visibleItems_->get(i)->GetName() == passedName) {
+                return visibleItems_->get(i);
             }
         }
         return nullptr;
     }
 
-    Enemy * Location::GetEnemyByName(const std::string &passedName) const {
-        for (int i = 0; i < enemies.size(); ++i) {
-            if(enemies.get(i)->name == passedName) {
-                return enemies.get(i);
+    Enemy * Location::GetEnemyByName(const helpers::TypoTrap &passedName) const {
+        for (int i = 0; i < enemies_->size(); ++i) {
+            if(enemies_->get(i)->GetName() == passedName) {
+                return enemies_->get(i);
             }
         }
         return nullptr;
     }
 
     void Location::MakeItemVisible(const Item &passedItem) {
-        for (int i = 0; i < hiddenItems.size(); ++i) {
-            if(&*hiddenItems.get(i) == &passedItem) {
-                visibleItems.push_back(hiddenItems.get(i));
-                hiddenItems.erase(i);
+        for (int i = 0; i < hiddenItems_->size(); ++i) {
+            if(hiddenItems_->get(i) == &passedItem) {
+                visibleItems_->push_back(hiddenItems_->get(i));
+                hiddenItems_->erase(i);
                 return;
             }
         }
     }
 
     void Location::MakeItemInvisible(const Item &passedItem) {
-        for (int i = 0; i < visibleItems.size(); ++i) {
-            if(&*visibleItems.get(i) == &passedItem) {
-                hiddenItems.push_back(visibleItems.get(i));
-                visibleItems.erase(i);
+        for (int i = 0; i < visibleItems_->size(); ++i) {
+            if(visibleItems_->get(i) == &passedItem) {
+                hiddenItems_->push_back(visibleItems_->get(i));
+                visibleItems_->erase(i);
                 return;
             }
         }
     }
 
     const helpers::TypoTrap & Location::getName() {
-        return *name;
+        return *name_;
     }
 
     helpers::TypoTrap & Location::getDescription() const {
-        return *description;
+        return *description_;
     }
 } // backend

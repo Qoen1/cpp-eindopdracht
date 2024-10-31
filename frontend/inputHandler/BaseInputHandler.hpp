@@ -13,13 +13,13 @@ namespace frontend {
 class BaseInputHandler {
 protected:
     std::unique_ptr<const std::string> inputCommand;
-    virtual void Handle(const std::vector<const std::string> &arguments) const = 0;
+    virtual void Handle(const std::vector<std::string> &arguments) const = 0;
 public:
     std::unique_ptr<const BaseInputHandler> nextHandler;
 
     BaseInputHandler(const std::string &inputCommand);
     void SetNextHandler(const BaseInputHandler& nextHandler);
-    void Handle(const std::string& inputCommand, const std::vector<const std::string>& arguments) const;
+    void Handle(const std::string& inputCommand, const std::vector< std::string>& arguments) const;
 
 
     BaseInputHandler(BaseInputHandler &&other) noexcept

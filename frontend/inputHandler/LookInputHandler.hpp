@@ -14,11 +14,11 @@ namespace frontend {
 class LookInputHandler : public BaseInputHandler {
 public:
     explicit LookInputHandler(const std::string& inputCommand, Player &player)
-        : BaseInputHandler(std::move(inputCommand)), player_(player) {
+        : BaseInputHandler(inputCommand), player_(player) {
     }
 
 protected:
-    void Handle(const std::vector<const std::string> &arguments) const override;
+    void Handle(const std::vector<std::string> &arguments) const override;
 
 private:
     Player &player_;

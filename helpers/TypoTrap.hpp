@@ -110,6 +110,10 @@ namespace helpers {
             }
             return *this;
         }
+
+        bool operator==(const TypoTrap &name) const {
+            return std::strcmp(this->cstring(), name.cstring()) == 0;
+        }
     };
 } // helpers
 

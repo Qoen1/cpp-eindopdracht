@@ -42,7 +42,7 @@ namespace helpers {
         }
 
         //arrow operator
-        T* operator->() {
+        T* operator->() const {
             return item;
         }
 

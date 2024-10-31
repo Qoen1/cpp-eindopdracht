@@ -10,10 +10,8 @@ namespace backend {
 
 class Item {
 public:
-    helpers::TypoTrap Name;
-    helpers::TypoTrap Description;
-
-    virtual helpers::TypoTrap* ToString() = 0;
+    virtual const helpers::TypoTrap& GetName() const = 0;
+    virtual const helpers::TypoTrap& GetDescription() const = 0;
 };
 
 } // backend

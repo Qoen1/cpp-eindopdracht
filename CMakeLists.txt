@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.29)
+cmake_minimum_required(VERSION 3.20)
 project(cpp_eindopdracht)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -48,5 +48,12 @@ add_executable(cpp_eindopdracht main.cpp
         frontend/inputHandler/LookInputHandler.hpp
         frontend/inputHandler/BaseInputHandlerBuilder.cpp
         frontend/inputHandler/BaseInputHandlerBuilder.hpp
-        frontend/commands/LookForItemCommand.cpp
-        frontend/commands/LookForItemCommand.hpp)
+        frontend/commands/LookAtPlayerCommand.cpp
+        frontend/commands/LookAtPlayerCommand.hpp
+        frontend/commands/LookAtItemCommand.cpp
+        frontend/commands/LookAtItemCommand.hpp
+        frontend/commands/LookAtEnemyCommand.cpp
+        frontend/commands/LookAtEnemyCommand.hpp
+        frontend/commands/SearchLocationCommand.cpp
+        frontend/commands/SearchLocationCommand.hpp
+)

@@ -17,7 +17,7 @@ namespace frontend {
 
         std::cout << "zichtbare objecten: ";
         for(int i = 0; i < items.size(); i++) {
-            std::cout << items.get(i)->ToString()->cstring() << ", ";
+            std::cout << items.get(i)->GetDescription().cstring() << ", ";
         }
         std::cout << std::endl;
     }

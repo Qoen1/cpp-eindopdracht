@@ -10,10 +10,10 @@ namespace frontend {
     }
 
     void BaseInputHandler::SetNextHandler(const BaseInputHandler& nextHandler) {
-        this->nextHandler = std::make_unique<const BaseInputHandler>(nextHandler);
+        this->nextHandler = std::unique_ptr<const BaseInputHandler>(&nextHandler);
     }
 
-    void BaseInputHandler::Handle(const std::string& inputCommand, const std::vector<const std::string>& arguments) const {
+    void BaseInputHandler::Handle(const std::string& inputCommand, const std::vector<std::string>& arguments) const {
         if(*this->inputCommand != inputCommand) {
             nextHandler->Handle(inputCommand, arguments);
             return;

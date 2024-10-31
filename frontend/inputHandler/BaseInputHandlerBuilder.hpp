@@ -13,10 +13,11 @@ namespace frontend {
 
 class BaseInputHandlerBuilder {
 private:
-    std::vector<BaseInputHandler> handlers;
+    std::vector<BaseInputHandler*> handlers;
+    Player &player_;
 public:
-    BaseInputHandlerBuilder &AddLookInputHandler(std::unique_ptr<const std::string> trigger) {
-        handlers.push_back(new LookInputHandler(trigger));
+    BaseInputHandlerBuilder &AddLookInputHandler(const std::string &trigger) {
+        handlers.push_back(new LookInputHandler(trigger, player_));
         return *this;
     }
 };
