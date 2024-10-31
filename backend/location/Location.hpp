@@ -34,6 +34,7 @@ public:
 
     void MakeItemVisible(const Item &passedItem);
     void MakeItemInvisible(const Item &passedItem);
+    void MakeAllItemsVisible();
 
     const helpers::TypoTrap& getName();
     helpers::TypoTrap& getDescription() const;

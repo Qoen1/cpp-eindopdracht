@@ -56,4 +56,6 @@ add_executable(cpp_eindopdracht main.cpp
         frontend/commands/LookAtEnemyCommand.hpp
         frontend/commands/SearchLocationCommand.cpp
         frontend/commands/SearchLocationCommand.hpp
+        frontend/inputHandler/SearchInputHandler.cpp
+        frontend/inputHandler/SearchInputHandler.hpp
 )

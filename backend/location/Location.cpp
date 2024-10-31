@@ -71,6 +71,12 @@ namespace backend {
         }
     }
 
+    void Location::MakeAllItemsVisible() {
+        for (int i = 0; i < hiddenItems_->size(); ++i) {visibleItems_->push_back(hiddenItems_->get(i));}
+        for (int i = 0; i < hiddenItems_->size(); ++i) {hiddenItems_->erase(i);}
+    }
+
+
     const helpers::TypoTrap & Location::getName() {
         return *name_;
     }

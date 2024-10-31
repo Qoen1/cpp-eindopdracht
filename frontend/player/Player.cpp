@@ -5,7 +5,7 @@
 #include "Player.hpp"
 
 namespace frontend {
-    Player::Player(backend::Location &currentLocation) : currentLocation(currentLocation) {
+    Player::Player(backend::Location* currentLocation) : currentLocation(currentLocation) {
         hitpoints_ = 100;
         coinCount_ = 0;
     }

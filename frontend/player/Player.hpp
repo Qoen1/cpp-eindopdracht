@@ -20,8 +20,8 @@ private:
     std::unique_ptr<backend::Armor> armor_;
     int coinCount_;
 public:
-    Player(backend::Location& currentLocation);
-    backend::Location& currentLocation;
+    Player(backend::Location* currentLocation);
+    backend::Location* currentLocation;
 
     backend::Item* GetItemByName(const std::string &passedName) const;
     int GetHitpoints() const;

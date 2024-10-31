@@ -16,7 +16,7 @@ namespace frontend {
             std::cout << "You see the remains of " << enemy_.GetName().cstring() << std::endl;
             auto items = enemy_.TransferItems();
             for(int i = 0; i < items->size(); ++i) {
-                player_.currentLocation.AddVisibleItem(items->get(i));
+                player_.currentLocation->AddVisibleItem(items->get(i));
             }
         }
     }
