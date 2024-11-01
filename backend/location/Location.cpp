@@ -4,13 +4,11 @@
 
 #include "Location.hpp"
 
-#include <bits/ranges_algobase.h>
-
 namespace backend {
 
     Location::Location(helpers::TypoTrap* passedName,
                        helpers::TypoTrap* passedDescription) : hiddenItems_(new helpers::DynamicDoodad<Item*>(0)), visibleItems_(new helpers::DynamicDoodad<Item*>(0)), enemies_(new helpers::DynamicDoodad<Enemy*>(0)),
-                                                               name_(passedName), description_(passedDescription), neighbors_(new helpers::DynamicDoodad<Location*>(4)) {
+                                                               name_(passedName), description_(passedDescription), neighbors_(new helpers::DynamicDoodad<Door*>(0)) {
     }
 
     void Location::AddHiddenItem(Item* passedItem) {
@@ -74,6 +72,19 @@ namespace backend {
     void Location::MakeAllItemsVisible() {
         for (int i = 0; i < hiddenItems_->size(); ++i) {visibleItems_->push_back(hiddenItems_->get(i));}
         for (int i = 0; i < hiddenItems_->size(); ++i) {hiddenItems_->erase(i);}
+    }
+
+    Location * Location::GetNeighbor(Direction passedDirection) const {
+        for (int i = 0; i < neighbors_->size(); ++i) {
+            if(neighbors_->get(i)->direction_ == passedDirection) {
+                return &neighbors_->get(i)->location_;
+            }
+        }
+        throw std::invalid_argument("Direction is not valid");
+    }
+
+    void Location::AddNeighbor(Direction passedDirection, Location* passedLocation) {
+        neighbors_->push_back(new Door(*passedLocation, passedDirection));
     }
 
 

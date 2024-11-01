@@ -35,6 +35,14 @@ namespace helpers {
             _array[_used++] = value;
         }
 
+        void emplace_at(size_t index, T value) {
+            if(index >= capacity()) {
+                throw std::out_of_range("Index out of range");
+            }
+            _array[index] = value;
+            _used++;
+        }
+
         size_t size() const {
             return _used;
         }

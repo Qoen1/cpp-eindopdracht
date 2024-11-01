@@ -5,6 +5,8 @@
 #ifndef LOCATION_HPP
 #define LOCATION_HPP
 
+#include "../Direction.hpp"
+#include "../Door.hpp"
 #include "../../helpers/BigBrainPointer.hpp"
 #include "../../helpers/DynamicDoodad.hpp"
 #include "../../helpers/TypoTrap.hpp"
@@ -20,7 +22,7 @@ private:
     helpers::BigBrainPointer<helpers::DynamicDoodad<Enemy*>> enemies_;
     helpers::BigBrainPointer<helpers::TypoTrap> name_;
     helpers::BigBrainPointer<helpers::TypoTrap> description_;
-    helpers::BigBrainPointer<helpers::DynamicDoodad<Location*>> neighbors_;
+    helpers::BigBrainPointer<helpers::DynamicDoodad<Door*>> neighbors_;
 public:
     Location(helpers::TypoTrap* passedName, helpers::TypoTrap* passedDescription);
     void AddHiddenItem(Item* passedItem);
@@ -35,6 +37,9 @@ public:
     void MakeItemVisible(const Item &passedItem);
     void MakeItemInvisible(const Item &passedItem);
     void MakeAllItemsVisible();
+
+    Location* GetNeighbor(Direction passedDirection) const;
+    void AddNeighbor(Direction passedDirection, Location* passedLocation);
 
     const helpers::TypoTrap& getName();
     helpers::TypoTrap& getDescription() const;

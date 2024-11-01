@@ -58,4 +58,11 @@ add_executable(cpp_eindopdracht main.cpp
         frontend/commands/SearchLocationCommand.hpp
         frontend/inputHandler/SearchInputHandler.cpp
         frontend/inputHandler/SearchInputHandler.hpp
+        backend/Direction.hpp
+        frontend/commands/MoveCommand.cpp
+        frontend/commands/MoveCommand.hpp
+        frontend/inputHandler/MoveInputHandler.cpp
+        frontend/inputHandler/MoveInputHandler.hpp
+        backend/Door.cpp
+        backend/Door.hpp
 )

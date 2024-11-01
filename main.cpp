@@ -7,6 +7,7 @@
 #include "frontend/commands/LookInRoomCommand.hpp"
 #include "frontend/configReader/RandomMapGenerator.hpp"
 #include "frontend/inputHandler/LookInputHandler.hpp"
+#include "frontend/inputHandler/MoveInputHandler.hpp"
 #include "frontend/inputHandler/SearchInputHandler.hpp"
 
 
@@ -29,10 +30,21 @@ int main()
     locations->at(0)->AddVisibleItem(ree);
     locations->at(0)->AddHiddenItem(lego);
     auto location = locations->at(0);
+    location->AddNeighbor(SOUTH, locations->at(1));
 
 
-    frontend::BaseInputHandler* inputHandler = new frontend::LookInputHandler("look",*player);
-    inputHandler->SetNextHandler(*new frontend::SearchInputHandler("search", *player));
+    std::vector<frontend::BaseInputHandler*> inputHandlers = {
+        new frontend::LookInputHandler("look",*player),
+        new frontend::SearchInputHandler("search", *player),
+        new frontend::MoveInputHandler("move", *player)
+    };
+    frontend::BaseInputHandler* inputHandler = nullptr;
+    for(auto handler : inputHandlers) {
+        if(inputHandler != nullptr) {
+            handler->SetNextHandler(*inputHandler);
+        }
+        inputHandler = handler;
+    }
 
     std::cout << "testing look input handler:" << std::endl;
     std::cout << "=====" << std::endl;
@@ -48,6 +60,13 @@ int main()
     std::cout << "testing search input handler:" << std::endl;
     std::cout << "=====" << std::endl;
     inputHandler->Handle("search", {});
+    inputHandler->Handle("look", {});
+    std::cout << "=====" << std::endl;
+
+    std::cout << "testing move input handler:" << std::endl;
+    std::cout << "=====" << std::endl;
+    inputHandler->Handle("move", {"south"});
+    std::cout << "=====" << std::endl;
     inputHandler->Handle("look", {});
     std::cout << "=====" << std::endl;
 
