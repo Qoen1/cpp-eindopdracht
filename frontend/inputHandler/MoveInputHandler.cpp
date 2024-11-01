@@ -11,6 +11,8 @@ namespace frontend {
     }
 
     void MoveInputHandler::Handle(const std::vector<std::string> &arguments) const {
-        MoveCommand(GetDirectionFromString(arguments[0]), player_).Execute();
+        try {
+            MoveCommand(GetDirectionFromString(arguments[0]), player_).Execute();
+        }catch (std::invalid_argument& e) { /*swallow*/ }
     }
 } // frontend
