@@ -16,23 +16,29 @@ namespace helpers {
      */
     class DynamicDoodad{
     private:
-        T* _array;
+        T* _array[3];
         size_t _capacity;
         size_t _used;
     public:
-        DynamicDoodad(const size_t initSize) : _used(0), _capacity(1) {
-            if(initSize > _capacity) {
-                _capacity = initSize;
-            }
-            _array = new T[_capacity];
+        DynamicDoodad() : _used(0), _capacity(1) {
         }
 
         size_t capacity() const noexcept {
             return _capacity;
         }
 
-        void push_back(T value) {
-            _array[_used++] = value;
+        // void push_back(const T &value) {
+        //     // if (size == capacity) {
+        //     //     resize((capacity == 0) ? 1 : 2 * capacity);
+        //     // }
+        //     // _array[_used++] = new T(value);
+        // }
+
+        void push_back(T&& value) {
+            // if (_used == _capacity) {
+            //     resize((capacity == 0) ? 1 : 2 * capacity);
+            // }
+            _array[_used++] = new T(static_cast<T&&>(value));
         }
 
         void emplace_at(size_t index, T value) {
@@ -51,7 +57,16 @@ namespace helpers {
             if(index >= _used) {
                 throw std::out_of_range("Index out of range");
             }
-            return _array[index];
+            return *_array[index];
+        }
+
+        T&& pop(size_t index) {
+            if(index >= _used) {
+                throw std::out_of_range("Index out of range");
+            }
+            auto* temp = _array[index];
+            erase(index);
+            return static_cast<T&&>(*temp);
         }
 
         size_t indexOf(T value) {
@@ -76,9 +91,21 @@ namespace helpers {
             }
         }
 
+        void resize(size_t new_size) {
+            if(new_size <= capacity()) return;
+            T* temp = new T[new_size];
+            for(size_t i = 0; i < _used; ++i) {
+                temp[i] = pop(i);
+            }
+
+            _array = static_cast<T*&&>(temp);
+        }
+
         //rule of 5
         ~DynamicDoodad() {
-            delete[] _array;
+            for(size_t i = 0; i < _used; i++) {
+                delete _array[i];
+            }
         }
 
         DynamicDoodad(const DynamicDoodad &other) {
@@ -89,33 +116,32 @@ namespace helpers {
         }
 
         DynamicDoodad(DynamicDoodad &&other) noexcept {
-            _array = other._array;
+            for(size_t i = 0; i < other._used; i++) {
+                push_back(other.pop(i));
+            }
             _capacity = other._capacity;
             _used =other._used;
-
-            other._array = nullptr;
         }
 
-        DynamicDoodad& operator=(const DynamicDoodad& other) {
-            if(this == &other) {
-                return *this;
-            }
-            delete[] _array;
-            _capacity = other._capacity;
-            _used = other._used;
-            _array = new int[_capacity];
-            for(size_t i = 0; i < _used; i++) {
-                _array[i] = other._array[i];
-            }
-            return *this;
-        }
+        // DynamicDoodad& operator=(const DynamicDoodad& other) {
+        //     if(this == &other) {
+        //         return *this;
+        //     }
+        //     delete[] _array;
+        //     _capacity = other._capacity;
+        //     _used = other._used;
+        //     _array = new T[_capacity];
+        //     for(size_t i = 0; i < _used; i++) {
+        //         _array[i] = other._array[i];
+        //     }
+        //     return *this;
+        // }
 
         DynamicDoodad & operator=(DynamicDoodad &&other) noexcept {
             if(this != &other) {
-                delete[] _array;
-                _array = other._array;
-
-                other._array = nullptr;
+                for(size_t i = 0; i < other._used; i++) {
+                    push_back(other.pop(i));
+                }
             }
             return *this;
         }

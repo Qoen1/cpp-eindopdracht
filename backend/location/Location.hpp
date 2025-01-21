@@ -17,19 +17,19 @@ namespace backend {
 
 class Location {
 private:
-    helpers::BigBrainPointer<helpers::DynamicDoodad<Item*>> hiddenItems_;
-    helpers::BigBrainPointer<helpers::DynamicDoodad<Item*>> visibleItems_;
-    helpers::BigBrainPointer<helpers::DynamicDoodad<Enemy*>> enemies_;
+    helpers::DynamicDoodad<helpers::BigBrainPointer<Item>> hiddenItems_;
+    helpers::DynamicDoodad<helpers::BigBrainPointer<Item>> visibleItems_;
+    helpers::DynamicDoodad<helpers::BigBrainPointer<Enemy>> enemies_;
     helpers::BigBrainPointer<helpers::TypoTrap> name_;
     helpers::BigBrainPointer<helpers::TypoTrap> description_;
-    helpers::BigBrainPointer<helpers::DynamicDoodad<Door*>> neighbors_;
+    helpers::DynamicDoodad<helpers::BigBrainPointer<Door>> neighbors_;
 public:
     Location(helpers::TypoTrap* passedName, helpers::TypoTrap* passedDescription);
-    void AddHiddenItem(Item* passedItem);
-    const helpers::DynamicDoodad<Item*> &GetHiddenItems();
-    void AddVisibleItem(Item* passedItem);
-    const helpers::DynamicDoodad<Item*> &GetVisibleItems();
-    void AddEnemy(Enemy* passedEnemy);
+    void AddHiddenItem(helpers::BigBrainPointer<Item>&& passedItem);
+    helpers::DynamicDoodad<Item*> GetHiddenItems();
+    void AddVisibleItem(helpers::BigBrainPointer<Item> passedItem);
+    helpers::DynamicDoodad<Item*> GetVisibleItems();
+    void AddEnemy(helpers::BigBrainPointer<Enemy> passedEnemy);
 
     const Item* GetItemByName(const helpers::TypoTrap &passedName) const;
     Enemy* GetEnemyByName(const helpers::TypoTrap &passedName) const;

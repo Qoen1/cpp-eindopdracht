@@ -23,6 +23,8 @@ namespace helpers {
             delete item;
         }
 
+        T* get() const {return item;}
+
         //copy constructor and assignment operator
         BigBrainPointer(const BigBrainPointer &other) = delete;
         BigBrainPointer & operator=(const BigBrainPointer &other) = delete;

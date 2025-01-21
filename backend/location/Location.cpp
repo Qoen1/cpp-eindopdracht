@@ -7,84 +7,92 @@
 namespace backend {
 
     Location::Location(helpers::TypoTrap* passedName,
-                       helpers::TypoTrap* passedDescription) : hiddenItems_(new helpers::DynamicDoodad<Item*>(0)), visibleItems_(new helpers::DynamicDoodad<Item*>(0)), enemies_(new helpers::DynamicDoodad<Enemy*>(0)),
-                                                               name_(passedName), description_(passedDescription), neighbors_(new helpers::DynamicDoodad<Door*>(0)) {
+                       helpers::TypoTrap* passedDescription) : hiddenItems_(helpers::DynamicDoodad<helpers::BigBrainPointer<Item>>()), visibleItems_(helpers::DynamicDoodad<helpers::BigBrainPointer<Item>>()), enemies_(helpers::DynamicDoodad<helpers::BigBrainPointer<Enemy>>()),
+                                                               name_(passedName), description_(passedDescription), neighbors_(helpers::DynamicDoodad<helpers::BigBrainPointer<Door>>()) {
     }
 
-    void Location::AddHiddenItem(Item* passedItem) {
-        hiddenItems_->push_back(passedItem);
+    void Location::AddHiddenItem(helpers::BigBrainPointer<Item>&& passedItem) {
+        hiddenItems_.push_back(static_cast<helpers::BigBrainPointer<Item>&&>(passedItem));
     }
 
-    void Location::AddVisibleItem(Item* passedItem) {
-        visibleItems_->push_back(passedItem);
+    void Location::AddVisibleItem(helpers::BigBrainPointer<Item> passedItem) {
+        visibleItems_.push_back(static_cast<helpers::BigBrainPointer<Item>&&>(passedItem));
     }
 
-    const helpers::DynamicDoodad<Item*>& Location::GetHiddenItems() {
-        return *hiddenItems_;
+    helpers::DynamicDoodad<Item*> Location::GetHiddenItems() {
+        helpers::DynamicDoodad<Item*> list;
+        for (auto it = 0; it < hiddenItems_.size(); it++) {
+            list.push_back(hiddenItems_.get(it).get());
+        }
+        return list;
     }
 
-    const helpers::DynamicDoodad<Item*> & Location::GetVisibleItems() {
-        return *visibleItems_;
+    helpers::DynamicDoodad<Item*> Location::GetVisibleItems() {
+        helpers::DynamicDoodad<Item*> list;
+        for (auto it = 0; it < visibleItems_.size(); it++) {
+            list.push_back(visibleItems_.get(it).get());
+        }
+        return list;
     }
 
-    void Location::AddEnemy(Enemy *passedEnemy) {
-        enemies_->push_back(passedEnemy);
+    void Location::AddEnemy(helpers::BigBrainPointer<Enemy> passedEnemy) {
+        enemies_.push_back(static_cast<helpers::BigBrainPointer<Enemy>&&>(passedEnemy));
     }
 
     const Item * Location::GetItemByName(const helpers::TypoTrap &passedName) const {
-        for (int i = 0; i < visibleItems_->size(); ++i) {
-            if(visibleItems_->get(i)->GetName() == passedName) {
-                return visibleItems_->get(i);
+        for (int i = 0; i < visibleItems_.size(); ++i) {
+            if(visibleItems_.get(i)->GetName() == passedName) {
+                return visibleItems_.get(i).get();
             }
         }
         return nullptr;
     }
 
-    Enemy * Location::GetEnemyByName(const helpers::TypoTrap &passedName) const {
-        for (int i = 0; i < enemies_->size(); ++i) {
-            if(enemies_->get(i)->GetName() == passedName) {
-                return enemies_->get(i);
+    Enemy* Location::GetEnemyByName(const helpers::TypoTrap &passedName) const {
+        for (int i = 0; i < enemies_.size(); ++i) {
+            if(enemies_.get(i)->GetName() == passedName) {
+                return enemies_.get(i).get();
             }
         }
         return nullptr;
     }
 
     void Location::MakeItemVisible(const Item &passedItem) {
-        for (int i = 0; i < hiddenItems_->size(); ++i) {
-            if(hiddenItems_->get(i) == &passedItem) {
-                visibleItems_->push_back(hiddenItems_->get(i));
-                hiddenItems_->erase(i);
+        for (int i = 0; i < hiddenItems_.size(); ++i) {
+            if(hiddenItems_.get(i)->GetName() == passedItem.GetName()) {
+                visibleItems_.push_back((hiddenItems_.pop(i)));
+                hiddenItems_.erase(i);
                 return;
             }
         }
     }
 
     void Location::MakeItemInvisible(const Item &passedItem) {
-        for (int i = 0; i < visibleItems_->size(); ++i) {
-            if(visibleItems_->get(i) == &passedItem) {
-                hiddenItems_->push_back(visibleItems_->get(i));
-                visibleItems_->erase(i);
+        for (int i = 0; i < visibleItems_.size(); ++i) {
+            if(visibleItems_.get(i)->GetName() == passedItem.GetName()) {
+                hiddenItems_.push_back(visibleItems_.pop(i));
+                visibleItems_.erase(i);
                 return;
             }
         }
     }
 
     void Location::MakeAllItemsVisible() {
-        for (int i = 0; i < hiddenItems_->size(); ++i) {visibleItems_->push_back(hiddenItems_->get(i));}
-        for (int i = 0; i < hiddenItems_->size(); ++i) {hiddenItems_->erase(i);}
+        for (int i = 0; i < hiddenItems_.size(); ++i) {visibleItems_.push_back(hiddenItems_.pop(i));}
+        for (int i = 0; i < hiddenItems_.size(); ++i) {hiddenItems_.erase(i);}
     }
 
     Location * Location::GetNeighbor(Direction passedDirection) const {
-        for (int i = 0; i < neighbors_->size(); ++i) {
-            if(neighbors_->get(i)->direction_ == passedDirection) {
-                return &neighbors_->get(i)->location_;
+        for (int i = 0; i < neighbors_.size(); ++i) {
+            if(neighbors_.get(i)->direction_ == passedDirection) {
+                return &neighbors_.get(i)->location_;
             }
         }
         throw std::invalid_argument("Direction is not valid");
     }
 
     void Location::AddNeighbor(Direction passedDirection, Location* passedLocation) {
-        neighbors_->push_back(new Door(*passedLocation, passedDirection));
+        neighbors_.push_back(helpers::BigBrainPointer(new Door(*passedLocation, passedDirection)));
     }
 
 

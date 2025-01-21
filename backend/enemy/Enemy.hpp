@@ -15,14 +15,14 @@ namespace backend {
 
 class Enemy {
 private:
-    helpers::BigBrainPointer<helpers::DynamicDoodad<Item*>> items;
+    helpers::DynamicDoodad<helpers::BigBrainPointer<Item>> items;
     helpers::BigBrainPointer<helpers::TypoTrap> name;
     helpers::BigBrainPointer<helpers::TypoTrap> description;
     int health;
 public:
     Enemy(helpers::TypoTrap *name, helpers::TypoTrap *description, int health);
-    void AddItem(Item* item);
-    helpers::BigBrainPointer<helpers::DynamicDoodad<Item*>> TransferItems();
+    void AddItem(helpers::BigBrainPointer<Item>&& item);
+    helpers::DynamicDoodad<helpers::BigBrainPointer<Item>> TransferItems();
     int GetHealth() const;
     const helpers::TypoTrap &GetName() const;
     const helpers::TypoTrap &GetDescription() const;
