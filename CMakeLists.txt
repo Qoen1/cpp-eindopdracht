@@ -3,6 +3,8 @@ project(cpp_eindopdracht)
 
 set(CMAKE_CXX_STANDARD 20)
 
+find_package(SQLite3 REQUIRED)
+
 add_executable(cpp_eindopdracht main.cpp
         backend/objects/Item.hpp
         frontend/player/Player.cpp
@@ -66,4 +68,13 @@ add_executable(cpp_eindopdracht main.cpp
         backend/Door.cpp
         backend/Door.hpp
         helpers/OwningDynamicDoodad.hpp
+        frontend/database/Database.cpp
+        frontend/database/Database.hpp
 )
+
+target_link_libraries(cpp_eindopdracht SQLite::SQLite3)
+
+add_custom_command(TARGET cpp_eindopdracht POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        "${CMAKE_CURRENT_SOURCE_DIR}/kerkersendraken.db"
+        "${CMAKE_CURRENT_BINARY_DIR}/kerkersendraken.db")

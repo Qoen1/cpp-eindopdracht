@@ -15,6 +15,9 @@
 #include "frontend/inputHandler/SearchInputHandler.hpp"
 #include <memory>
 #include <vector>
+#include <sqlite3.h>
+
+#include "frontend/database/Database.hpp"
 
 #define MAX_INPUT_LENGTH 100
 
@@ -32,6 +35,8 @@ int main()
     // for (unsigned int i = 0; i < owning_word_list.size(); ++i) {
     //     std::cout << owning_word_list.get(i).cstring() << std::endl;
     // }
+    auto db = frontend::Database("kerkersendraken.db");
+    auto all_locations = db.GetLocations();
 
     helpers::DynamicDoodad<helpers::BigBrainPointer<helpers::TypoTrap>> test {};
 
