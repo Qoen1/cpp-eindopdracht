@@ -22,14 +22,14 @@ namespace frontend {
             LookAtPlayerCommand(player_).Execute();
             return;
         }
-        auto* tempArg = new helpers::TypoTrap(arguments[0].c_str());
-        auto* item = player_.currentLocation->GetItemByName(*tempArg);
+        auto tempArg = helpers::TypoTrap(arguments[0].c_str());
+        auto* item = player_.currentLocation->GetItemByName(tempArg);
         if(item == nullptr) item = player_.GetItemByName(arguments[0]);
         if(item != nullptr) {
             LookAtItemCommand(*item).Execute();
             return;
         }
-        auto* enemy = player_.currentLocation->GetEnemyByName(*tempArg);
+        auto* enemy = player_.currentLocation->GetEnemyByName(tempArg);
         if(enemy != nullptr) {
             LookAtEnemyCommand(*enemy, player_).Execute();
         }

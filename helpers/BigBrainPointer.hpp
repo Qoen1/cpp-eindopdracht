@@ -6,35 +6,38 @@
 #define UNIQUEBIGBRAINPOINTER_HPP
 
 namespace helpers {
-
-    /**
-     * a custom implementation of the unique pointer class
-     */
     template<typename T>
     class BigBrainPointer {
     private:
-        T *item;
+        T* item = nullptr;
 
     public:
-        explicit BigBrainPointer(T *item) : item(item) {
+        BigBrainPointer() {
+        }
+
+        BigBrainPointer(T* item) : item(item) {
         }
 
         ~BigBrainPointer() {
             delete item;
         }
 
-        T* get() const {return item;}
+        T* get() const { return item; }
+
+        explicit operator bool() const { return item != nullptr; }
 
         //copy constructor and assignment operator
-        BigBrainPointer(const BigBrainPointer &other) = delete;
-        BigBrainPointer & operator=(const BigBrainPointer &other) = delete;
+        BigBrainPointer(const BigBrainPointer& other) = delete;
+
+        BigBrainPointer &operator=(const BigBrainPointer& other) = delete;
 
         //move constructor and assignment operator
-        BigBrainPointer(BigBrainPointer &&other) noexcept
+        BigBrainPointer(BigBrainPointer&& other) noexcept
             : item(other.item) {
             other.item = nullptr;
         }
-        BigBrainPointer & operator=(BigBrainPointer &&other) noexcept {
+
+        BigBrainPointer &operator=(BigBrainPointer&& other) noexcept {
             if (this == &other)
                 return *this;
             delete item;
@@ -49,7 +52,7 @@ namespace helpers {
         }
 
         //dereference operator
-        T& operator*() const {
+        T &operator*() const {
             return *item;
         }
     };

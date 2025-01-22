@@ -7,7 +7,7 @@
 #include <algorithm>
 
 namespace backend {
-    Enemy::Enemy(helpers::TypoTrap *name, helpers::TypoTrap *description, int health) : items(helpers::DynamicDoodad<helpers::BigBrainPointer<Item>>()), name(name),
+    Enemy::Enemy(helpers::TypoTrap *name, helpers::TypoTrap *description, int health) : items(helpers::OwningDynamicDoodad<Item>()), name(name),
         description(description), health(health) {
     }
 
@@ -15,9 +15,9 @@ namespace backend {
         items.push_back(static_cast<helpers::BigBrainPointer<Item>&&>(item));
     }
 
-     helpers::DynamicDoodad<helpers::BigBrainPointer<Item>> Enemy::TransferItems() {
+     helpers::OwningDynamicDoodad<Item> Enemy::TransferItems() {
         auto temp = std::move(items);
-        items = helpers::DynamicDoodad<helpers::BigBrainPointer<Item>>();
+        items = helpers::OwningDynamicDoodad<Item>();
         return temp;
     }
 

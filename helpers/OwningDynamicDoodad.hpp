@@ -1,44 +1,35 @@
-//
-// Created by fikkie on 05/10/24.
-//
-
-#ifndef DYNAMICDOODAD_HPP
-#define DYNAMICDOODAD_HPP
-
-#include <cstddef>
-#include <stdexcept>
-#include <cstring>
+#ifndef OWNINGDYNAMICDOODAD_HPP
+#define OWNINGDYNAMICDOODAD_HPP
+#include "BigBrainPointer.hpp"
 
 namespace helpers {
     template <typename T>
-    /**
-     * custom implementation of the vector class
-     */
-    class DynamicDoodad{
-    private:
-        T* _array;
+class OwningDynamicDoodad {
+private:
+        BigBrainPointer<T>* _array;
         size_t _capacity;
         size_t _used;
     public:
-        DynamicDoodad() : _used(0), _capacity(1), _array(new T[1]) {
+        OwningDynamicDoodad() : _used(0), _capacity(1), _array(new BigBrainPointer<T>[1]) {
         }
 
         size_t capacity() const noexcept {
             return _capacity;
         }
 
-        // void push_back(const T &value) {
-        //     // if (size == capacity) {
-        //     //     resize((capacity == 0) ? 1 : 2 * capacity);
-        //     // }
-        //     // _array[_used++] = new T(value);
+        // void push_back(T* value) {
+        //     if (_used >= _capacity) {
+        //         resize((_capacity == 0) ? 1 : 2 * _capacity);
+        //     }
+        //     _array[_used++] = BigBrainPointer<T>(value);
         // }
 
-        void push_back(T&& value) {
+        void push_back(BigBrainPointer<T>&& value) {
             if (_used >= _capacity) {
                 resize((_capacity == 0) ? 1 : 2 * _capacity);
             }
-            _array[_used++] = static_cast<T&&>(value);
+            _array[_used] = nullptr;
+            _array[_used++] = BigBrainPointer<T>(static_cast<BigBrainPointer<T>&&>(value));
         }
 
         // void emplace_at(size_t index, T value) {
@@ -57,16 +48,16 @@ namespace helpers {
             if(index >= _used) {
                 throw std::out_of_range("Index out of range");
             }
-            return _array[index];
+            return *_array[index];
         }
 
-        T&& pop(size_t index) {
+        BigBrainPointer<T> pop(size_t index) {
             if(index >= _used) {
                 throw std::out_of_range("Index out of range");
             }
-            T* temp = _array;
+            BigBrainPointer<T> temp = static_cast<BigBrainPointer<T>&&>(_array[index]);
             erase(index);
-            return static_cast<T&&>(*temp);
+            return temp;
         }
 
         size_t indexOf(T value) {
@@ -86,36 +77,38 @@ namespace helpers {
                 throw std::out_of_range("Index out of range");
             }
 
-            for(size_t i = index; i < _used - 1; ++i) {
-                _array[i] = static_cast<T&&>(_array[i + 1]);
+            _used--;
+
+            for(size_t i = index; i < _used; ++i) {
+                _array[i] = static_cast<BigBrainPointer<T>&&>(_array[i + 1]);
             }
         }
 
         void resize(size_t new_size) {
             if(new_size <= capacity()) return;
-            T* temp = new T[new_size];
-            std::memcpy(temp, _array, _used * sizeof(T));
-            _array = nullptr;
+            auto* temp = new BigBrainPointer<T>[new_size];
+            for (size_t i = 0; i < _used; ++i) {
+                if (!_array[i]) continue;
+                temp[i] = std::move(_array[i]); // Transfer ownership
+            }
+            // _array = nullptr;
             _array = temp;
             _capacity = new_size;
         }
 
         //rule of 5
-        ~DynamicDoodad() {
-            // for(size_t i = 0; i < _used; i++) {
-            //     delete _array[i];
-            // }
+        ~OwningDynamicDoodad() {
             delete[] _array;
         }
 
-        DynamicDoodad(const DynamicDoodad &other) {
+        OwningDynamicDoodad(const OwningDynamicDoodad &other) {
             _array = new T[other._capacity];
             _used = other._used;
             _capacity = other._capacity;
-            std::memcpy(_array, other._array, other._capacity);
+            std::wmemcpy(_array, other._array, other._capacity);
         }
 
-        DynamicDoodad(DynamicDoodad &&other) noexcept {
+        OwningDynamicDoodad(OwningDynamicDoodad &&other) noexcept {
             for(size_t i = 0; i < other._used; i++) {
                 push_back(other.pop(i));
             }
@@ -137,7 +130,7 @@ namespace helpers {
         //     return *this;
         // }
 
-        DynamicDoodad & operator=(DynamicDoodad &&other) noexcept {
+        OwningDynamicDoodad & operator=(OwningDynamicDoodad &&other) noexcept {
             if(this != &other) {
                 for(size_t i = 0; i < other._used; i++) {
                     push_back(other.pop(i));
@@ -148,4 +141,4 @@ namespace helpers {
     };
 } // helpers
 
-#endif //DYNAMICDOODAD_HPP
+#endif //OWNINGDYNAMICDOODAD_HPP

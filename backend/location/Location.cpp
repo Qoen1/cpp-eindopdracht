@@ -5,10 +5,12 @@
 #include "Location.hpp"
 
 namespace backend {
-
     Location::Location(helpers::TypoTrap* passedName,
-                       helpers::TypoTrap* passedDescription) : hiddenItems_(helpers::DynamicDoodad<helpers::BigBrainPointer<Item>>()), visibleItems_(helpers::DynamicDoodad<helpers::BigBrainPointer<Item>>()), enemies_(helpers::DynamicDoodad<helpers::BigBrainPointer<Enemy>>()),
-                                                               name_(passedName), description_(passedDescription), neighbors_(helpers::DynamicDoodad<helpers::BigBrainPointer<Door>>()) {
+                       helpers::TypoTrap* passedDescription) : hiddenItems_(helpers::OwningDynamicDoodad<Item>()),
+                                                               visibleItems_(helpers::OwningDynamicDoodad<Item>()),
+                                                               enemies_(helpers::OwningDynamicDoodad<Enemy>()),
+                                                               name_(passedName), description_(passedDescription),
+                                                               neighbors_(helpers::OwningDynamicDoodad<Door>()) {
     }
 
     void Location::AddHiddenItem(helpers::BigBrainPointer<Item>&& passedItem) {
@@ -22,7 +24,7 @@ namespace backend {
     helpers::DynamicDoodad<Item*> Location::GetHiddenItems() {
         helpers::DynamicDoodad<Item*> list;
         for (auto it = 0; it < hiddenItems_.size(); it++) {
-            list.push_back(hiddenItems_.get(it).get());
+            list.push_back(&hiddenItems_.get(it));
         }
         return list;
     }
@@ -30,7 +32,7 @@ namespace backend {
     helpers::DynamicDoodad<Item*> Location::GetVisibleItems() {
         helpers::DynamicDoodad<Item*> list;
         for (auto it = 0; it < visibleItems_.size(); it++) {
-            list.push_back(visibleItems_.get(it).get());
+            list.push_back(&visibleItems_.get(it));
         }
         return list;
     }
@@ -41,8 +43,8 @@ namespace backend {
 
     const Item * Location::GetItemByName(const helpers::TypoTrap &passedName) const {
         for (int i = 0; i < visibleItems_.size(); ++i) {
-            if(visibleItems_.get(i)->GetName() == passedName) {
-                return visibleItems_.get(i).get();
+            if(visibleItems_.get(i).GetName() == passedName) {
+                return &visibleItems_.get(i);
             }
         }
         return nullptr;
@@ -50,8 +52,8 @@ namespace backend {
 
     Enemy* Location::GetEnemyByName(const helpers::TypoTrap &passedName) const {
         for (int i = 0; i < enemies_.size(); ++i) {
-            if(enemies_.get(i)->GetName() == passedName) {
-                return enemies_.get(i).get();
+            if(enemies_.get(i).GetName() == passedName) {
+                return &enemies_.get(i);
             }
         }
         return nullptr;
@@ -59,7 +61,7 @@ namespace backend {
 
     void Location::MakeItemVisible(const Item &passedItem) {
         for (int i = 0; i < hiddenItems_.size(); ++i) {
-            if(hiddenItems_.get(i)->GetName() == passedItem.GetName()) {
+            if(hiddenItems_.get(i).GetName() == passedItem.GetName()) {
                 visibleItems_.push_back((hiddenItems_.pop(i)));
                 hiddenItems_.erase(i);
                 return;
@@ -69,7 +71,7 @@ namespace backend {
 
     void Location::MakeItemInvisible(const Item &passedItem) {
         for (int i = 0; i < visibleItems_.size(); ++i) {
-            if(visibleItems_.get(i)->GetName() == passedItem.GetName()) {
+            if(visibleItems_.get(i).GetName() == passedItem.GetName()) {
                 hiddenItems_.push_back(visibleItems_.pop(i));
                 visibleItems_.erase(i);
                 return;
@@ -84,15 +86,15 @@ namespace backend {
 
     Location * Location::GetNeighbor(Direction passedDirection) const {
         for (int i = 0; i < neighbors_.size(); ++i) {
-            if(neighbors_.get(i)->direction_ == passedDirection) {
-                return &neighbors_.get(i)->location_;
+            if(neighbors_.get(i).direction_ == passedDirection) {
+                return &neighbors_.get(i).location_;
             }
         }
         throw std::invalid_argument("Direction is not valid");
     }
 
-    void Location::AddNeighbor(Direction passedDirection, Location* passedLocation) {
-        neighbors_.push_back(helpers::BigBrainPointer(new Door(*passedLocation, passedDirection)));
+    void Location::AddNeighbor(Direction passedDirection, Location& passedLocation) {
+        neighbors_.push_back(helpers::BigBrainPointer(new Door(passedLocation, passedDirection)));
     }
 
 

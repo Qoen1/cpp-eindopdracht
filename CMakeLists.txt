@@ -65,4 +65,5 @@ add_executable(cpp_eindopdracht main.cpp
         frontend/inputHandler/MoveInputHandler.hpp
         backend/Door.cpp
         backend/Door.hpp
+        helpers/OwningDynamicDoodad.hpp
 )

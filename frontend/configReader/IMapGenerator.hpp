@@ -12,7 +12,7 @@
 
 class IMapGenerator {
 public:
-    virtual std::vector<backend::Location*>* Generate() = 0;
+    virtual std::vector<std::unique_ptr<backend::Location>> Generate() = 0;
 };
 
 

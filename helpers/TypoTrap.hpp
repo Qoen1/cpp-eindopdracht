@@ -18,13 +18,13 @@ namespace helpers {
         size_t _capacity;
         size_t _used;
     public:
-        TypoTrap() : _used(0), _capacity(2) {
+        TypoTrap() : _used(0), _capacity(1) {
             _array = new char[_capacity];
             _array[0] = '\0';
         }
 
-        TypoTrap(const char* from) : _used(0), _capacity(2) {
-            _array = new char[std::strlen(from) + 1];
+        TypoTrap(const char* from) : _used(strlen(from)), _capacity(strlen(from)) {
+            _array = new char[_capacity];
             strcpy(_array, from);
         }
 

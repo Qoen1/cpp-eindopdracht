@@ -9,7 +9,7 @@
 
 class RandomMapGenerator : IMapGenerator{
 public:
-    std::vector<backend::Location*>* Generate() override;
+    std::vector<std::unique_ptr<backend::Location>> Generate() override;
 };
 
 

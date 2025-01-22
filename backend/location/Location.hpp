@@ -17,12 +17,12 @@ namespace backend {
 
 class Location {
 private:
-    helpers::DynamicDoodad<helpers::BigBrainPointer<Item>> hiddenItems_;
-    helpers::DynamicDoodad<helpers::BigBrainPointer<Item>> visibleItems_;
-    helpers::DynamicDoodad<helpers::BigBrainPointer<Enemy>> enemies_;
+    helpers::OwningDynamicDoodad<Item> hiddenItems_;
+    helpers::OwningDynamicDoodad<Item> visibleItems_;
+    helpers::OwningDynamicDoodad<Enemy> enemies_;
     helpers::BigBrainPointer<helpers::TypoTrap> name_;
     helpers::BigBrainPointer<helpers::TypoTrap> description_;
-    helpers::DynamicDoodad<helpers::BigBrainPointer<Door>> neighbors_;
+    helpers::OwningDynamicDoodad<Door> neighbors_;
 public:
     Location(helpers::TypoTrap* passedName, helpers::TypoTrap* passedDescription);
     void AddHiddenItem(helpers::BigBrainPointer<Item>&& passedItem);
@@ -39,7 +39,7 @@ public:
     void MakeAllItemsVisible();
 
     Location* GetNeighbor(Direction passedDirection) const;
-    void AddNeighbor(Direction passedDirection, Location* passedLocation);
+    void AddNeighbor(Direction passedDirection, Location& passedLocation);
 
     const helpers::TypoTrap& getName();
     helpers::TypoTrap& getDescription() const;

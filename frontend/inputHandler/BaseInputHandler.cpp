@@ -15,7 +15,7 @@ namespace frontend {
 
     void BaseInputHandler::Handle(const std::string& inputCommand, const std::vector<std::string>& arguments) const {
         if(*this->inputCommand != inputCommand) {
-            nextHandler->Handle(inputCommand, arguments);
+            if (nextHandler) nextHandler->Handle(inputCommand, arguments);
             return;
         }
         Handle(arguments);
