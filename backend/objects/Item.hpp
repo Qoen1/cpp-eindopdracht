@@ -7,11 +7,23 @@
 #include "../../helpers/TypoTrap.hpp"
 
 namespace backend {
-
+struct ItemTypeDTO {
+    std::string name;
+    std::string description;
+    std::string type;
+    int minimum_value;
+    int maximum_value;
+    int protection;
+};
 class Item {
 public:
-    virtual const helpers::TypoTrap& GetName() const = 0;
-    virtual const helpers::TypoTrap& GetDescription() const = 0;
+    Item(const helpers::TypoTrap& name, const helpers::TypoTrap& description);
+    [[nodiscard]] virtual const helpers::TypoTrap& GetName() const;
+    [[nodiscard]] virtual const helpers::TypoTrap& GetDescription() const;
+
+private:
+    helpers::TypoTrap name_;
+    helpers::TypoTrap description_;
 };
 
 } // backend

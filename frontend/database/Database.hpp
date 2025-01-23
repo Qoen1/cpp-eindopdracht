@@ -15,6 +15,7 @@ public:
     Database(std::string path);
     ~Database();
     std::vector<std::unique_ptr<backend::Location>> GetLocations();
+    std::vector<backend::ItemTypeDTO> GetItems();
 
 private:
     std::string path_;

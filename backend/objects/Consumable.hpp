@@ -4,11 +4,15 @@
 
 #ifndef CONSUMABLE_HPP
 #define CONSUMABLE_HPP
+#include "Item.hpp"
 
 namespace backend {
 
-class Consumable {
-
+class Consumable: public Item {
+public:
+    Consumable(const helpers::TypoTrap& name, const helpers::TypoTrap& description)
+        : Item(name, description) {
+    }
 };
 
 } // backend

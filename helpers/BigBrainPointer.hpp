@@ -24,6 +24,12 @@ namespace helpers {
 
         T* get() const { return item; }
 
+        T* pop() {
+            T* temp = item;
+            item = nullptr;
+            return temp;
+        }
+
         explicit operator bool() const { return item != nullptr; }
 
         //copy constructor and assignment operator

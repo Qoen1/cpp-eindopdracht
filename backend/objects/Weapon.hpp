@@ -11,15 +11,7 @@ namespace backend {
 
 class Weapon: public Item{
 public:
-    Weapon(helpers::TypoTrap &name, helpers::TypoTrap &description);
-
-    const helpers::TypoTrap & GetName() const override;
-
-    const helpers::TypoTrap & GetDescription() const override;
-private:
-    helpers::BigBrainPointer<helpers::TypoTrap> name_;
-    helpers::BigBrainPointer<helpers::TypoTrap> description_;
-
+    Weapon(const helpers::TypoTrap &name, const helpers::TypoTrap &description);
 };
 
 } // backend

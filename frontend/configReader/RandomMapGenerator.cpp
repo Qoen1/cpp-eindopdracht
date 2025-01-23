@@ -5,6 +5,7 @@
 #include "RandomMapGenerator.hpp"
 
 #include "../../backend/location/LocationFactory.hpp"
+#include "../../backend/objects/ItemFactory.hpp"
 
 
 RandomMapGenerator::RandomMapGenerator(): database_("kerkersendraken.db") {
@@ -14,6 +15,7 @@ std::vector<std::unique_ptr<backend::Location>> RandomMapGenerator::Generate() {
     auto locations = database_.GetLocations();
 
     GenerateConnections(locations);
+    GenerateItems(locations);
 
     return locations;
 }
@@ -32,7 +34,11 @@ void RandomMapGenerator::GenerateConnections(std::vector<std::unique_ptr<backend
 }
 
 void RandomMapGenerator::GenerateItems(std::vector<std::unique_ptr<backend::Location>>& locations) {
-    //TODO: implement
+    auto items = database_.GetItems();
+    auto itemFactory = backend::ItemFactory();
+    auto item = items[0];
+    locations[0]->AddVisibleItem(itemFactory.Create({item.type.c_str()}, {item.name.c_str()},
+                                                    {item.description.c_str()}, item.minimum_value));
 }
 
 void RandomMapGenerator::GenerateEnemies(std::vector<std::unique_ptr<backend::Location>>& locations) {

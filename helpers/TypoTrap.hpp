@@ -72,7 +72,7 @@ namespace helpers {
             delete[] _array;
         }
 
-        TypoTrap(const TypoTrap &other) {
+        TypoTrap(const TypoTrap &other): _array(nullptr) {
             _array = new char[other._capacity];
             _used = other._used;
             _capacity = other._capacity;

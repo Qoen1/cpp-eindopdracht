@@ -5,14 +5,6 @@
 #include "./Weapon.hpp"
 
 namespace backend {
-    Weapon::Weapon(helpers::TypoTrap &name, helpers::TypoTrap &description) : name_(&name), description_(&description) {
-    }
-
-    const helpers::TypoTrap & Weapon::GetName() const {
-        return *name_;
-    }
-
-    const helpers::TypoTrap & Weapon::GetDescription() const {
-        return *description_;
+    Weapon::Weapon(const helpers::TypoTrap &name, const helpers::TypoTrap &description) :Item(name, description) {
     }
 } // backend

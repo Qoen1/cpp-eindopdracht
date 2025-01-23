@@ -4,12 +4,16 @@
 
 #ifndef GOLD_HPP
 #define GOLD_HPP
+#include "Item.hpp"
 
 namespace backend {
 
-class Gold {
+class Gold: public Item {
 public:
-    int Amount;
+    Gold(const helpers::TypoTrap& name, const helpers::TypoTrap& description, int amount);
+
+private:
+    int amount_;
 };
 
 } // backend

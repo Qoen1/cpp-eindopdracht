@@ -11,14 +11,7 @@ namespace backend {
 
 class Armor : public Item {
 public:
-    Armor(helpers::TypoTrap &name, helpers::TypoTrap &description);
-
-    const helpers::TypoTrap & GetName() const override;
-
-    const helpers::TypoTrap & GetDescription() const override;
-private:
-    helpers::BigBrainPointer<helpers::TypoTrap> name_;
-    helpers::BigBrainPointer<helpers::TypoTrap> description_;
+    Armor(const helpers::TypoTrap &name, const helpers::TypoTrap &description);
 };
 
 } // backend
