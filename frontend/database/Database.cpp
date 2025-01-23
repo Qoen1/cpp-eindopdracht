@@ -24,14 +24,6 @@ namespace frontend {
         }
 
         std::vector<std::unique_ptr<backend::Location>> locations;
-
-        auto col_count = sqlite3_column_count(statement);
-        for (auto i = 0; i < col_count; i++) {
-            auto col = sqlite3_column_name(statement, i);
-            std::cout << col << ", ";
-        }
-        std::cout << std::endl;
-
         while ((result = sqlite3_step(statement)) == SQLITE_ROW) {
             auto* name = new helpers::TypoTrap(reinterpret_cast<const char*>(sqlite3_column_text(statement, 0)));
             auto i = sqlite3_errmsg(connection_);

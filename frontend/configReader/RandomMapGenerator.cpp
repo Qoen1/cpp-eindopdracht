@@ -7,11 +7,34 @@
 #include "../../backend/location/LocationFactory.hpp"
 
 
-std::vector<std::unique_ptr<backend::Location>> RandomMapGenerator::Generate() {
+RandomMapGenerator::RandomMapGenerator(): database_("kerkersendraken.db") {
+}
 
-    auto locations = std::vector<std::unique_ptr<backend::Location>>();
-    locations.push_back(std::unique_ptr<backend::Location>(backend::LocationFactory::Create(new helpers::TypoTrap("'sex dungeon'"), new helpers::TypoTrap("'a red room with a swing in the corner.'"))));
-    locations.push_back(std::unique_ptr<backend::Location>(backend::LocationFactory::Create(new helpers::TypoTrap("home office"), new helpers::TypoTrap("'a square room with a desk in the middle which holds a shrine to the machine gods.'"))));
+std::vector<std::unique_ptr<backend::Location>> RandomMapGenerator::Generate() {
+    auto locations = database_.GetLocations();
+
+    GenerateConnections(locations);
+
     return locations;
 }
 
+void RandomMapGenerator::GenerateConnections(std::vector<std::unique_ptr<backend::Location>>& locations) {
+    auto& start = *locations[0];
+    start.AddNeighbor(SOUTH, *locations[1]);
+    start.AddNeighbor(WEST, *locations[2]);
+    start.AddNeighbor(NORTH, *locations[3]);
+    start.AddNeighbor(EAST, *locations[4]);
+
+    locations[1]->AddNeighbor(NORTH, *locations[0]);
+    locations[2]->AddNeighbor(EAST, *locations[0]);
+    locations[3]->AddNeighbor(SOUTH, *locations[0]);
+    locations[4]->AddNeighbor(WEST, *locations[0]);
+}
+
+void RandomMapGenerator::GenerateItems(std::vector<std::unique_ptr<backend::Location>>& locations) {
+    //TODO: implement
+}
+
+void RandomMapGenerator::GenerateEnemies(std::vector<std::unique_ptr<backend::Location>>& locations) {
+    //TODO: implement
+}

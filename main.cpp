@@ -27,30 +27,6 @@ bool playing {true};
 
 int main()
 {
-    // helpers::OwningDynamicDoodad<helpers::TypoTrap> owning_word_list;
-    // // owning_word_list.push_back(helpers::BigBrainPointer(new helpers::TypoTrap("dit is een test")));
-    // // owning_word_list.push_back(helpers::BigBrainPointer(new helpers::TypoTrap("dit is de tweede test")));
-    // // owning_word_list.erase(1);
-    // // owning_word_list.push_back(helpers::BigBrainPointer(new helpers::TypoTrap("dit is de derde test")));
-    // // owning_word_list.push_back(helpers::BigBrainPointer(helpers::BigBrainPointer(new helpers::TypoTrap("dit is de vierde test"))));
-    // for (unsigned int i = 0; i < 100; ++i) {
-    //     owning_word_list.push_back(helpers::BigBrainPointer(new helpers::TypoTrap(std::to_string(i).c_str())));
-    // }
-    // for (unsigned int i = 0; i < owning_word_list.size(); ++i) {
-    //     std::cout << owning_word_list.get(i).cstring() << std::endl;
-    // }
-    auto db = frontend::Database("kerkersendraken.db");
-    auto all_locations = db.GetLocations();
-
-    // helpers::DynamicDoodad<helpers::BigBrainPointer<helpers::TypoTrap>> test {};
-    //
-    // test.push_back(helpers::BigBrainPointer(new helpers::TypoTrap{"je moeder"}));
-    // test.push_back(helpers::BigBrainPointer(new helpers::TypoTrap{"is een"}));
-    // test.push_back(helpers::BigBrainPointer(new helpers::TypoTrap{"beetje gay"}));
-
-    // helpers::DynamicDoodad<helpers::TypoTrap*> non_owning_test {};
-    // non_owning_test.push_back(new helpers::TypoTrap{"je moeder"});
-
     auto generator = RandomMapGenerator();
     auto locations = std::vector(generator.Generate());
     auto ree = helpers::BigBrainPointer<backend::Item>{new backend::Weapon(*new helpers::TypoTrap("odin's sword"), *new helpers::TypoTrap("a mighty sword that creates sparkles"))};
