@@ -19,7 +19,7 @@ public:
 
     BaseInputHandler(const std::string &inputCommand);
     void SetNextHandler(const BaseInputHandler& nextHandler);
-    void Handle(const std::string& inputCommand, const std::vector< std::string>& arguments) const;
+    virtual void Handle(const std::string& inputCommand, const std::vector< std::string>& arguments) const;
 
 
     BaseInputHandler(BaseInputHandler &&other) noexcept

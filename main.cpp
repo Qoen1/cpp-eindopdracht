@@ -18,8 +18,11 @@
 #include <sqlite3.h>
 
 #include "frontend/database/Database.hpp"
+#include "frontend/inputHandler/QuitInputHandler.hpp"
 
 #define MAX_INPUT_LENGTH 100
+
+bool playing {true};
 
 int main()
 {
@@ -38,14 +41,15 @@ int main()
     auto db = frontend::Database("kerkersendraken.db");
     auto all_locations = db.GetLocations();
 
-    helpers::DynamicDoodad<helpers::BigBrainPointer<helpers::TypoTrap>> test {};
+    // helpers::DynamicDoodad<helpers::BigBrainPointer<helpers::TypoTrap>> test {};
+    //
+    // test.push_back(helpers::BigBrainPointer(new helpers::TypoTrap{"je moeder"}));
+    // test.push_back(helpers::BigBrainPointer(new helpers::TypoTrap{"is een"}));
+    // test.push_back(helpers::BigBrainPointer(new helpers::TypoTrap{"beetje gay"}));
 
-    test.push_back(helpers::BigBrainPointer(new helpers::TypoTrap{"je moeder"}));
-    test.push_back(helpers::BigBrainPointer(new helpers::TypoTrap{"is een"}));
-    test.push_back(helpers::BigBrainPointer(new helpers::TypoTrap{"beetje gay"}));
+    // helpers::DynamicDoodad<helpers::TypoTrap*> non_owning_test {};
+    // non_owning_test.push_back(new helpers::TypoTrap{"je moeder"});
 
-    helpers::DynamicDoodad<helpers::TypoTrap*> non_owning_test {};
-    non_owning_test.push_back(new helpers::TypoTrap{"je moeder"});
     auto generator = RandomMapGenerator();
     auto locations = std::vector(generator.Generate());
     auto ree = helpers::BigBrainPointer<backend::Item>{new backend::Weapon(*new helpers::TypoTrap("odin's sword"), *new helpers::TypoTrap("a mighty sword that creates sparkles"))};
@@ -65,11 +69,13 @@ int main()
     auto& location = *locations.at(0);
     location.AddNeighbor(SOUTH, *locations.at(1));
 
-
     std::vector<frontend::BaseInputHandler*> inputHandlers = {
         new frontend::LookInputHandler("look",*player),
         new frontend::SearchInputHandler("search", *player),
         new frontend::MoveInputHandler("move", *player),
+        new frontend::QuitInputHandler("quit", [&](bool b) {
+            playing = b;
+        })
     };
     frontend::BaseInputHandler* inputHandler = nullptr;
     for(auto handler : inputHandlers) {
@@ -80,7 +86,8 @@ int main()
     }
 
 
-    while (true) {
+    // ReSharper disable once CppDFALoopConditionNotUpdated
+    while (playing) {
         char result[MAX_INPUT_LENGTH];
         std::cin.getline(result, MAX_INPUT_LENGTH);
         std::string line {result};

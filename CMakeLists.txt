@@ -70,6 +70,10 @@ add_executable(cpp_eindopdracht main.cpp
         helpers/OwningDynamicDoodad.hpp
         frontend/database/Database.cpp
         frontend/database/Database.hpp
+        frontend/inputHandler/QuitInputHandler.cpp
+        frontend/inputHandler/QuitInputHandler.hpp
+        frontend/inputHandler/InvalidInputHandler.cpp
+        frontend/inputHandler/InvalidInputHandler.hpp
 )
 
 target_link_libraries(cpp_eindopdracht SQLite::SQLite3)

@@ -23,7 +23,7 @@ namespace helpers {
             _array[0] = '\0';
         }
 
-        TypoTrap(const char* from) : _used(strlen(from)), _capacity(strlen(from)) {
+        TypoTrap(const char* from) : _used(strlen(from) + 1), _capacity(strlen(from) + 1) {
             _array = new char[_capacity];
             strcpy(_array, from);
         }
