@@ -18,6 +18,7 @@
 #include <sqlite3.h>
 
 #include "frontend/database/Database.hpp"
+#include "frontend/inputHandler/InvalidInputHandler.hpp"
 #include "frontend/inputHandler/QuitInputHandler.hpp"
 
 #define MAX_INPUT_LENGTH 100
@@ -70,6 +71,7 @@ int main()
     location.AddNeighbor(SOUTH, *locations.at(1));
 
     std::vector<frontend::BaseInputHandler*> inputHandlers = {
+        new frontend::InvalidInputHandler(), //needs to be last because it always consumes the command.
         new frontend::LookInputHandler("look",*player),
         new frontend::SearchInputHandler("search", *player),
         new frontend::MoveInputHandler("move", *player),
