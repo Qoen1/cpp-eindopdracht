@@ -5,8 +5,8 @@
 #include "Location.hpp"
 
 namespace backend {
-    Location::Location(helpers::TypoTrap* passedName,
-                       helpers::TypoTrap* passedDescription) : hiddenItems_(helpers::OwningDynamicDoodad<Item>()),
+    Location::Location(const helpers::TypoTrap& passedName,
+                       const helpers::TypoTrap& passedDescription) : hiddenItems_(helpers::OwningDynamicDoodad<Item>()),
                                                                visibleItems_(helpers::OwningDynamicDoodad<Item>()),
                                                                enemies_(helpers::OwningDynamicDoodad<Enemy>()),
                                                                name_(passedName), description_(passedDescription),
@@ -21,18 +21,18 @@ namespace backend {
         visibleItems_.push_back(static_cast<helpers::BigBrainPointer<Item>&&>(passedItem));
     }
 
-    helpers::DynamicDoodad<Item*> Location::GetHiddenItems() {
-        helpers::DynamicDoodad<Item*> list;
+    helpers::DynamicDoodad<Item> Location::GetHiddenItems() {
+        helpers::DynamicDoodad<Item> list;
         for (auto it = 0; it < hiddenItems_.size(); it++) {
-            list.push_back(&hiddenItems_.get(it));
+            list.push_back(hiddenItems_.get(it));
         }
         return list;
     }
 
-    helpers::DynamicDoodad<Item*> Location::GetVisibleItems() {
-        helpers::DynamicDoodad<Item*> list;
+    helpers::DynamicDoodad<Item> Location::GetVisibleItems() {
+        helpers::DynamicDoodad<Item> list;
         for (auto it = 0; it < visibleItems_.size(); it++) {
-            list.push_back(&visibleItems_.get(it));
+            list.push_back(visibleItems_.get(it));
         }
         return list;
     }
@@ -98,11 +98,11 @@ namespace backend {
     }
 
 
-    const helpers::TypoTrap & Location::getName() {
-        return *name_;
+    const helpers::TypoTrap& Location::getName() const {
+        return name_;
     }
 
-    helpers::TypoTrap & Location::getDescription() const {
-        return *description_;
+    const helpers::TypoTrap& Location::getDescription() const {
+        return description_;
     }
 } // backend

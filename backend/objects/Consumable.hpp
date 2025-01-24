@@ -13,6 +13,8 @@ public:
     Consumable(const helpers::TypoTrap& name, const helpers::TypoTrap& description)
         : Item(name, description) {
     }
+
+    ~Consumable() override = default;
 };
 
 } // backend

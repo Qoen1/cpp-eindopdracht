@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD 20)
 find_package(SQLite3 REQUIRED)
 
 add_executable(cpp_eindopdracht main.cpp
+        external/pugixml.hpp
+        external/pugixml.cpp
         backend/objects/Item.hpp
         frontend/player/Player.cpp
         frontend/player/Player.hpp
@@ -83,3 +85,7 @@ add_custom_command(TARGET cpp_eindopdracht POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
         "${CMAKE_CURRENT_SOURCE_DIR}/kerkersendraken.db"
         "${CMAKE_CURRENT_BINARY_DIR}/kerkersendraken.db")
+add_custom_command(TARGET cpp_eindopdracht POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        "${CMAKE_CURRENT_SOURCE_DIR}/kasteelruine.xml"
+        "${CMAKE_CURRENT_BINARY_DIR}/kasteelruine.xml")

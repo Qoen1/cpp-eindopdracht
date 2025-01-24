@@ -15,10 +15,13 @@ namespace frontend {
 
         std::cout
         << "Je hebt " << player_.GetHitpoints() << " levenspunten" << std::endl
-        << "Je hebt het volgende wapen vast: " << player_.GetWeapon().GetName().cstring() << std::endl
-        << "Je draagt de volgende bepansering: " << (armor != nullptr ? armor->GetName().cstring() : "") << std::endl
+        << "Je hebt het volgende wapen vast: " << (armor != nullptr ? player_.GetWeapon().GetName().cstring() : "Geen") << std::endl
+        << "Je draagt de volgende bepansering: " << (armor != nullptr ? armor->GetName().cstring() : "Geen") << std::endl
         << "Je hebt " << player_.GetCoinCount() << " munten" << std::endl
         << "Je hebt de volgende items in je inventaris: ";
+        if (player_.GetInventory().empty()) {
+            std::cout << "Geen";
+        }
         for(int i = 0; i < player_.GetInventory().size(); ++i) {
             std::cout << player_.GetInventory()[i]->GetName().cstring() << ", ";
         }

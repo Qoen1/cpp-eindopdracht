@@ -8,6 +8,7 @@
 
 namespace backend {
 struct ItemTypeDTO {
+    ~ItemTypeDTO() = default;
     std::string name;
     std::string description;
     std::string type;
@@ -17,7 +18,10 @@ struct ItemTypeDTO {
 };
 class Item {
 public:
+    Item(): name_(""), description_("") {}
     Item(const helpers::TypoTrap& name, const helpers::TypoTrap& description);
+    virtual ~Item() = default;
+
     [[nodiscard]] virtual const helpers::TypoTrap& GetName() const;
     [[nodiscard]] virtual const helpers::TypoTrap& GetDescription() const;
 

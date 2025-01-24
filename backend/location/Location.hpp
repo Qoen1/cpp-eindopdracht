@@ -20,15 +20,15 @@ private:
     helpers::OwningDynamicDoodad<Item> hiddenItems_;
     helpers::OwningDynamicDoodad<Item> visibleItems_;
     helpers::OwningDynamicDoodad<Enemy> enemies_;
-    helpers::BigBrainPointer<helpers::TypoTrap> name_;
-    helpers::BigBrainPointer<helpers::TypoTrap> description_;
+    helpers::TypoTrap name_;
+    helpers::TypoTrap description_;
     helpers::OwningDynamicDoodad<Door> neighbors_;
 public:
-    Location(helpers::TypoTrap* passedName, helpers::TypoTrap* passedDescription);
+    Location(const helpers::TypoTrap& passedName, const helpers::TypoTrap& passedDescription);
     void AddHiddenItem(helpers::BigBrainPointer<Item>&& passedItem);
-    helpers::DynamicDoodad<Item*> GetHiddenItems();
+    helpers::DynamicDoodad<Item> GetHiddenItems();
     void AddVisibleItem(helpers::BigBrainPointer<Item> passedItem);
-    helpers::DynamicDoodad<Item*> GetVisibleItems();
+    helpers::DynamicDoodad<Item> GetVisibleItems();
     void AddEnemy(helpers::BigBrainPointer<Enemy> passedEnemy);
 
     const Item* GetItemByName(const helpers::TypoTrap &passedName) const;
@@ -41,8 +41,8 @@ public:
     Location* GetNeighbor(Direction passedDirection) const;
     void AddNeighbor(Direction passedDirection, Location& passedLocation);
 
-    const helpers::TypoTrap& getName();
-    helpers::TypoTrap& getDescription() const;
+    const helpers::TypoTrap& getName() const;
+    const helpers::TypoTrap& getDescription() const;
 };
 
 } // backend

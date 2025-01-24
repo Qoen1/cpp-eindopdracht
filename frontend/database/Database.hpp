@@ -16,6 +16,8 @@ public:
     ~Database();
     std::vector<std::unique_ptr<backend::Location>> GetLocations();
     std::vector<backend::ItemTypeDTO> GetItems();
+    backend::ItemTypeDTO GetItem(const std::string& name);
+    backend::EnemyTypeDTO GetEnemy(const std::string& name);
 
 private:
     std::string path_;

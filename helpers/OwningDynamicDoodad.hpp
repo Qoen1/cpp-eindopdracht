@@ -91,7 +91,7 @@ private:
                 if (!_array[i]) continue;
                 temp[i] = std::move(_array[i]); // Transfer ownership
             }
-            // _array = nullptr;
+            delete[] _array;
             _array = temp;
             _capacity = new_size;
         }

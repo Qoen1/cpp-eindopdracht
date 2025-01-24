@@ -14,14 +14,26 @@
 
 namespace backend {
 
+struct EnemyTypeDTO {
+    std::string name;
+    std::string description;
+    int min_objects;
+    int max_objects;
+    int health;
+    int attack_chance;
+    int min_damage;
+    int max_damage;
+};
+
 class Enemy {
 private:
     helpers::OwningDynamicDoodad<Item> items;
-    helpers::BigBrainPointer<helpers::TypoTrap> name;
-    helpers::BigBrainPointer<helpers::TypoTrap> description;
+    helpers::TypoTrap name;
+    helpers::TypoTrap description;
     int health;
+    int damage;
 public:
-    Enemy(helpers::TypoTrap *name, helpers::TypoTrap *description, int health);
+    Enemy(const helpers::TypoTrap& name, const helpers::TypoTrap& description, int health, int damage);
     void AddItem(helpers::BigBrainPointer<Item>&& item);
     helpers::OwningDynamicDoodad<Item> TransferItems();
     int GetHealth() const;

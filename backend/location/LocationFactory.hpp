@@ -12,7 +12,7 @@ namespace backend {
 
 class LocationFactory {
 public:
-    static Location* Create(helpers::TypoTrap* name, helpers::TypoTrap* description);
+    Location* Create(const helpers::TypoTrap& name, const helpers::TypoTrap& description);
 };
 
 } // backend

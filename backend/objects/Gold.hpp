@@ -12,6 +12,8 @@ class Gold: public Item {
 public:
     Gold(const helpers::TypoTrap& name, const helpers::TypoTrap& description, int amount);
 
+    ~Gold() override = default;
+
 private:
     int amount_;
 };

@@ -12,6 +12,7 @@ namespace backend {
 class ItemFactory {
 public:
     helpers::BigBrainPointer<Item> Create(const helpers::TypoTrap& type, const helpers::TypoTrap& name, const helpers::TypoTrap& description, int value);
+    helpers::BigBrainPointer<Item> Create(const ItemTypeDTO& dto);
 
 };
 

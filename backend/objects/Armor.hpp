@@ -12,6 +12,8 @@ namespace backend {
 class Armor : public Item {
 public:
     Armor(const helpers::TypoTrap &name, const helpers::TypoTrap &description);
+
+    ~Armor() override = default;
 };
 
 } // backend

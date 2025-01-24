@@ -7,8 +7,8 @@
 #include <algorithm>
 
 namespace backend {
-    Enemy::Enemy(helpers::TypoTrap *name, helpers::TypoTrap *description, int health) : items(helpers::OwningDynamicDoodad<Item>()), name(name),
-        description(description), health(health) {
+    Enemy::Enemy(const helpers::TypoTrap& name, const helpers::TypoTrap& description, int health, int damage) : items(helpers::OwningDynamicDoodad<Item>()), name(name),
+        description(description), health(health), damage(damage) {
     }
 
     void Enemy::AddItem(helpers::BigBrainPointer<Item>&& item) {
@@ -26,10 +26,10 @@ namespace backend {
     }
 
     const helpers::TypoTrap & Enemy::GetName() const {
-        return *name;
+        return name;
     }
 
     const helpers::TypoTrap & Enemy::GetDescription() const {
-        return *description;
+        return description;
     }
 } // backend

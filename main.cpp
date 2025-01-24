@@ -17,6 +17,9 @@
 #include <vector>
 #include <sqlite3.h>
 
+#include "backend/objects/Consumable.hpp"
+#include "backend/objects/Gold.hpp"
+#include "frontend/configReader/FileMapGenerator.hpp"
 #include "frontend/database/Database.hpp"
 #include "frontend/inputHandler/InvalidInputHandler.hpp"
 #include "frontend/inputHandler/QuitInputHandler.hpp"
@@ -27,24 +30,16 @@ bool playing {true};
 
 int main()
 {
-    auto generator = RandomMapGenerator();
-    auto locations = std::vector(generator.Generate());
-    auto ree = helpers::BigBrainPointer<backend::Item>{new backend::Weapon(*new helpers::TypoTrap("odin's sword"), *new helpers::TypoTrap("a mighty sword that creates sparkles"))};
-    auto lego = helpers::BigBrainPointer<backend::Item>(new backend::Weapon(*new helpers::TypoTrap("lego set"), *new helpers::TypoTrap("if anyone steps on this, it hurts a lot!")));
-    auto enemy = helpers::BigBrainPointer(new backend::Enemy(new helpers::TypoTrap("goblin"), new helpers::TypoTrap("a small green creature"), 10));
+    // auto generator = RandomMapGenerator();
+    // auto locations = std::vector(generator.Generate());
+
+
+    auto file_reader = FileMapGenerator("kasteelruine.xml", "kerkersendraken.db");
+    auto locations = file_reader.Generate();
+
     auto player = helpers::BigBrainPointer{new frontend::Player(locations.at(0).get())};
-    player->AddItemToInventory(new backend::Weapon(*new helpers::TypoTrap("sword"), *new helpers::TypoTrap("a mighty sword")));
-    player->AddItemToInventory(new backend::Armor(*new helpers::TypoTrap("shield"), *new helpers::TypoTrap("a shield that protects you")));
-    player->UseWeaponFromInventory("sword");
 
     player->currentLocation = locations.at(0).get();
-    enemy->AddItem(static_cast<helpers::BigBrainPointer<backend::Item>&&>(lego));
-    locations.at(0)->AddEnemy(static_cast<helpers::BigBrainPointer<backend::Enemy>&&>(enemy));
-
-    locations.at(0)->AddVisibleItem(static_cast<helpers::BigBrainPointer<backend::Item>&&>(ree));
-    // locations->at(0)->AddHiddenItem(static_cast<helpers::BigBrainPointer<backend::Item>&&>(lego));
-    auto& location = *locations.at(0);
-    location.AddNeighbor(SOUTH, *locations.at(1));
 
     std::vector<frontend::BaseInputHandler*> inputHandlers = {
         new frontend::InvalidInputHandler(), //needs to be last because it always consumes the command.
@@ -84,6 +79,26 @@ int main()
         parts.erase(parts.begin());
         inputHandler->Handle(command, parts);
     }
-
+    for (auto i = 0; i < locations.size(); ++i) {
+        locations[i] = nullptr;
+    }
     return 0;
+
+
+    // helpers::OwningDynamicDoodad<backend::Location> locations;
+    // locations.push_back(new backend::Location("Kasteelruine", "Een vervallen kasteelruine."));
+    // locations.push_back(new backend::Location("Kerker", "Een donkere kerker."));
+    // locations.push_back(new backend::Location("Grote zaal", "Een grote zaal met een troon."));
+    //
+    // helpers::OwningDynamicDoodad<backend::Item> items;
+    // items.push_back(new backend::Weapon("Zwaard", "Een scherp zwaard."));
+    // items.push_back(new backend::Weapon("Schild", "Een stevig schild."));
+    // items.push_back(new backend::Weapon("Schild", "Een stevig schild."));
+    // items.push_back(new backend::Weapon("Schild", "Een stevig schild."));
+    // items.push_back(new backend::Weapon("Schild", "Een stevig schild."));
+    //
+    // locations.get(0).AddVisibleItem(items.pop(0));
+    // locations.get(0).AddVisibleItem(helpers::BigBrainPointer<backend::Item>(new backend::Consumable({"GOOOOLD"}, {"heel veel centjes"})));
+
+
 }

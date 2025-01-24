@@ -12,6 +12,8 @@ namespace backend {
 class Weapon: public Item{
 public:
     Weapon(const helpers::TypoTrap &name, const helpers::TypoTrap &description);
+
+    ~Weapon() override = default;
 };
 
 } // backend
