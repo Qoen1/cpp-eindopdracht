@@ -13,26 +13,25 @@
 namespace frontend {
 
 class Player {
-private:
-    int hitpoints_;
-    std::vector<backend::Item*> inventory_;
-    std::unique_ptr<backend::Weapon> weapon_;
-    std::unique_ptr<backend::Armor> armor_;
-    int coinCount_;
 public:
     Player(backend::Location* currentLocation);
     backend::Location* currentLocation;
 
-    backend::Item* GetItemByName(const std::string &passedName) const;
+    [[nodiscard]] backend::Item* GetItemByName(const std::string &passedName) const;
     int GetHitpoints() const;
     void UseWeaponFromInventory(const std::string &weaponName);
     void UseArmorFromInventory(const std::string &armorName);
-    backend::Weapon& GetWeapon() const;
-    backend::Armor* GetArmor() const;
-    const std::vector<backend::Item*>& GetInventory() const;
-    void AddItemToInventory(backend::Item* item);
+    [[nodiscard]] backend::Weapon& GetWeapon() const;
+    [[nodiscard]] backend::Armor* GetArmor() const;
+    [[nodiscard]] std::vector<backend::Item*> GetInventory();
+    void AddItemToInventory(std::unique_ptr<backend::Item>&& item);
     int GetCoinCount();
-
+private:
+    int hitpoints_;
+    std::vector<std::unique_ptr<backend::Item>> inventory_;
+    std::unique_ptr<backend::Weapon> weapon_;
+    std::unique_ptr<backend::Armor> armor_;
+    int coinCount_;
 };
 
 } // frontend

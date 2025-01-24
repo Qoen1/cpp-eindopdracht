@@ -21,10 +21,13 @@ namespace frontend {
         << "Je hebt de volgende items in je inventaris: ";
         if (player_.GetInventory().empty()) {
             std::cout << "Geen";
+        }else {
+            auto inventory = player_.GetInventory();
+            for(int i = 0; i <inventory.size(); ++i) {
+                std::cout << inventory[i]->GetName().cstring() << ", ";
+            }
         }
-        for(int i = 0; i < player_.GetInventory().size(); ++i) {
-            std::cout << player_.GetInventory()[i]->GetName().cstring() << ", ";
-        }
+
         std::cout << std::endl;
     }
 } // frontend

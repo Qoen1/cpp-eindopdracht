@@ -23,6 +23,7 @@
 #include "frontend/database/Database.hpp"
 #include "frontend/inputHandler/InvalidInputHandler.hpp"
 #include "frontend/inputHandler/QuitInputHandler.hpp"
+#include "frontend/inputHandler/TakeInputHandler.hpp"
 
 #define MAX_INPUT_LENGTH 100
 
@@ -37,7 +38,7 @@ int main()
     auto file_reader = FileMapGenerator("kasteelruine.xml", "kerkersendraken.db");
     auto locations = file_reader.Generate();
 
-    auto player = helpers::BigBrainPointer{new frontend::Player(locations.at(0).get())};
+    auto player = std::make_unique<frontend::Player>(locations.at(0).get());
 
     player->currentLocation = locations.at(0).get();
 
@@ -46,9 +47,8 @@ int main()
         new frontend::LookInputHandler("look",*player),
         new frontend::SearchInputHandler("search", *player),
         new frontend::MoveInputHandler("move", *player),
-        new frontend::QuitInputHandler("quit", [&](bool b) {
-            playing = b;
-        })
+        new frontend::TakeInputHandler("take", *player),
+        new frontend::QuitInputHandler("quit", playing)
     };
     frontend::BaseInputHandler* inputHandler = nullptr;
     for(auto handler : inputHandlers) {

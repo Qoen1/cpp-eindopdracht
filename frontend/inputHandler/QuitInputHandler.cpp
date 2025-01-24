@@ -3,11 +3,11 @@
 #include "QuitInputHandler.hpp"
 
 namespace frontend {
-    QuitInputHandler::QuitInputHandler(const std::string& inputCommand, const std::function<void(bool)>& callback):
-    BaseInputHandler(inputCommand), callback_(callback) {
+    QuitInputHandler::QuitInputHandler(const std::string& inputCommand, bool& playing):
+    BaseInputHandler(inputCommand), playing_(playing) {
     }
 
     void QuitInputHandler::Handle(const std::vector<std::string>& arguments) const {
-        callback_(false);
+        playing_ = false;
     }
 } // frontend

@@ -7,6 +7,7 @@
 
 #include <stdexcept>
 #include <cstring>
+#include <ostream>
 
 namespace helpers {
     /**
@@ -65,6 +66,10 @@ namespace helpers {
                 throw std::out_of_range("Index out of range");
             }
             return _array[index];
+        }
+
+        friend std::ostream & operator<<(std::ostream &os, const TypoTrap &obj) {
+            return os << obj.cstring();
         }
 
         //rule of 5

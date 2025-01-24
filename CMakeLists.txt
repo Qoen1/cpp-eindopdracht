@@ -77,6 +77,8 @@ add_executable(cpp_eindopdracht main.cpp
         frontend/inputHandler/InvalidInputHandler.cpp
         frontend/inputHandler/InvalidInputHandler.hpp
         backend/objects/Item.cpp
+        frontend/inputHandler/TakeInputHandler.cpp
+        frontend/inputHandler/TakeInputHandler.hpp
 )
 
 target_link_libraries(cpp_eindopdracht SQLite::SQLite3)
