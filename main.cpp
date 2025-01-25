@@ -84,23 +84,24 @@ int main()
     for (auto i = 0; i < locations.size(); ++i) {
         locations[i] = nullptr;
     }
+
+    delete inputHandler;
     return 0;
 
 
-    // helpers::OwningDynamicDoodad<backend::Location> locations;
-    // locations.push_back(new backend::Location("Kasteelruine", "Een vervallen kasteelruine."));
-    // locations.push_back(new backend::Location("Kerker", "Een donkere kerker."));
-    // locations.push_back(new backend::Location("Grote zaal", "Een grote zaal met een troon."));
-    //
-    // helpers::OwningDynamicDoodad<backend::Item> items;
-    // items.push_back(new backend::Weapon("Zwaard", "Een scherp zwaard."));
-    // items.push_back(new backend::Weapon("Schild", "Een stevig schild."));
-    // items.push_back(new backend::Weapon("Schild", "Een stevig schild."));
-    // items.push_back(new backend::Weapon("Schild", "Een stevig schild."));
-    // items.push_back(new backend::Weapon("Schild", "Een stevig schild."));
-    //
-    // locations.get(0).AddVisibleItem(items.pop(0));
-    // locations.get(0).AddVisibleItem(helpers::BigBrainPointer<backend::Item>(new backend::Consumable({"GOOOOLD"}, {"heel veel centjes"})));
 
 
+
+    // auto item_types = helpers::DynamicDoodad<backend::ItemTypeDTO>();
+    // item_types.push_back({"name1", "description1", "type1", 1, 2, 3});
+    //
+    // auto items = helpers::DynamicDoodad<backend::Item>();
+    // items.push_back(backend::Item(helpers::TypoTrap("name1"), helpers::TypoTrap("description1")));
+    //
+    // auto weapon = std::make_unique<backend::Weapon>("zwaard", "heel groot zwaard");
+    // {
+    //     auto weapons = helpers::DynamicDoodad<backend::Weapon*>();
+    //     weapons.push_back(weapon.get());
+    // }
+    // std::cout << weapon->GetName() << std::endl;
 }

@@ -85,14 +85,19 @@ namespace helpers {
         void resize(size_t new_size) {
             if(new_size <= capacity()) return;
             T* temp = new T[new_size];
-            std::memcpy(temp, _array, _used * sizeof(T));
-            _array = nullptr;
+            for (auto i = 0; i < _used; ++i) {
+                temp[i] = T(_array[i]);
+            }
+            delete[] _array;
             _array = temp;
             _capacity = new_size;
         }
 
         //rule of 5
-        ~DynamicDoodad() = default;
+        ~DynamicDoodad() {
+            //TODO: implement?
+            delete[] _array;
+        }
 
         DynamicDoodad(const DynamicDoodad &other) = delete;/* {
             _array = new T[other._capacity];
