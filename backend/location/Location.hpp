@@ -42,6 +42,7 @@ public:
 
     Location* GetNeighbor(Direction passedDirection) const;
     void AddNeighbor(Direction passedDirection, Location& passedLocation);
+    helpers::DynamicDoodad<Direction> GetDirections() const;
 
     const helpers::TypoTrap& getName() const;
     const helpers::TypoTrap& getDescription() const;

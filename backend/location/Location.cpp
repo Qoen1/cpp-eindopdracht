@@ -114,6 +114,14 @@ namespace backend {
         neighbors_.push_back(helpers::BigBrainPointer(new Door(passedLocation, passedDirection)));
     }
 
+    helpers::DynamicDoodad<Direction> Location::GetDirections() const {
+        helpers::DynamicDoodad<Direction> list;
+        for (int i = 0; i < neighbors_.size(); ++i) {
+            list.push_back(neighbors_.get(i).direction_);
+        }
+        return list;
+    }
+
 
     const helpers::TypoTrap& Location::getName() const {
         return name_;

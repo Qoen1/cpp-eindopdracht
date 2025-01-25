@@ -29,30 +29,24 @@ namespace helpers {
             strcpy(_array, from);
         }
 
-        TypoTrap(char* from) : _used(strlen(from) + 1), _capacity(strlen(from) + 1) {
-            _array = new char[_capacity];
-            for(char* it = from; *it; ++it) {
-                append(*it);
-            }
-        }
+        // TypoTrap(char* from) : _used(0), _capacity(strlen(from) + 1) {
+        //     _array = new char[_capacity];
+        //     for(char* it = from; *it; ++it) {
+        //         append(*it);
+        //     }
+        // }
 
-        void append(char* value) {
-            for(char* it = value; *it; ++it) {
-                append(*it);
-            }
-        }
-
-        void append(char value) {
-            if(_used == _capacity - 1) {
-                _capacity *= 2;
-                char* newArray = new char[_capacity];
-                std::memcpy(newArray, _array, _used);
-                delete[] _array;
-                _array = newArray;
-            }
-            _array[_used++] = value;
-            _array[_used] = '\0';
-        }
+        // void append(char value) {
+        //     if(_used == _capacity - 1) {
+        //         _capacity *= 2;
+        //         char* newArray = new char[_capacity];
+        //         std::memcpy(newArray, _array, _used);
+        //         delete[] _array;
+        //         _array = newArray;
+        //     }
+        //     _array[_used++] = value;
+        //     _array[_used] = '\0';
+        // }
 
         size_t size() const {
             return _used;
@@ -110,6 +104,8 @@ namespace helpers {
             if(this != &other) {
                 delete[] _array;
                 _array = other._array;
+                _used = other._used;
+                _capacity = other._capacity;
 
                 other._array = nullptr;
             }
