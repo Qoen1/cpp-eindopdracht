@@ -17,6 +17,7 @@ public:
     Player(backend::Location* currentLocation);
     backend::Location* currentLocation;
 
+    std::unique_ptr<backend::Item> PopItemByName(const std::string &passedName);
     [[nodiscard]] backend::Item* GetItemByName(const std::string &passedName) const;
     int GetHitpoints() const;
     void UseWeaponFromInventory(const std::string &weaponName);

@@ -22,6 +22,7 @@
 #include "frontend/configReader/FileMapGenerator.hpp"
 #include "frontend/database/Database.hpp"
 #include "frontend/inputHandler/InvalidInputHandler.hpp"
+#include "frontend/inputHandler/PlaceInputHandler.hpp"
 #include "frontend/inputHandler/QuitInputHandler.hpp"
 #include "frontend/inputHandler/TakeInputHandler.hpp"
 
@@ -46,6 +47,7 @@ int main()
         new frontend::SearchInputHandler("search", *player),
         new frontend::MoveInputHandler("move", *player),
         new frontend::TakeInputHandler("take", *player),
+        new frontend::PlaceInputHandler("place", *player),
         new frontend::QuitInputHandler("quit", playing)
     };
     frontend::BaseInputHandler* inputHandler = nullptr;

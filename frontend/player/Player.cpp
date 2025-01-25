@@ -3,9 +3,11 @@
 //
 
 #include "Player.hpp"
+#include <memory>
+#include <vector>
 
 namespace frontend {
-    Player::Player(backend::Location* currentLocation) : currentLocation(currentLocation){
+    Player::Player(backend::Location* currentLocation) : currentLocation(currentLocation), inventory_(0){
         hitpoints_ = 100;
         coinCount_ = 0;
     }
@@ -17,6 +19,15 @@ namespace frontend {
             }
         }
         return nullptr;
+    }
+
+    std::unique_ptr<backend::Item> Player::PopItemByName(const std::string &passedName) {
+        auto it = std::find_if(inventory_.begin(), inventory_.end(), [&](const std::unique_ptr<backend::Item>& item) {
+            return item->GetName().cstring() == passedName;
+        });
+        std::unique_ptr<backend::Item> item = std::move(*it);
+        inventory_.erase(it);
+        return item;
     }
 
     int Player::GetHitpoints() const {
