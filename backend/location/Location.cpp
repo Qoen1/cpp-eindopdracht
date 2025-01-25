@@ -21,18 +21,18 @@ namespace backend {
         visibleItems_.push_back(static_cast<helpers::BigBrainPointer<Item>&&>(passedItem));
     }
 
-    helpers::DynamicDoodad<Item> Location::GetHiddenItems() {
-        helpers::DynamicDoodad<Item> list;
+    helpers::DynamicDoodad<Item*> Location::GetHiddenItems() {
+        helpers::DynamicDoodad<Item*> list;
         for (auto it = 0; it < hiddenItems_.size(); it++) {
-            list.push_back(hiddenItems_.get(it));
+            list.push_back(&hiddenItems_.get(it));
         }
         return list;
     }
 
-    helpers::DynamicDoodad<Item> Location::GetVisibleItems() {
-        helpers::DynamicDoodad<Item> list;
+    helpers::DynamicDoodad<Item*> Location::GetVisibleItems() {
+        helpers::DynamicDoodad<Item*> list;
         for (auto it = 0; it < visibleItems_.size(); it++) {
-            list.push_back(visibleItems_.get(it));
+            list.push_back(&visibleItems_.get(it));
         }
         return list;
     }
@@ -41,10 +41,10 @@ namespace backend {
         enemies_.push_back(static_cast<helpers::BigBrainPointer<Enemy>&&>(passedEnemy));
     }
 
-    helpers::DynamicDoodad<Enemy> Location::GetEnemies() {
-        helpers::DynamicDoodad<Enemy> list;
+    helpers::DynamicDoodad<Enemy*> Location::GetEnemies() {
+        helpers::DynamicDoodad<Enemy*> list;
         for (auto it = 0; it < enemies_.size(); it++) {
-            list.push_back(enemies_.get(it));
+            list.push_back(&enemies_.get(it));
         }
         return list;
     }

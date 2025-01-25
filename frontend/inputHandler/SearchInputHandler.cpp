@@ -12,5 +12,6 @@ namespace frontend {
 
     void SearchInputHandler::Handle(const std::vector<std::string> &arguments) const {
         SearchLocationCommand(*player_.currentLocation).Execute();
+        //TODO: after searching the enemies take a turn.
     }
 } // frontend

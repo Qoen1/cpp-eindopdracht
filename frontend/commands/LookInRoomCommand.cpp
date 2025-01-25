@@ -14,7 +14,7 @@ namespace frontend {
     }
 
     void LookInRoomCommand::Execute() {
-        const helpers::DynamicDoodad<backend::Item> items = location.GetVisibleItems();
+        const helpers::DynamicDoodad<backend::Item*> items = location.GetVisibleItems();
         auto enemies = location.GetEnemies();
         auto directions = location.GetDirections();
 
@@ -24,7 +24,7 @@ namespace frontend {
         if (items.size() == 0) cout << "Geen";
         else {
             for (int i = 0; i < items.size(); i++) {
-                cout << items.get(i).GetName().cstring();
+                cout << items.get(i)->GetName().cstring();
                 if (i != items.size() - 1) cout << ", ";
             }
         }
@@ -34,7 +34,7 @@ namespace frontend {
         else {
             cout << "Vijanden: ";
             for (int i = 0; i < enemies.size(); i++) {
-                cout << enemies.get(i).GetName();
+                cout << enemies.get(i)->GetName();
                 if (i != enemies.size() - 1) cout << ", ";
             }
             cout << endl;
