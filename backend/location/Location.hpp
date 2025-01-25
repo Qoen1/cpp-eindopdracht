@@ -27,9 +27,10 @@ public:
     Location(const helpers::TypoTrap& passedName, const helpers::TypoTrap& passedDescription);
     void AddHiddenItem(helpers::BigBrainPointer<Item>&& passedItem);
     helpers::DynamicDoodad<Item> GetHiddenItems();
-    void AddVisibleItem(helpers::BigBrainPointer<Item> passedItem);
+    void AddVisibleItem(helpers::BigBrainPointer<Item>&& passedItem);
     helpers::DynamicDoodad<Item> GetVisibleItems();
-    void AddEnemy(helpers::BigBrainPointer<Enemy> passedEnemy);
+    void AddEnemy(helpers::BigBrainPointer<Enemy>&& passedEnemy);
+    helpers::DynamicDoodad<Enemy> GetEnemies();
 
     helpers::BigBrainPointer<Item> PopItemByName(const helpers::TypoTrap &passedName);
     const Item* GetItemByName(const helpers::TypoTrap &passedName) const;

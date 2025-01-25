@@ -7,8 +7,11 @@
 #include <algorithm>
 
 namespace backend {
+    Enemy::Enemy(): health(0), damage(0), name(helpers::TypoTrap()), description(helpers::TypoTrap()), items(helpers::OwningDynamicDoodad<Item>()) {
+    }
+
     Enemy::Enemy(const helpers::TypoTrap& name, const helpers::TypoTrap& description, int health, int damage) : items(helpers::OwningDynamicDoodad<Item>()), name(name),
-        description(description), health(health), damage(damage) {
+                                                                                                                description(description), health(health), damage(damage) {
     }
 
     void Enemy::AddItem(helpers::BigBrainPointer<Item>&& item) {

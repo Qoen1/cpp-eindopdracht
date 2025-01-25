@@ -40,8 +40,6 @@ int main()
 
     auto player = std::make_unique<frontend::Player>(locations.at(0).get());
 
-    player->currentLocation = locations.at(0).get();
-
     std::vector<frontend::BaseInputHandler*> inputHandlers = {
         new frontend::InvalidInputHandler(), //needs to be last because it always consumes the command.
         new frontend::LookInputHandler("look",*player),
@@ -58,6 +56,8 @@ int main()
         inputHandler = handler;
     }
 
+
+    frontend::LookInRoomCommand(*player->currentLocation).Execute();
 
     // ReSharper disable once CppDFALoopConditionNotUpdated
     while (playing) {

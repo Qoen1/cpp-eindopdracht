@@ -28,6 +28,5 @@ namespace backend {
         }
 
         return enemy;
-
     }
 } // backend

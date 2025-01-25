@@ -29,8 +29,8 @@ namespace helpers {
             strcpy(_array, from);
         }
 
-        TypoTrap(char* from) : _used(0), _capacity(2) {
-            _array = new char[std::strlen(from) + 1];
+        TypoTrap(char* from) : _used(strlen(from) + 1), _capacity(strlen(from) + 1) {
+            _array = new char[_capacity];
             for(char* it = from; *it; ++it) {
                 append(*it);
             }
@@ -81,7 +81,7 @@ namespace helpers {
             _array = new char[other._capacity];
             _used = other._used;
             _capacity = other._capacity;
-            std::memcpy(_array, other._array, other._capacity);
+            std::strcpy(_array, other._array);
         }
 
         TypoTrap(TypoTrap &&other) {

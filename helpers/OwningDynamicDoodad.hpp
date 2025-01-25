@@ -102,10 +102,10 @@ private:
         }
 
         OwningDynamicDoodad(const OwningDynamicDoodad &other) {
-            _array = new T[other._capacity];
+            _array = new BigBrainPointer<T>[other._capacity];
             _used = other._used;
             _capacity = other._capacity;
-            std::wmemcpy(_array, other._array, other._capacity);
+            std::memcpy(_array, other._array, other._capacity);
         }
 
         OwningDynamicDoodad(OwningDynamicDoodad &&other) noexcept {

@@ -17,7 +17,7 @@ namespace backend {
         hiddenItems_.push_back(static_cast<helpers::BigBrainPointer<Item>&&>(passedItem));
     }
 
-    void Location::AddVisibleItem(helpers::BigBrainPointer<Item> passedItem) {
+    void Location::AddVisibleItem(helpers::BigBrainPointer<Item>&& passedItem) {
         visibleItems_.push_back(static_cast<helpers::BigBrainPointer<Item>&&>(passedItem));
     }
 
@@ -37,8 +37,16 @@ namespace backend {
         return list;
     }
 
-    void Location::AddEnemy(helpers::BigBrainPointer<Enemy> passedEnemy) {
+    void Location::AddEnemy(helpers::BigBrainPointer<Enemy>&& passedEnemy) {
         enemies_.push_back(static_cast<helpers::BigBrainPointer<Enemy>&&>(passedEnemy));
+    }
+
+    helpers::DynamicDoodad<Enemy> Location::GetEnemies() {
+        helpers::DynamicDoodad<Enemy> list;
+        for (auto it = 0; it < enemies_.size(); it++) {
+            list.push_back(enemies_.get(it));
+        }
+        return list;
     }
 
     helpers::BigBrainPointer<Item> Location::PopItemByName(const helpers::TypoTrap &passedName) {

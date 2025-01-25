@@ -33,6 +33,7 @@ private:
     int health;
     int damage;
 public:
+    Enemy();
     Enemy(const helpers::TypoTrap& name, const helpers::TypoTrap& description, int health, int damage);
     void AddItem(helpers::BigBrainPointer<Item>&& item);
     helpers::OwningDynamicDoodad<Item> TransferItems();
