@@ -9,10 +9,10 @@ namespace helpers {
     template<typename T>
     class BigBrainPointer {
     private:
-        T* item = nullptr;
+        T* item;
 
     public:
-        BigBrainPointer() {
+        BigBrainPointer(): item(nullptr) {
         }
 
         BigBrainPointer(T* item) : item(item) {

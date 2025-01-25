@@ -21,6 +21,7 @@
 #include "backend/objects/Gold.hpp"
 #include "frontend/configReader/FileMapGenerator.hpp"
 #include "frontend/database/Database.hpp"
+#include "frontend/inputHandler/AttackInputHandler.hpp"
 #include "frontend/inputHandler/InvalidInputHandler.hpp"
 #include "frontend/inputHandler/PlaceInputHandler.hpp"
 #include "frontend/inputHandler/QuitInputHandler.hpp"
@@ -40,7 +41,8 @@ int main()
     auto file_reader = FileMapGenerator("kasteelruine.xml", "kerkersendraken.db");
     auto locations = file_reader.Generate();
 
-    auto player = std::make_unique<frontend::Player>(locations.at(6).get());
+    auto player = std::make_unique<frontend::Player>(locations.at(0).get());
+    player->AddItemToInventory(std::make_unique<backend::Weapon>("wooden sword", "a wooden sword", 5));
 
     std::vector<frontend::BaseInputHandler*> inputHandlers = {
         new frontend::InvalidInputHandler(), //needs to be last because it always consumes the command.
@@ -50,6 +52,7 @@ int main()
         new frontend::TakeInputHandler("take", *player),
         new frontend::PlaceInputHandler("place", *player),
         new frontend::WearInputHandler("wear", *player),
+        new frontend::AttackInputHandler("attack", *player),
         new frontend::QuitInputHandler("quit", playing)
     };
     frontend::BaseInputHandler* inputHandler = nullptr;

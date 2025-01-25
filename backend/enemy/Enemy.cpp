@@ -19,9 +19,11 @@ namespace backend {
     }
 
      helpers::OwningDynamicDoodad<Item> Enemy::TransferItems() {
-        auto temp = std::move(items);
-        items = helpers::OwningDynamicDoodad<Item>();
-        return temp;
+        auto list = helpers::OwningDynamicDoodad<Item>();
+        for (auto i = 0; i < items.size(); ++i) {
+            list.push_back(items.pop(i));
+        }
+        return list;
     }
 
     int Enemy::GetHealth() const {
@@ -34,5 +36,12 @@ namespace backend {
 
     const helpers::TypoTrap & Enemy::GetDescription() const {
         return description;
+    }
+
+    void Enemy::TakeDamage(int amount) {
+        health -= amount;
+        if (health < 0) {
+            health = 0;
+        }
     }
 } // backend

@@ -10,7 +10,7 @@ private:
         size_t _capacity;
         size_t _used;
     public:
-        OwningDynamicDoodad() : _used(0), _capacity(1), _array(new BigBrainPointer<T>[1]) {
+        OwningDynamicDoodad() : _used(0), _capacity(0), _array(new BigBrainPointer<T>[0]) {
         }
 
         size_t capacity() const noexcept {
@@ -77,6 +77,8 @@ private:
                 throw std::out_of_range("Index out of range");
             }
 
+            _array[index] = BigBrainPointer<T>(nullptr);
+
             _used--;
 
             for(size_t i = index; i < _used; ++i) {
@@ -136,6 +138,8 @@ private:
                     push_back(other.pop(i));
                 }
             }
+            _capacity = other._capacity;
+            _used =other._used;
             return *this;
         }
     };

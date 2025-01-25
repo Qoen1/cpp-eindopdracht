@@ -40,6 +40,7 @@ public:
     int GetHealth() const;
     const helpers::TypoTrap &GetName() const;
     const helpers::TypoTrap &GetDescription() const;
+    void TakeDamage(int amount);
 };
 
 } // backend

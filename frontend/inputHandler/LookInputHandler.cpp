@@ -22,14 +22,20 @@ namespace frontend {
             LookAtPlayerCommand(player_).Execute();
             return;
         }
-        auto tempArg = helpers::TypoTrap(arguments[0].c_str());
-        auto* item = player_.currentLocation->GetItemByName(tempArg);
+        std::string entity_name;
+        for (auto i = 0; i < arguments.size(); ++i) {
+            entity_name += arguments[i];
+            if (i != arguments.size() - 1) {
+                entity_name += " ";
+            }
+        }
+        auto* item = player_.currentLocation->GetItemByName(entity_name.c_str());
         if(item == nullptr) item = player_.GetItemByName(arguments[0]);
         if(item != nullptr) {
             LookAtItemCommand(*item).Execute();
             return;
         }
-        auto* enemy = player_.currentLocation->GetEnemyByName(tempArg);
+        auto* enemy = player_.currentLocation->GetEnemyByName(entity_name.c_str());
         if(enemy != nullptr) {
             LookAtEnemyCommand(*enemy, player_).Execute();
         }

@@ -82,4 +82,11 @@ namespace frontend {
     int Player::GetCoinCount() {
         return coinCount_;
     }
+
+    int Player::GetAttack() {
+        if(weapon_ == nullptr) {
+            return 0;
+        }
+        return weapon_->GetAttackDamage();
+    }
 } // frontend

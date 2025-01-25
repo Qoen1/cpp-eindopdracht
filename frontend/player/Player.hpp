@@ -26,6 +26,9 @@ public:
     [[nodiscard]] std::vector<backend::Item*> GetInventory();
     void AddItemToInventory(std::unique_ptr<backend::Item>&& item);
     int GetCoinCount();
+
+    int GetAttack();
+
 private:
     int hitpoints_;
     std::vector<std::unique_ptr<backend::Item>> inventory_;

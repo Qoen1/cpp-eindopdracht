@@ -35,6 +35,7 @@ namespace frontend {
             cout << "Vijanden: ";
             for (int i = 0; i < enemies.size(); i++) {
                 cout << enemies.get(i)->GetName();
+                if (enemies.get(i)->GetHealth() <= 0) cout << " (dood)";
                 if (i != enemies.size() - 1) cout << ", ";
             }
             cout << endl;

@@ -22,9 +22,6 @@ protected:
 
 private:
     Player &player_;
-
-    void LookInRoom() const;
-    void LookAtSelf() const;
 };
 
 } // frontend

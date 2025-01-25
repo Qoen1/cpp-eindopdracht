@@ -18,7 +18,7 @@ namespace backend {
         if (strcmp(type.cstring(), "ervaringsdrank") == 0)    return {new Consumable(name, description)};
         if (strcmp(type.cstring(), "levenselixer") == 0)      return {new Consumable(name, description)};
         if (strcmp(type.cstring(), "wapenrusting") == 0)      return {new Armor(name, description)};
-        if (strcmp(type.cstring(), "wapen") == 0)             return {new Weapon(name, description)};
+        if (strcmp(type.cstring(), "wapen") == 0)             return {new Weapon(name, description, value)};
         if (strcmp(type.cstring(), "goudstukken") == 0)       return {new Gold(name, description, value)};
         throw std::runtime_error("invalid item type");
     }
@@ -34,7 +34,7 @@ namespace backend {
         if (strcmp(dto.type.c_str(), "ervaringsdrank") == 0)    return {new Consumable(helpers::TypoTrap(dto.name.c_str()), helpers::TypoTrap(dto.description.c_str()))};
         if (strcmp(dto.type.c_str(), "levenselixer") == 0)      return {new Consumable(helpers::TypoTrap(dto.name.c_str()), helpers::TypoTrap(dto.description.c_str()))};
         if (strcmp(dto.type.c_str(), "wapenrusting") == 0)      return {new Armor(helpers::TypoTrap(dto.name.c_str()), helpers::TypoTrap(dto.description.c_str()))};
-        if (strcmp(dto.type.c_str(), "wapen") == 0)             return {new Weapon(helpers::TypoTrap(dto.name.c_str()), helpers::TypoTrap(dto.description.c_str()))};
+        if (strcmp(dto.type.c_str(), "wapen") == 0)             return {new Weapon(helpers::TypoTrap(dto.name.c_str()), helpers::TypoTrap(dto.description.c_str()), value)};
         if (strcmp(dto.type.c_str(), "goudstukken") == 0)       return {new Gold(helpers::TypoTrap(dto.name.c_str()), helpers::TypoTrap(dto.description.c_str()), value)};
         throw std::runtime_error("invalid item type");
     }

@@ -11,9 +11,13 @@ namespace backend {
 
 class Weapon: public Item{
 public:
-    Weapon(const helpers::TypoTrap &name, const helpers::TypoTrap &description);
+    Weapon(const helpers::TypoTrap &name, const helpers::TypoTrap &description, int damage);
 
     ~Weapon() override = default;
+
+    int GetAttackDamage() const;
+private:
+    int damage_;
 };
 
 } // backend
