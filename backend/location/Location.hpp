@@ -38,7 +38,7 @@ public:
 
     void MakeItemVisible(const Item &passedItem);
     void MakeItemInvisible(const Item &passedItem);
-    void MakeAllItemsVisible();
+    std::vector<Item*> MakeAllItemsVisible();
 
     Location* GetNeighbor(Direction passedDirection) const;
     void AddNeighbor(Direction passedDirection, Location& passedLocation);

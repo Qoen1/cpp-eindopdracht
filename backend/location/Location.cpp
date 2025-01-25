@@ -96,9 +96,13 @@ namespace backend {
         }
     }
 
-    void Location::MakeAllItemsVisible() {
-        for (int i = 0; i < hiddenItems_.size(); ++i) {visibleItems_.push_back(hiddenItems_.pop(i));}
-        for (int i = 0; i < hiddenItems_.size(); ++i) {hiddenItems_.erase(i);}
+    std::vector<Item*> Location::MakeAllItemsVisible() {
+        std::vector<Item*> list;
+        for (int i = 0; i < hiddenItems_.size(); ++i) {
+            visibleItems_.push_back(hiddenItems_.pop(i));
+            list.push_back(&visibleItems_.get(visibleItems_.size() - 1));
+        }
+        return list;
     }
 
     Location * Location::GetNeighbor(Direction passedDirection) const {

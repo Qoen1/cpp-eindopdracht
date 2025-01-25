@@ -11,12 +11,11 @@ namespace frontend {
     }
 
     void SearchLocationCommand::Execute() {
-        auto discovered_items = location_.GetHiddenItems();
-        location_.MakeAllItemsVisible();
+        auto discovered_items = location_.MakeAllItemsVisible();
 
         std::cout << "Je vindt:" << std::endl;
         for (auto i = 0; i < discovered_items.size(); ++i) {
-            std::cout << discovered_items.get(i)->GetName() << std::endl;
+            std::cout << discovered_items[i]->GetName() << std::endl;
         }
 
     }

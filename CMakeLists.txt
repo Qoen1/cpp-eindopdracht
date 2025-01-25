@@ -81,6 +81,8 @@ add_executable(cpp_eindopdracht main.cpp
         frontend/inputHandler/TakeInputHandler.hpp
         frontend/inputHandler/PlaceInputHandler.cpp
         frontend/inputHandler/PlaceInputHandler.hpp
+        frontend/inputHandler/WearInputHandler.cpp
+        frontend/inputHandler/WearInputHandler.hpp
 )
 
 target_link_libraries(cpp_eindopdracht SQLite::SQLite3)

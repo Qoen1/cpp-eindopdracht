@@ -34,34 +34,37 @@ namespace frontend {
         return hitpoints_;
     }
 
-    void Player::UseWeaponFromInventory(const std::string &weaponName) {
-        throw std::runtime_error("Not implemented");
-        // for (auto i = inventory_.begin(); i != inventory_.end(); ++i) {
-        //     if ((*i)->GetName().cstring() == weaponName) {
-        //         weapon_ = std::unique_ptr<backend::Weapon>(dynamic_cast<backend::Weapon*>(*i));
-        //         inventory_.erase(i);
-        //         return;
-        //     }
-        // }
-    }
-
-    void Player::UseArmorFromInventory(const std::string &armorName) {
-        throw std::runtime_error("Not implemented");
-        // for (auto i = inventory_.begin(); i != inventory_.end(); ++i) {
-        //     if ((*i)->GetName().cstring() == armorName) {
-        //         armor_ = std::unique_ptr<backend::Armor>(dynamic_cast<backend::Armor*>(*i));
-        //         inventory_.erase(i);
-        //         return;
-        //     }
-        // }
+    bool Player::UseItemFromInventory(const std::string &weaponName) {
+        for (auto i = inventory_.begin(); i != inventory_.end(); ++i) {
+            if ((*i)->GetName().cstring() == weaponName) {
+                if (dynamic_cast<backend::Weapon*>(i->get())) {
+                    if (weapon_ != nullptr) {
+                        inventory_.emplace_back(std::move(weapon_));
+                    }
+                    weapon_ = std::unique_ptr<backend::Weapon>(static_cast<backend::Weapon*>(i->release()));
+                    inventory_.erase(i);
+                    return true;
+                }
+                if (dynamic_cast<backend::Armor*>(i->get())) {
+                    if (armor_ != nullptr) {
+                        inventory_.emplace_back(std::move(armor_));
+                    }
+                    armor_ = std::unique_ptr<backend::Armor>(static_cast<backend::Armor*>(i->release()));
+                    inventory_.erase(i);
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
     }
 
     void Player::AddItemToInventory(std::unique_ptr<backend::Item>&& item) {
         inventory_.emplace_back(std::move(item));
     }
 
-    backend::Weapon & Player::GetWeapon() const {
-        return *weapon_;
+    backend::Weapon * Player::GetWeapon() const {
+        return weapon_.get();
     }
 
     backend::Armor * Player::GetArmor() const {

@@ -20,9 +20,8 @@ public:
     std::unique_ptr<backend::Item> PopItemByName(const std::string &passedName);
     [[nodiscard]] backend::Item* GetItemByName(const std::string &passedName) const;
     int GetHitpoints() const;
-    void UseWeaponFromInventory(const std::string &weaponName);
-    void UseArmorFromInventory(const std::string &armorName);
-    [[nodiscard]] backend::Weapon& GetWeapon() const;
+    bool UseItemFromInventory(const std::string &weaponName);
+    [[nodiscard]] backend::Weapon* GetWeapon() const;
     [[nodiscard]] backend::Armor* GetArmor() const;
     [[nodiscard]] std::vector<backend::Item*> GetInventory();
     void AddItemToInventory(std::unique_ptr<backend::Item>&& item);

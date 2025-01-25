@@ -25,6 +25,7 @@
 #include "frontend/inputHandler/PlaceInputHandler.hpp"
 #include "frontend/inputHandler/QuitInputHandler.hpp"
 #include "frontend/inputHandler/TakeInputHandler.hpp"
+#include "frontend/inputHandler/WearInputHandler.hpp"
 
 #define MAX_INPUT_LENGTH 100
 
@@ -39,7 +40,7 @@ int main()
     auto file_reader = FileMapGenerator("kasteelruine.xml", "kerkersendraken.db");
     auto locations = file_reader.Generate();
 
-    auto player = std::make_unique<frontend::Player>(locations.at(0).get());
+    auto player = std::make_unique<frontend::Player>(locations.at(6).get());
 
     std::vector<frontend::BaseInputHandler*> inputHandlers = {
         new frontend::InvalidInputHandler(), //needs to be last because it always consumes the command.
@@ -48,6 +49,7 @@ int main()
         new frontend::MoveInputHandler("move", *player),
         new frontend::TakeInputHandler("take", *player),
         new frontend::PlaceInputHandler("place", *player),
+        new frontend::WearInputHandler("wear", *player),
         new frontend::QuitInputHandler("quit", playing)
     };
     frontend::BaseInputHandler* inputHandler = nullptr;

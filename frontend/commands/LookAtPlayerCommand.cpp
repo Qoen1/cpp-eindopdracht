@@ -12,10 +12,11 @@ namespace frontend {
 
     void LookAtPlayerCommand::Execute() {
         const backend::Armor* armor = player_.GetArmor();
+        const backend::Weapon* weapon = player_.GetWeapon();
 
         std::cout
         << "Je hebt " << player_.GetHitpoints() << " levenspunten" << std::endl
-        << "Je hebt het volgende wapen vast: " << (armor != nullptr ? player_.GetWeapon().GetName().cstring() : "Geen") << std::endl
+        << "Je hebt het volgende wapen vast: " << (weapon != nullptr ? weapon->GetName().cstring() : "Geen") << std::endl
         << "Je draagt de volgende bepansering: " << (armor != nullptr ? armor->GetName().cstring() : "Geen") << std::endl
         << "Je hebt " << player_.GetCoinCount() << " munten" << std::endl
         << "Je hebt de volgende items in je inventaris: ";
