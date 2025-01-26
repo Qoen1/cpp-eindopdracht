@@ -59,7 +59,6 @@ namespace frontend {
             auto minimum_value = sqlite3_column_int(statement, 3);
             auto maximum_value = sqlite3_column_int(statement, 4);
             auto protection = sqlite3_column_int(statement, 5);
-            //TODO: add randomness and move to random level creator
             items.push_back(backend::ItemTypeDTO{
                 name,
                 description,

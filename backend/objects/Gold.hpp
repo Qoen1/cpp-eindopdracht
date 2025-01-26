@@ -11,7 +11,7 @@ namespace backend {
 class Gold: public Item {
 public:
     Gold(const helpers::TypoTrap& name, const helpers::TypoTrap& description, int amount);
-
+    int GetValue() const;
     ~Gold() override = default;
 
 private:

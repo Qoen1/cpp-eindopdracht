@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 
 #include "RegularState.hpp"
+#include "../../backend/objects/Gold.hpp"
 
 namespace frontend {
     Player::Player(backend::Location* currentLocation) : currentLocation(currentLocation), inventory_(0), state_(std::make_unique<RegularState>(*this)) {
@@ -63,6 +64,10 @@ namespace frontend {
     }
 
     void Player::AddItemToInventory(std::unique_ptr<backend::Item>&& item) {
+        if (auto gold = dynamic_cast<backend::Gold*>(item.get())) {
+            coinCount_ += gold->GetValue();
+            return;
+        }
         inventory_.emplace_back(std::move(item));
     }
 

@@ -10,7 +10,7 @@
 
 namespace frontend {
     AttackInputHandler::AttackInputHandler(const std::string &inputCommand, Player &player,
-                                           std::shared_ptr<frontend::ICommand> move_enemies_command): BaseInputHandler(
+                                           ICommand &move_enemies_command): BaseInputHandler(
         inputCommand), player_(player), move_enemies_command(move_enemies_command) {
     }
 
@@ -32,7 +32,16 @@ namespace frontend {
             return;
         }
 
+        auto old_hp = enemy.GetHealth();
+
         AttackCommand(player_, enemy).Execute();
+
+        if (enemy.GetHealth() == old_hp) {
+            std::cout << "You missed!" << std::endl;
+        }
+        else {
+            std::cout << "You hit the enemy for " << old_hp - enemy.GetHealth() << " damage!" << std::endl;
+        }
 
         if (enemy.GetHealth() <= 0) {
             std::cout << "You have defeated the enemy!" << std::endl;
@@ -42,6 +51,6 @@ namespace frontend {
             }
         }
 
-        move_enemies_command->Execute();
+        move_enemies_command.Execute();
     }
 } // frontend

@@ -10,7 +10,6 @@ namespace frontend {
     AttackCommand::AttackCommand(Player &actor, backend::Enemy &victim): player_(actor), enemy_(victim) {}
 
     void AttackCommand::Execute() {
-        //TODO: add miss chance
         enemy_.TakeDamage(player_.Attack());
     }
 } // frontend

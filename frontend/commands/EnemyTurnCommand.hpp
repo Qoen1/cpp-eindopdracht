@@ -17,6 +17,10 @@ namespace frontend {
 public:
     explicit EnemyTurnCommand(backend::Game &game, Player& player);
 
+    ~EnemyTurnCommand() override {
+        auto i = 0;
+    };
+
     void Execute() override;
 private:
     backend::Game& game_;

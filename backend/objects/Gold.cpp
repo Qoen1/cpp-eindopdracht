@@ -8,4 +8,8 @@ namespace backend {
     Gold::Gold(const helpers::TypoTrap& name, const helpers::TypoTrap& description, int amount)
         : Item(name, description), amount_(amount) {
     }
+
+    int Gold::GetValue() const {
+        return amount_;
+    }
 } // backend

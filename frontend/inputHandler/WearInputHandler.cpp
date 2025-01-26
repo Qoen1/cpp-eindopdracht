@@ -10,7 +10,7 @@
 #include "../player/Player.hpp"
 
 namespace frontend {
-    WearInputHandler::WearInputHandler(const std::string &inputCommand, Player &player, std::shared_ptr<ICommand> move_enemies_command):
+    WearInputHandler::WearInputHandler(const std::string &inputCommand, Player &player, ICommand &move_enemies_command):
     BaseInputHandler(inputCommand), player_(player), move_enemies_command_(move_enemies_command) {}
 
     void WearInputHandler::Handle(const std::vector<std::string> &arguments) const {
@@ -33,7 +33,7 @@ namespace frontend {
         }
 
         if (succeeded && is_armor) {
-            move_enemies_command_->Execute();
+            move_enemies_command_.Execute();
         }
     }
 } // frontend

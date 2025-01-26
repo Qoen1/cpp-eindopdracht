@@ -6,6 +6,8 @@
 #include "../player/Player.hpp"
 #include <iostream>
 
+#include "../../backend/objects/Gold.hpp"
+
 namespace frontend {
     void TakeInputHandler::Handle(const std::vector<std::string> &arguments) const {
         if (arguments.size() == 0) {

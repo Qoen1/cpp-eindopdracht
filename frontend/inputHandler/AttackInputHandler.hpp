@@ -12,14 +12,14 @@ namespace frontend {
 
     class AttackInputHandler: public BaseInputHandler {
     public:
-        AttackInputHandler(const std::string &inputCommand, Player &player, std::shared_ptr<ICommand> move_enemies_command);
+        AttackInputHandler(const std::string &inputCommand, Player &player, ICommand &move_enemies_command);
 
     protected:
         void Handle(const std::vector<std::string> &arguments) const override;
 
     private:
     Player& player_;
-        std::shared_ptr<ICommand> move_enemies_command;
+    ICommand& move_enemies_command;
 };
 
 } // frontend

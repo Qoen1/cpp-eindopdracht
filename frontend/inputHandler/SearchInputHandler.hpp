@@ -12,12 +12,12 @@ namespace frontend {
 
     class SearchInputHandler : public BaseInputHandler {
 public:
-    SearchInputHandler(const std::string &inputCommand, Player& player, std::shared_ptr<ICommand> moveEnemiesCommand);
+    SearchInputHandler(const std::string &inputCommand, Player& player, ICommand &moveEnemiesCommand);
 protected:
     void Handle(const std::vector<std::string> &arguments) const override;
 private:
     Player& player_;
-    std::shared_ptr<ICommand> moveEnemiesCommand_;
+    ICommand& moveEnemiesCommand_;
 };
 
 } // frontend

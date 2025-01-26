@@ -26,6 +26,7 @@
 #include "frontend/database/Score.hpp"
 #include "frontend/inputHandler/AttackInputHandler.hpp"
 #include "frontend/inputHandler/ConsumeInputHandler.hpp"
+#include "frontend/inputHandler/GodmodeInputHandler.hpp"
 #include "frontend/inputHandler/HelpInputManager.hpp"
 #include "frontend/inputHandler/InvalidInputHandler.hpp"
 #include "frontend/inputHandler/PlaceInputHandler.hpp"
@@ -56,30 +57,31 @@ int main()
         auto game = std::make_unique<backend::Game>(std::move(locations));
 
 
-        auto player = std::make_unique<frontend::Player>(&game->locations.get(5));
+        auto player = std::make_unique<frontend::Player>(&game->locations.get(0));
         player->AddItemToInventory(std::make_unique<backend::Weapon>("wooden sword", "a wooden sword", 5));
 
-        std::shared_ptr<frontend::ICommand> move_enemies_command = std::make_shared<frontend::EnemyTurnCommand>(*game, *player);
+        std::unique_ptr<frontend::ICommand> move_enemies_command = std::make_unique<frontend::EnemyTurnCommand>(*game, *player);
         std::vector<frontend::BaseInputHandler*> inputHandlers = {
             new frontend::InvalidInputHandler(), //needs to be last because it always consumes the command.
             new frontend::LookInputHandler("look",*player),
-            new frontend::SearchInputHandler("search", *player, move_enemies_command),
-            new frontend::MoveInputHandler("move", *player, move_enemies_command),
+            new frontend::SearchInputHandler("search", *player, *move_enemies_command),
+            new frontend::MoveInputHandler("move", *player, *move_enemies_command),
             new frontend::TakeInputHandler("take", *player),
             new frontend::PlaceInputHandler("place", *player),
-            new frontend::WearInputHandler("wear", *player, move_enemies_command),
-            new frontend::AttackInputHandler("attack", *player, move_enemies_command),
-            new frontend::WaitInputHandler("wait", move_enemies_command),
+            new frontend::WearInputHandler("wear", *player, *move_enemies_command),
+            new frontend::AttackInputHandler("attack", *player, *move_enemies_command),
+            new frontend::WaitInputHandler("wait", *move_enemies_command),
             new frontend::ConsumeInputHandler("consume", *player),
+            new frontend::GodmodeInputHandler("godmode", *player),
             new frontend::HelpInputManager("help"),
             new frontend::QuitInputHandler("quit", playing)
         };
-        frontend::BaseInputHandler* inputHandler = nullptr;
+        std::unique_ptr<frontend::BaseInputHandler> inputHandler = nullptr;
         for(auto handler : inputHandlers) {
             if(inputHandler != nullptr) {
-                handler->SetNextHandler(*inputHandler);
+                handler->SetNextHandler(*inputHandler.release());
             }
-            inputHandler = handler;
+            inputHandler = std::unique_ptr<frontend::BaseInputHandler>(handler);
         }
 
 
@@ -106,10 +108,6 @@ int main()
                 playing = false;
             }
         }
-
-        //TODO: upload score to database
-
-
 
         std::cout << "The end. Your score was: " << player->GetCoinCount() << " ";
         char result[MAX_INPUT_LENGTH];
