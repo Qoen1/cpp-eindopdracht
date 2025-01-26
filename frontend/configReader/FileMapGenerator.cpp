@@ -14,7 +14,7 @@
 #include "../../external/pugixml.hpp"
 #include "../database/Database.hpp"
 
-FileMapGenerator::FileMapGenerator(const std::string& fileName, const std::string& db_fileName): fileName(fileName), database(db_fileName) {}
+FileMapGenerator::FileMapGenerator(const std::string& fileName, std::shared_ptr<frontend::Database> database): fileName(fileName), database(database) {}
 
 std::vector<std::unique_ptr<backend::Location>> FileMapGenerator::Generate() {
     struct LocationDTO {
@@ -59,13 +59,13 @@ std::vector<std::unique_ptr<backend::Location>> FileMapGenerator::Generate() {
         auto enemy_names = split(enemies_string, ';');
 
         for (const auto& hidden_object_name: hidden_object_names) {
-            dto.objects.emplace_back(database.GetItem(hidden_object_name), false);
+            dto.objects.emplace_back(database->GetItem(hidden_object_name), false);
         }
         for (const auto& visible_object_name: visible_object_names) {
-            dto.objects.emplace_back(database.GetItem(visible_object_name), false);
+            dto.objects.emplace_back(database->GetItem(visible_object_name), false);
         }
         for (const auto& enemy_name: enemy_names) {
-            dto.enemies.emplace_back(database.GetEnemy(enemy_name));
+            dto.enemies.emplace_back(database->GetEnemy(enemy_name));
         }
         location_dtos.push_back(dto);
     }
@@ -74,7 +74,7 @@ std::vector<std::unique_ptr<backend::Location>> FileMapGenerator::Generate() {
     backend::ItemFactory item_factory;
     backend::EnemyFactory enemy_factory;
 
-    auto possible_items_vector = database.GetItems();
+    auto possible_items_vector = database->GetItems();
     helpers::DynamicDoodad<backend::ItemTypeDTO> possible_items {};
     for (const auto& dto: possible_items_vector) {
         possible_items.push_back(dto);

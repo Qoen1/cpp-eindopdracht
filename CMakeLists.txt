@@ -107,6 +107,7 @@ add_executable(cpp_eindopdracht main.cpp
         backend/Game.hpp
         frontend/commands/EnemyTurnCommand.cpp
         frontend/commands/EnemyTurnCommand.hpp
+        frontend/database/Score.hpp
 )
 
 target_link_libraries(cpp_eindopdracht SQLite::SQLite3)

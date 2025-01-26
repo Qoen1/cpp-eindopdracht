@@ -23,6 +23,7 @@
 #include "frontend/commands/EnemyTurnCommand.hpp"
 #include "frontend/configReader/FileMapGenerator.hpp"
 #include "frontend/database/Database.hpp"
+#include "frontend/database/Score.hpp"
 #include "frontend/inputHandler/AttackInputHandler.hpp"
 #include "frontend/inputHandler/ConsumeInputHandler.hpp"
 #include "frontend/inputHandler/HelpInputManager.hpp"
@@ -41,8 +42,9 @@ int main()
 {
     bool retrying {true};
     while (retrying) {
+        std::shared_ptr<frontend::Database> database = std::make_shared<frontend::Database>("kerkersendraken.db");
 
-        auto file_reader = FileMapGenerator("kasteelruine.xml", "kerkersendraken.db");
+        auto file_reader = FileMapGenerator("kasteelruine.xml", database);
 
         auto locations = helpers::OwningDynamicDoodad<backend::Location>();
         {
@@ -107,10 +109,23 @@ int main()
 
         //TODO: upload score to database
 
-        std::cout << "The end. Your score was: " << player->GetCoinCount() << ". Retry? (y/n)" << std::endl;
+        char name_arr[MAX_INPUT_LENGTH];
+
+
+        std::cout << "The end. Your score was: " << player->GetCoinCount() << ". save this to the leaderboard? (y/n)" << std::endl;
         char result[MAX_INPUT_LENGTH];
         std::cin.getline(result, MAX_INPUT_LENGTH);
-        retrying = result[0] == 'y';
+        if (result[0] == 'y') {
+            std::cout << "please enter a name for the leaderboard: ";
+            std::cin.getline(name_arr, MAX_INPUT_LENGTH);
+            std::string name{name_arr};
+            database->AddScore(Score{name, player->GetCoinCount()});
+        }
+
+        std::cout << "retry? (y/n)" << std::endl;
+        char retry_result[MAX_INPUT_LENGTH];
+        std::cin.getline(retry_result, MAX_INPUT_LENGTH);
+        retrying = retry_result[0] == 'y';
         playing = true;
     }
 

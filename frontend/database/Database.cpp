@@ -1,11 +1,12 @@
 #include "Database.hpp"
 #include <iostream>
 
+#include "Score.hpp"
 #include "../../backend/objects/ItemFactory.hpp"
 
 namespace frontend {
     Database::Database(std::string path): path_(path), connection_(nullptr) {
-        if (sqlite3_open_v2("kerkersendraken.db", &connection_, SQLITE_OPEN_READONLY, nullptr) != SQLITE_OK) {
+        if (sqlite3_open_v2("kerkersendraken.db", &connection_, SQLITE_OPEN_READWRITE, nullptr) != SQLITE_OK) {
             sqlite3_close_v2(connection_);
             std::cerr << "error opening database file\n";
         }
@@ -149,5 +150,21 @@ namespace frontend {
         sqlite3_finalize(statement);
 
         return enemy;
+    }
+
+    void Database::AddScore(Score score) {
+        std::string query {"INSERT INTO Leaderboard (naam, goudstukken) VALUES ('"};
+        query += score.name + "', " + std::to_string(score.score) + ");";
+        sqlite3_stmt *statement {nullptr};
+        auto result = sqlite3_prepare_v2(connection_, query.c_str(), -1, &statement, nullptr);
+        if (result != SQLITE_OK) {
+            throw std::runtime_error("failed to prepare statement");
+        }
+
+        if ((result = sqlite3_step(statement)) != SQLITE_DONE) {
+            throw std::runtime_error(sqlite3_errmsg(connection_));
+        }
+
+        sqlite3_finalize(statement);
     }
 } // frontend

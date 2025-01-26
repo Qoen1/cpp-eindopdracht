@@ -8,6 +8,8 @@
 
 #include "../../backend/location/Location.hpp"
 
+struct Score;
+
 namespace frontend {
 
 class Database {
@@ -18,6 +20,7 @@ public:
     std::vector<backend::ItemTypeDTO> GetItems();
     backend::ItemTypeDTO GetItem(const std::string& name);
     backend::EnemyTypeDTO GetEnemy(const std::string& name);
+    void AddScore(Score score);
 
 private:
     std::string path_;
