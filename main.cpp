@@ -23,6 +23,7 @@
 #include "frontend/database/Database.hpp"
 #include "frontend/inputHandler/AttackInputHandler.hpp"
 #include "frontend/inputHandler/ConsumeInputHandler.hpp"
+#include "frontend/inputHandler/HelpInputManager.hpp"
 #include "frontend/inputHandler/InvalidInputHandler.hpp"
 #include "frontend/inputHandler/PlaceInputHandler.hpp"
 #include "frontend/inputHandler/QuitInputHandler.hpp"
@@ -57,6 +58,7 @@ int main()
         new frontend::AttackInputHandler("attack", *player),
         new frontend::WaitInputHandler("wait"),
         new frontend::ConsumeInputHandler("consume", *player),
+        new frontend::HelpInputManager("help"),
         new frontend::QuitInputHandler("quit", playing)
     };
     frontend::BaseInputHandler* inputHandler = nullptr;
