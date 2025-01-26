@@ -9,7 +9,9 @@
 #include "../commands/AttackCommand.hpp"
 
 namespace frontend {
-    AttackInputHandler::AttackInputHandler(const std::string &inputCommand, Player &player): BaseInputHandler(inputCommand), player_(player){
+    AttackInputHandler::AttackInputHandler(const std::string &inputCommand, Player &player,
+                                           std::shared_ptr<frontend::ICommand> move_enemies_command): BaseInputHandler(
+        inputCommand), player_(player), move_enemies_command(move_enemies_command) {
     }
 
     void AttackInputHandler::Handle(const std::vector<std::string> &arguments) const {
@@ -39,5 +41,7 @@ namespace frontend {
                 player_.currentLocation->AddVisibleItem(items.pop(i));
             }
         }
+
+        move_enemies_command->Execute();
     }
 } // frontend

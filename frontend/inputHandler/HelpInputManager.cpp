@@ -27,7 +27,7 @@ namespace frontend {
         << "consume <item>: consume a consumable item" << std::endl
         << "wear <item>: equip a weapon or piece of armor" << std::endl
         << "wait: skip a turn" << std::endl
-        << "godmode: enter god mode" << std::endl
+        << "godmode <on|off>: enter god mode" << std::endl
         << "quit: quit the game" << std::endl
         << "help: show this help message" << std::endl
         << "=====================================================================" << std::endl;

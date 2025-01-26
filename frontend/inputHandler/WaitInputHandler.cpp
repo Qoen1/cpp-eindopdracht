@@ -4,11 +4,15 @@
 
 #include "WaitInputHandler.hpp"
 
+#include "../commands/ICommand.hpp"
+
 namespace frontend {
-    WaitInputHandler::WaitInputHandler(const std::string &inputCommand): BaseInputHandler(inputCommand) {
+    WaitInputHandler::WaitInputHandler(const std::string &inputCommand,
+                                       std::shared_ptr<frontend::ICommand> move_enemies_command): BaseInputHandler(
+        inputCommand), move_enemies_command(move_enemies_command) {
     }
 
     void WaitInputHandler::Handle(const std::vector<std::string> &arguments) const {
-        //TODO: enemy turn
+        move_enemies_command->Execute();
     }
 } // frontend

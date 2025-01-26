@@ -7,11 +7,11 @@
 #include "../commands/SearchLocationCommand.hpp"
 
 namespace frontend {
-    SearchInputHandler::SearchInputHandler(const std::string& inputCommand, Player &player) : BaseInputHandler(inputCommand), player_(player) {
+    SearchInputHandler::SearchInputHandler(const std::string& inputCommand, Player &player, std::shared_ptr<ICommand> command) : BaseInputHandler(inputCommand), player_(player), moveEnemiesCommand_(command) {
     }
 
     void SearchInputHandler::Handle(const std::vector<std::string> &arguments) const {
         SearchLocationCommand(*player_.currentLocation).Execute();
-        //TODO: after searching the enemies take a turn.
+        moveEnemiesCommand_->Execute();
     }
 } // frontend

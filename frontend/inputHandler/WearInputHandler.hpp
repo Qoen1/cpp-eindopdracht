@@ -7,17 +7,19 @@
 #include "BaseInputHandler.hpp"
 
 namespace frontend {
+    class ICommand;
     class Player;
 
     class WearInputHandler: public BaseInputHandler{
 public:
-    explicit WearInputHandler(const std::string &inputCommand, Player& player);
+    explicit WearInputHandler(const std::string &inputCommand, Player& player, std::shared_ptr<ICommand> move_enemies_command);
 
 protected:
     void Handle(const std::vector<std::string> &arguments) const override;
 
 private:
     Player& player_;
+    std::shared_ptr<ICommand> move_enemies_command_;
 };
 
 } // frontend

@@ -11,9 +11,12 @@ namespace backend {
 
 class Armor : public Item {
 public:
-    Armor(const helpers::TypoTrap &name, const helpers::TypoTrap &description);
+    Armor(const helpers::TypoTrap &name, const helpers::TypoTrap &description, int defense);
+    int GetDefense() const;
 
     ~Armor() override = default;
+private:
+    int defense_;
 };
 
 } // backend

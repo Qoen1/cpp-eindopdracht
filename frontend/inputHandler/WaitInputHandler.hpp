@@ -7,13 +7,17 @@
 #include "BaseInputHandler.hpp"
 
 namespace frontend {
+    class ICommand;
 
-class WaitInputHandler: public BaseInputHandler {
+    class WaitInputHandler: public BaseInputHandler {
 public:
-    WaitInputHandler(const std::string &inputCommand);
+    WaitInputHandler(const std::string &inputCommand, std::shared_ptr<frontend::ICommand> move_enemies_command);
 
 protected:
     void Handle(const std::vector<std::string> &arguments) const override;
+
+private:
+    std::shared_ptr<frontend::ICommand> move_enemies_command;
 };
 
 } // frontend

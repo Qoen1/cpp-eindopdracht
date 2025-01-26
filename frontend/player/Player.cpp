@@ -5,9 +5,12 @@
 #include "Player.hpp"
 #include <memory>
 #include <vector>
+#include <sys/stat.h>
+
+#include "RegularState.hpp"
 
 namespace frontend {
-    Player::Player(backend::Location* currentLocation) : currentLocation(currentLocation), inventory_(0){
+    Player::Player(backend::Location* currentLocation) : currentLocation(currentLocation), inventory_(0), state_(std::make_unique<RegularState>(*this)) {
         hitpoints_ = 10;
         coinCount_ = 0;
     }
@@ -83,8 +86,11 @@ namespace frontend {
         return coinCount_;
     }
 
-    int Player::GetAttack() {
-        //TODO implement attack chance
+    int Player::Attack() {
+        return state_->Attack();
+    }
+
+    int Player::GetAttackDamage() {
         if(weapon_ == nullptr) {
             return 0;
         }
@@ -106,10 +112,21 @@ namespace frontend {
     }
 
     void Player::TakeDamage(int by) {
-        hitpoints_ -= by;
-        if (hitpoints_ < 0) {
-            hitpoints_ = 0;
+        state_->TakeDamage(by);
+    }
+
+    void Player::SetHitpoints(int hitpoints) {
+        if (hitpoints > 100 || hitpoints < 0) {
+            throw std::invalid_argument("Hitpoints must be between 0 and 100");
         }
-        //TODO death behaviour?
+        hitpoints_ = hitpoints;
+    }
+
+    int Player::GetAttackChance() const {
+        return attack_chance_;
+    }
+
+    void Player::SetState(std::unique_ptr<IPlayerState> state) {
+        state_ = std::move(state);
     }
 } // frontend

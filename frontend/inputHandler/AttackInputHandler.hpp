@@ -7,17 +7,19 @@
 #include "BaseInputHandler.hpp"
 
 namespace frontend {
+    class ICommand;
     class Player;
 
     class AttackInputHandler: public BaseInputHandler {
     public:
-        AttackInputHandler(const std::string &inputCommand, Player &player);
+        AttackInputHandler(const std::string &inputCommand, Player &player, std::shared_ptr<ICommand> move_enemies_command);
 
     protected:
         void Handle(const std::vector<std::string> &arguments) const override;
 
     private:
     Player& player_;
+        std::shared_ptr<ICommand> move_enemies_command;
 };
 
 } // frontend

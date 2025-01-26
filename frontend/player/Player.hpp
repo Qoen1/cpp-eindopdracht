@@ -6,6 +6,7 @@
 #define SPELER_HPP
 #include <memory>
 
+#include "IPlayerState.hpp"
 #include "../../backend/location/Location.hpp"
 #include "../../backend/objects/Armor.hpp"
 #include "../../backend/objects/Weapon.hpp"
@@ -26,10 +27,14 @@ public:
     [[nodiscard]] std::vector<backend::Item*> GetInventory();
     void AddItemToInventory(std::unique_ptr<backend::Item>&& item);
     int GetCoinCount();
-    int GetAttack();
+    int Attack();
+    int GetAttackDamage();
     void UpdateAttackProbability(int by);
     void Heal(int by);
     void TakeDamage(int by);
+    void SetHitpoints(int hitpoints);
+    void SetState(std::unique_ptr<IPlayerState> state);
+    int GetAttackChance() const;
 
 private:
     int hitpoints_;
@@ -38,8 +43,8 @@ private:
     std::unique_ptr<backend::Armor> armor_;
     int coinCount_;
     int attack_chance_;
+    std::unique_ptr<IPlayerState> state_;
 };
-
 } // frontend
 
 #endif //SPELER_HPP

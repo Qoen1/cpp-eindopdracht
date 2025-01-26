@@ -32,15 +32,17 @@ private:
     helpers::TypoTrap description;
     int health;
     int damage;
+    int attack_chance;
 public:
     Enemy();
-    Enemy(const helpers::TypoTrap& name, const helpers::TypoTrap& description, int health, int damage);
+    Enemy(const helpers::TypoTrap& name, const helpers::TypoTrap& description, int health, int damage, int attack_chance);
     void AddItem(helpers::BigBrainPointer<Item>&& item);
     helpers::OwningDynamicDoodad<Item> TransferItems();
     int GetHealth() const;
     const helpers::TypoTrap &GetName() const;
     const helpers::TypoTrap &GetDescription() const;
     void TakeDamage(int amount);
+    int Attack();
 };
 
 } // backend

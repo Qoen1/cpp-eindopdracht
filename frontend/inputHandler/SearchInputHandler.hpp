@@ -8,14 +8,16 @@
 #include "../player/Player.hpp"
 
 namespace frontend {
+    class ICommand;
 
-class SearchInputHandler : public BaseInputHandler {
+    class SearchInputHandler : public BaseInputHandler {
 public:
-    SearchInputHandler(const std::string &inputCommand, Player& player);
+    SearchInputHandler(const std::string &inputCommand, Player& player, std::shared_ptr<ICommand> moveEnemiesCommand);
 protected:
     void Handle(const std::vector<std::string> &arguments) const override;
 private:
     Player& player_;
+    std::shared_ptr<ICommand> moveEnemiesCommand_;
 };
 
 } // frontend

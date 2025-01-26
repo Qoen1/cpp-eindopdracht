@@ -49,6 +49,15 @@ namespace backend {
         return list;
     }
 
+    helpers::BigBrainPointer<Enemy> Location::PopEnemyByName(const helpers::TypoTrap &passedName) {
+        for (int i = 0; i < enemies_.size(); ++i) {
+            if(enemies_.get(i).GetName() == passedName) {
+                return enemies_.pop(i);
+            }
+        }
+        return nullptr;
+    }
+
     helpers::BigBrainPointer<Item> Location::PopItemByName(const helpers::TypoTrap &passedName) {
         for (int i = 0; i < visibleItems_.size(); ++i) {
             if(visibleItems_.get(i).GetName() == passedName) {

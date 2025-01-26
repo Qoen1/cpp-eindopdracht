@@ -11,6 +11,6 @@ namespace frontend {
 
     void AttackCommand::Execute() {
         //TODO: add miss chance
-        enemy_.TakeDamage(player_.GetAttack());
+        enemy_.TakeDamage(player_.Attack());
     }
 } // frontend

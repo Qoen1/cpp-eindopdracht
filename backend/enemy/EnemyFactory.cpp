@@ -12,9 +12,9 @@ namespace backend {
 
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution damage_distribution(dto.min_damage, dto.max_damage);
-        std::uniform_int_distribution object_distribution(dto.min_objects, dto.max_objects);
-        std::uniform_int_distribution random_item_distribution(0, static_cast<int>(possible_items.size()) - 1);
+        std::uniform_int_distribution<> damage_distribution(dto.min_damage, dto.max_damage);
+        std::uniform_int_distribution<> object_distribution(dto.min_objects, dto.max_objects);
+        std::uniform_int_distribution<> random_item_distribution(0, static_cast<int>(possible_items.size()) - 1);
 
         auto amount_of_items = object_distribution(gen);
         auto damage = damage_distribution(gen);
@@ -22,7 +22,8 @@ namespace backend {
         auto enemy = helpers::BigBrainPointer(new Enemy(helpers::TypoTrap{dto.name.c_str()},
                                                                helpers::TypoTrap{dto.description.c_str()},
                                                                dto.health,
-                                                               damage));
+                                                               damage,
+                                                               dto.attack_chance));
         for (auto i = 0; i < amount_of_items; ++i) {
             enemy->AddItem(item_factory.Create(possible_items.get(random_item_distribution(gen))));
         }

@@ -18,13 +18,13 @@ namespace frontend {
         auto enemies = location.GetEnemies();
         auto directions = location.GetDirections();
 
-        cout << "Je staat bij de locatie " << location.getName().cstring() << std::endl << location.getDescription().cstring() << std::endl;
+        cout << "Je staat bij de locatie " << location.getName() << std::endl << location.getDescription() << std::endl;
 
         cout << "zichtbare objecten: ";
         if (items.size() == 0) cout << "Geen";
         else {
             for (int i = 0; i < items.size(); i++) {
-                cout << items.get(i)->GetName().cstring();
+                cout << items.get(i)->GetName();
                 if (i != items.size() - 1) cout << ", ";
             }
         }

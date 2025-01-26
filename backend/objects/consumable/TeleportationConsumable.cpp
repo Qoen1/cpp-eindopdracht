@@ -25,7 +25,7 @@ namespace backend {
                 break;
             }
 
-            std::uniform_int_distribution dis(0, static_cast<int>(possible_directions.size()) - 1);
+            std::uniform_int_distribution<> dis(0, static_cast<int>(possible_directions.size()) - 1);
             auto chosen_direction = possible_directions.get(dis(gen));
 
             location = location->GetNeighbor(chosen_direction);

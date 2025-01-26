@@ -4,11 +4,23 @@
 
 #ifndef REGULARSTATE_HPP
 #define REGULARSTATE_HPP
+#include "IPlayerState.hpp"
 
 
+namespace frontend {
+    class Player;
+}
 
-class RegularState {
+class RegularState: public IPlayerState {
+public:
+    explicit RegularState(frontend::Player &player);
 
+    void TakeDamage(int damage) override;
+
+    int Attack() override;
+
+private:
+    frontend::Player& player_;
 };
 
 

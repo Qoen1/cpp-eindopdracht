@@ -17,8 +17,10 @@
 #include <vector>
 #include <sqlite3.h>
 
+#include "backend/Game.hpp"
 #include "backend/objects/consumable/Consumable.hpp"
 #include "backend/objects/Gold.hpp"
+#include "frontend/commands/EnemyTurnCommand.hpp"
 #include "frontend/configReader/FileMapGenerator.hpp"
 #include "frontend/database/Database.hpp"
 #include "frontend/inputHandler/AttackInputHandler.hpp"
@@ -42,21 +44,31 @@ int main()
 
 
     auto file_reader = FileMapGenerator("kasteelruine.xml", "kerkersendraken.db");
-    auto locations = file_reader.Generate();
 
-    auto player = std::make_unique<frontend::Player>(locations.at(5).get());
+    auto locations = helpers::OwningDynamicDoodad<backend::Location>();
+    {
+        auto locations_vector = file_reader.Generate();
+        for (auto i = 0; i < locations_vector.size(); ++i) {
+            locations.push_back(std::move(locations_vector.at(i)).release());
+        }
+    }
+    auto game = std::make_unique<backend::Game>(std::move(locations));
+
+
+    auto player = std::make_unique<frontend::Player>(&game->locations.get(5));
     player->AddItemToInventory(std::make_unique<backend::Weapon>("wooden sword", "a wooden sword", 5));
 
+    std::shared_ptr<frontend::ICommand> move_enemies_command = std::make_shared<frontend::EnemyTurnCommand>(*game, *player);
     std::vector<frontend::BaseInputHandler*> inputHandlers = {
         new frontend::InvalidInputHandler(), //needs to be last because it always consumes the command.
         new frontend::LookInputHandler("look",*player),
-        new frontend::SearchInputHandler("search", *player),
-        new frontend::MoveInputHandler("move", *player),
+        new frontend::SearchInputHandler("search", *player, move_enemies_command),
+        new frontend::MoveInputHandler("move", *player, move_enemies_command),
         new frontend::TakeInputHandler("take", *player),
         new frontend::PlaceInputHandler("place", *player),
-        new frontend::WearInputHandler("wear", *player),
-        new frontend::AttackInputHandler("attack", *player),
-        new frontend::WaitInputHandler("wait"),
+        new frontend::WearInputHandler("wear", *player, move_enemies_command),
+        new frontend::AttackInputHandler("attack", *player, move_enemies_command),
+        new frontend::WaitInputHandler("wait", move_enemies_command),
         new frontend::ConsumeInputHandler("consume", *player),
         new frontend::HelpInputManager("help"),
         new frontend::QuitInputHandler("quit", playing)
@@ -91,9 +103,9 @@ int main()
         auto command = parts[0];
         parts.erase(parts.begin());
         inputHandler->Handle(command, parts);
-    }
-    for (auto i = 0; i < locations.size(); ++i) {
-        locations[i] = nullptr;
+        if (player->GetHitpoints() <= 0) {
+            //TODO game over.
+        }
     }
 
     delete inputHandler;

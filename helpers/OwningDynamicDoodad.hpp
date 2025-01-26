@@ -1,6 +1,8 @@
 #ifndef OWNINGDYNAMICDOODAD_HPP
 #define OWNINGDYNAMICDOODAD_HPP
 #include "BigBrainPointer.hpp"
+#include <cstddef>
+#include <stdexcept>
 
 namespace helpers {
     template <typename T>
@@ -107,13 +109,12 @@ private:
             _array = new BigBrainPointer<T>[other._capacity];
             _used = other._used;
             _capacity = other._capacity;
-            std::memcpy(_array, other._array, other._capacity);
+            memcpy(_array, other._array, other._capacity);
         }
 
         OwningDynamicDoodad(OwningDynamicDoodad &&other) noexcept {
-            for(size_t i = 0; i < other._used; i++) {
-                push_back(other.pop(i));
-            }
+            _array = other._array;
+            other._array = nullptr;
             _capacity = other._capacity;
             _used =other._used;
         }

@@ -101,6 +101,12 @@ add_executable(cpp_eindopdracht main.cpp
         frontend/inputHandler/ConsumeInputHandler.hpp
         frontend/inputHandler/HelpInputManager.cpp
         frontend/inputHandler/HelpInputManager.hpp
+        frontend/inputHandler/GodmodeInputHandler.cpp
+        frontend/inputHandler/GodmodeInputHandler.hpp
+        backend/Game.cpp
+        backend/Game.hpp
+        frontend/commands/EnemyTurnCommand.cpp
+        frontend/commands/EnemyTurnCommand.hpp
 )
 
 target_link_libraries(cpp_eindopdracht SQLite::SQLite3)

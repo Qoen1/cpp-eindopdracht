@@ -9,7 +9,9 @@
 
 class IPlayerState {
 public:
-    virtual void SwitchState();
+    virtual ~IPlayerState() = default;
+    virtual void TakeDamage(int damage) = 0;
+    virtual int Attack() = 0;
 };
 
 

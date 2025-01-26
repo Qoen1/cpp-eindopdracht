@@ -31,6 +31,7 @@ public:
     helpers::DynamicDoodad<Item*> GetVisibleItems();
     void AddEnemy(helpers::BigBrainPointer<Enemy>&& passedEnemy);
     helpers::DynamicDoodad<Enemy*> GetEnemies();
+    helpers::BigBrainPointer<Enemy> PopEnemyByName(const helpers::TypoTrap &passedName);
 
     helpers::BigBrainPointer<Item> PopItemByName(const helpers::TypoTrap &passedName);
     const Item* GetItemByName(const helpers::TypoTrap &passedName) const;

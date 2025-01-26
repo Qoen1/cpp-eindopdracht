@@ -7,12 +7,15 @@
 #include "../commands/MoveCommand.hpp"
 
 namespace frontend {
-    MoveInputHandler::MoveInputHandler(const std::string& command, Player &player) : player_(player), BaseInputHandler(command) {
+    MoveInputHandler::MoveInputHandler(const std::string &command, Player &player,
+                                       std::shared_ptr<frontend::ICommand> move_enemies_command) : player_(player),
+        BaseInputHandler(command), move_enemies_command_(move_enemies_command) {
     }
 
     void MoveInputHandler::Handle(const std::vector<std::string> &arguments) const {
         try {
             MoveCommand(GetDirectionFromString(arguments[0]), player_).Execute();
+            move_enemies_command_->Execute();
         }catch (std::invalid_argument& e) { /*swallow*/ }
     }
 } // frontend
