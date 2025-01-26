@@ -109,22 +109,34 @@ int main()
 
         //TODO: upload score to database
 
-        char name_arr[MAX_INPUT_LENGTH];
 
 
-        std::cout << "The end. Your score was: " << player->GetCoinCount() << ". save this to the leaderboard? (y/n)" << std::endl;
+        std::cout << "The end. Your score was: " << player->GetCoinCount() << " ";
         char result[MAX_INPUT_LENGTH];
-        std::cin.getline(result, MAX_INPUT_LENGTH);
-        if (result[0] == 'y') {
-            std::cout << "please enter a name for the leaderboard: ";
-            std::cin.getline(name_arr, MAX_INPUT_LENGTH);
-            std::string name{name_arr};
-            database->AddScore(Score{name, player->GetCoinCount()});
+        result[0] = '\0';
+
+        while (strlen(result) == 0 || (result[0] != 'y' && result[0] != 'n')) {
+            std::cout << "save this to the leaderboard? (y/n)" << std::endl;
+            std::cin.getline(result, MAX_INPUT_LENGTH);
+            if (result[0] == 'y') {
+                char name_arr[MAX_INPUT_LENGTH];
+                name_arr[0] = '\0';
+                while (strlen(name_arr) == 0) {
+                    std::cout << "please enter a name for the leaderboard: ";
+                    std::cin.getline(name_arr, MAX_INPUT_LENGTH);
+                }
+
+                std::string name{name_arr};
+                database->AddScore(Score{name, player->GetCoinCount()});
+            }
         }
 
-        std::cout << "retry? (y/n)" << std::endl;
         char retry_result[MAX_INPUT_LENGTH];
-        std::cin.getline(retry_result, MAX_INPUT_LENGTH);
+        retry_result[0] = '\0';
+        while (strlen(retry_result) == 0 || (retry_result[0] != 'y' && retry_result[0] != 'n')) {
+            std::cout << "retry? (y/n)" << std::endl;
+            std::cin.getline(retry_result, MAX_INPUT_LENGTH);
+        }
         retrying = retry_result[0] == 'y';
         playing = true;
     }
