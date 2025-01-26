@@ -4,7 +4,11 @@
 
 #ifndef CONSUMABLE_HPP
 #define CONSUMABLE_HPP
-#include "Item.hpp"
+#include "../Item.hpp"
+
+namespace frontend {
+    class Player;
+}
 
 namespace backend {
 
@@ -13,6 +17,8 @@ public:
     Consumable(const helpers::TypoTrap& name, const helpers::TypoTrap& description)
         : Item(name, description) {
     }
+
+    virtual void Consume(frontend::Player& player) = 0;
 
     ~Consumable() override = default;
 };

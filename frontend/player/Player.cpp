@@ -8,7 +8,7 @@
 
 namespace frontend {
     Player::Player(backend::Location* currentLocation) : currentLocation(currentLocation), inventory_(0){
-        hitpoints_ = 100;
+        hitpoints_ = 10;
         coinCount_ = 0;
     }
 
@@ -84,9 +84,32 @@ namespace frontend {
     }
 
     int Player::GetAttack() {
+        //TODO implement attack chance
         if(weapon_ == nullptr) {
             return 0;
         }
         return weapon_->GetAttackDamage();
+    }
+
+    void Player::UpdateAttackProbability(int by) {
+        attack_chance_ += by;
+        if (attack_chance_ > 90) {
+            attack_chance_ = 90;
+        }
+    }
+
+    void Player::Heal(int by) {
+        hitpoints_ += by;
+        if (hitpoints_ > 100) {
+            hitpoints_ = 100;
+        }
+    }
+
+    void Player::TakeDamage(int by) {
+        hitpoints_ -= by;
+        if (hitpoints_ < 0) {
+            hitpoints_ = 0;
+        }
+        //TODO death behaviour?
     }
 } // frontend

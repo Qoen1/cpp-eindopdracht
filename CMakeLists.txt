@@ -14,8 +14,6 @@ add_executable(cpp_eindopdracht main.cpp
         helpers/BigBrainPointer.hpp
         backend/objects/Gold.cpp
         backend/objects/Gold.hpp
-        backend/objects/Consumable.cpp
-        backend/objects/Consumable.hpp
         backend/objects/Armor.cpp
         backend/objects/Armor.hpp
         backend/objects/Weapon.cpp
@@ -87,6 +85,20 @@ add_executable(cpp_eindopdracht main.cpp
         frontend/commands/AttackCommand.hpp
         frontend/inputHandler/AttackInputHandler.cpp
         frontend/inputHandler/AttackInputHandler.hpp
+        frontend/inputHandler/WaitInputHandler.cpp
+        frontend/inputHandler/WaitInputHandler.hpp
+        backend/objects/consumable/Consumable.cpp
+        backend/objects/consumable/Consumable.hpp
+        backend/objects/consumable/ExperienceBoostConsumable.cpp
+        backend/objects/consumable/ExperienceBoostConsumable.hpp
+        backend/objects/consumable/HealthBoostConsumable.cpp
+        backend/objects/consumable/HealthBoostConsumable.hpp
+        backend/objects/consumable/TeleportationConsumable.cpp
+        backend/objects/consumable/TeleportationConsumable.hpp
+        frontend/commands/ConsumeItemCommand.cpp
+        frontend/commands/ConsumeItemCommand.hpp
+        frontend/inputHandler/ConsumeInputHandler.cpp
+        frontend/inputHandler/ConsumeInputHandler.hpp
 )
 
 target_link_libraries(cpp_eindopdracht SQLite::SQLite3)

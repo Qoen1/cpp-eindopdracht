@@ -26,8 +26,10 @@ public:
     [[nodiscard]] std::vector<backend::Item*> GetInventory();
     void AddItemToInventory(std::unique_ptr<backend::Item>&& item);
     int GetCoinCount();
-
     int GetAttack();
+    void UpdateAttackProbability(int by);
+    void Heal(int by);
+    void TakeDamage(int by);
 
 private:
     int hitpoints_;
@@ -35,6 +37,7 @@ private:
     std::unique_ptr<backend::Weapon> weapon_;
     std::unique_ptr<backend::Armor> armor_;
     int coinCount_;
+    int attack_chance_;
 };
 
 } // frontend
