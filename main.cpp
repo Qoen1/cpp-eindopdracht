@@ -57,7 +57,7 @@ int main()
         auto game = std::make_unique<backend::Game>(std::move(locations));
 
 
-        auto player = std::make_unique<frontend::Player>(game->GetLocation(7));
+        auto player = std::make_unique<frontend::Player>(game->GetLocation(0));
         player->AddItemToInventory(std::make_unique<backend::Weapon>("wooden sword", "a wooden sword", 25));
         player->UseItemFromInventory("wooden sword");
 

@@ -7,6 +7,16 @@
 #include "../objects/ItemFactory.hpp"
 
 namespace backend {
+    helpers::BigBrainPointer<Enemy> EnemyFactory::Create(const helpers::TypoTrap &name,
+        const helpers::TypoTrap &description, int health, int damage, int attack_chance,
+        helpers::OwningDynamicDoodad<Item> items) {
+        auto enemy = helpers::BigBrainPointer(new Enemy(name, description, health, damage, attack_chance));
+        for (auto i = 0; i < items.size(); ++i) {
+            enemy->AddItem(items.pop(i));
+        }
+        return enemy;
+    }
+
     helpers::BigBrainPointer<Enemy> EnemyFactory::Create(const EnemyTypeDTO& dto, const helpers::DynamicDoodad<ItemTypeDTO>& possible_items) {
         ItemFactory item_factory;
 

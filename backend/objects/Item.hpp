@@ -8,7 +8,6 @@
 
 namespace backend {
 struct ItemTypeDTO {
-    ~ItemTypeDTO() = default;
     std::string name;
     std::string description;
     std::string type;
