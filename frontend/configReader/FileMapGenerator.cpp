@@ -59,13 +59,13 @@ std::vector<std::unique_ptr<backend::Location>> FileMapGenerator::Generate() {
         auto enemy_names = split(enemies_string, ';');
 
         for (const auto& hidden_object_name: hidden_object_names) {
-            dto.objects.emplace_back(database->GetItem(hidden_object_name), false);
+            dto.objects.push_back({database->GetItem(hidden_object_name), false});
         }
         for (const auto& visible_object_name: visible_object_names) {
-            dto.objects.emplace_back(database->GetItem(visible_object_name), false);
+            dto.objects.push_back({database->GetItem(visible_object_name), false});
         }
         for (const auto& enemy_name: enemy_names) {
-            dto.enemies.emplace_back(database->GetEnemy(enemy_name));
+            dto.enemies.push_back(database->GetEnemy(enemy_name));
         }
         location_dtos.push_back(dto);
     }

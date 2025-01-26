@@ -3,6 +3,7 @@
 #include "BigBrainPointer.hpp"
 #include <cstddef>
 #include <stdexcept>
+#include <iostream>
 
 namespace helpers {
     template <typename T>
@@ -102,15 +103,11 @@ private:
 
         //rule of 5
         ~OwningDynamicDoodad() {
+            std::cout << "deleting OwningDynamicDoodad" << std::endl;
             delete[] _array;
         }
 
-        OwningDynamicDoodad(const OwningDynamicDoodad &other) {
-            _array = new BigBrainPointer<T>[other._capacity];
-            _used = other._used;
-            _capacity = other._capacity;
-            memcpy(_array, other._array, other._capacity);
-        }
+        OwningDynamicDoodad(const OwningDynamicDoodad &other) = delete;
 
         OwningDynamicDoodad(OwningDynamicDoodad &&other) noexcept {
             _array = other._array;
@@ -119,19 +116,7 @@ private:
             _used =other._used;
         }
 
-        // DynamicDoodad& operator=(const DynamicDoodad& other) {
-        //     if(this == &other) {
-        //         return *this;
-        //     }
-        //     delete[] _array;
-        //     _capacity = other._capacity;
-        //     _used = other._used;
-        //     _array = new T[_capacity];
-        //     for(size_t i = 0; i < _used; i++) {
-        //         _array[i] = other._array[i];
-        //     }
-        //     return *this;
-        // }
+        OwningDynamicDoodad& operator=(const OwningDynamicDoodad& other) = delete;
 
         OwningDynamicDoodad & operator=(OwningDynamicDoodad &&other) noexcept {
             if(this != &other) {
@@ -139,8 +124,6 @@ private:
                     push_back(other.pop(i));
                 }
             }
-            _capacity = other._capacity;
-            _used =other._used;
             return *this;
         }
     };

@@ -14,6 +14,7 @@ namespace frontend {
     Player::Player(backend::Location* currentLocation) : currentLocation(currentLocation), inventory_(0), state_(std::make_unique<RegularState>(*this)) {
         hitpoints_ = 10;
         coinCount_ = 0;
+        attack_chance_ = 50;
     }
 
     backend::Item * Player::GetItemByName(const std::string &passedName) const {
@@ -42,18 +43,23 @@ namespace frontend {
         for (auto i = inventory_.begin(); i != inventory_.end(); ++i) {
             if ((*i)->GetName().cstring() == weaponName) {
                 if (dynamic_cast<backend::Weapon*>(i->get())) {
+                    std::unique_ptr<backend::Weapon> wpn = nullptr;
                     if (weapon_ != nullptr) {
-                        inventory_.emplace_back(std::move(weapon_));
+                        // inventory_.push_back(std::move(weapon_));
+                        wpn = std::move(weapon_);
                     }
-                    weapon_ = std::unique_ptr<backend::Weapon>(static_cast<backend::Weapon*>(i->release()));
+                    weapon_ = std::unique_ptr<backend::Weapon>(dynamic_cast<backend::Weapon*>(i->release()));
                     inventory_.erase(i);
+                    if (wpn) {
+                        inventory_.push_back(std::move(wpn));
+                    }
                     return true;
                 }
                 if (dynamic_cast<backend::Armor*>(i->get())) {
                     if (armor_ != nullptr) {
-                        inventory_.emplace_back(std::move(armor_));
+                        inventory_.push_back(std::move(armor_));
                     }
-                    armor_ = std::unique_ptr<backend::Armor>(static_cast<backend::Armor*>(i->release()));
+                    armor_ = std::unique_ptr<backend::Armor>(dynamic_cast<backend::Armor*>(i->release()));
                     inventory_.erase(i);
                     return true;
                 }
@@ -68,7 +74,7 @@ namespace frontend {
             coinCount_ += gold->GetValue();
             return;
         }
-        inventory_.emplace_back(std::move(item));
+        inventory_.push_back(std::move(item));
     }
 
     backend::Weapon * Player::GetWeapon() const {

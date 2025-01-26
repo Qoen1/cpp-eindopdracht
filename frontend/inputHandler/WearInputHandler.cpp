@@ -22,7 +22,7 @@ namespace frontend {
             }
         }
 
-        bool is_armor {dynamic_cast<backend::Armor*>(player_.GetItemByName(item_name)) == nullptr};
+        bool is_armor {dynamic_cast<backend::Armor*>(player_.GetItemByName(item_name)) != nullptr};
 
 
         auto succeeded = player_.UseItemFromInventory(item_name);

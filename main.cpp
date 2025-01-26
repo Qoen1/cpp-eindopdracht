@@ -57,8 +57,9 @@ int main()
         auto game = std::make_unique<backend::Game>(std::move(locations));
 
 
-        auto player = std::make_unique<frontend::Player>(&game->locations.get(0));
-        player->AddItemToInventory(std::make_unique<backend::Weapon>("wooden sword", "a wooden sword", 5));
+        auto player = std::make_unique<frontend::Player>(game->GetLocation(7));
+        player->AddItemToInventory(std::make_unique<backend::Weapon>("wooden sword", "a wooden sword", 25));
+        player->UseItemFromInventory("wooden sword");
 
         std::unique_ptr<frontend::ICommand> move_enemies_command = std::make_unique<frontend::EnemyTurnCommand>(*game, *player);
         std::vector<frontend::BaseInputHandler*> inputHandlers = {
@@ -138,6 +139,7 @@ int main()
         retrying = retry_result[0] == 'y';
         playing = true;
     }
+
 
     return 0;
 }

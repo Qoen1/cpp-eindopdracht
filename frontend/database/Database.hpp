@@ -20,6 +20,7 @@ public:
     std::vector<backend::ItemTypeDTO> GetItems();
     backend::ItemTypeDTO GetItem(const std::string& name);
     backend::EnemyTypeDTO GetEnemy(const std::string& name);
+    // std::vector<backend::EnemyTypeDTO> GetEnemies();
     void AddScore(Score score);
 
 private:

@@ -17,7 +17,13 @@ namespace frontend {
     void EnemyTurnCommand::Execute() {
         auto current_room = player_.currentLocation;
         auto enemies = current_room->GetEnemies();
-        if (enemies.size() > 0) {
+        auto amt_of_alive_enemies = 0;
+        for (auto i = 0; i < enemies.size(); ++i) {
+            if (enemies.get(i)->GetHealth() > 0) {
+                amt_of_alive_enemies++;
+            }
+        }
+        if (amt_of_alive_enemies > 0) {
             for (auto i = 0; i < enemies.size(); ++i) {
                 auto enemy = enemies.get(i);
                 auto damage = enemy->Attack();

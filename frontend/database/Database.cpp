@@ -31,7 +31,7 @@ namespace frontend {
             auto name = helpers::TypoTrap(reinterpret_cast<const char*>(sqlite3_column_text(statement, 0)));
             auto i = sqlite3_errmsg(connection_);
             auto description = helpers::TypoTrap(reinterpret_cast<const char*>(sqlite3_column_text(statement, 1)));
-            locations.emplace_back(std::make_unique<backend::Location>(name, description));
+            locations.push_back(std::make_unique<backend::Location>(name, description));
         }
         if (result != SQLITE_DONE) {
             throw std::runtime_error("failed to prepare statement");

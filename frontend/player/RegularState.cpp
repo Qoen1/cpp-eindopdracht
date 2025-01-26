@@ -14,10 +14,8 @@ void RegularState::TakeDamage(int damage) {
     auto* armor = player_.GetArmor();
     if (armor) damage -= armor->GetDefense();
     if (damage < 0) damage = 0;
-    player_.SetHitpoints(player_.GetHitpoints() - damage);
-    if (player_.GetHitpoints() <= 0) {
-        player_.SetHitpoints(0);
-    }
+    auto new_hitpoints = player_.GetHitpoints() - damage;
+    player_.SetHitpoints(new_hitpoints < 0 ? 0 : new_hitpoints);
 }
 
 int RegularState::Attack() {

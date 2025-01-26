@@ -95,7 +95,6 @@ namespace helpers {
 
         //rule of 5
         ~DynamicDoodad() {
-            //TODO: implement?
             delete[] _array;
         }
 

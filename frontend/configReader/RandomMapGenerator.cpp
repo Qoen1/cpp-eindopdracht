@@ -13,6 +13,9 @@ RandomMapGenerator::RandomMapGenerator(): database_("kerkersendraken.db") {
 
 std::vector<std::unique_ptr<backend::Location>> RandomMapGenerator::Generate() {
     auto locations = database_.GetLocations();
+    auto item_options = database_.GetItems();
+    // auto enemy_options = database_.GetEnemies();
+
 
     GenerateConnections(locations);
     GenerateItems(locations);

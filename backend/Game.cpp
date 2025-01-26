@@ -9,6 +9,10 @@ namespace backend {
     Game::Game(helpers::OwningDynamicDoodad<Location> &&locations): locations(static_cast<helpers::OwningDynamicDoodad<Location>&&>(locations)) {
     }
 
+    Location * Game::GetLocation(size_t index) {
+        return &locations.get(index);
+    }
+
     void Game::MoveEnemies() {
         struct EnemyByLocation {
             Enemy* enemy;
@@ -24,7 +28,7 @@ namespace backend {
                 std::mt19937 gen(rd());
                 std::uniform_int_distribution<> dis(0, 100);
                 int result = dis(gen);
-                if (result > 50) {
+                if (result > 50 && enemies.get(j)->GetHealth() > 0) {
                     moving_enemies_by_location.push_back({enemies.get(j), &locations.get(i)});
                 }
             }

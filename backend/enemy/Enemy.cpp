@@ -6,8 +6,8 @@
 #include <random>
 
 namespace backend {
-    Enemy::Enemy(): health(0), damage(0), name(helpers::TypoTrap()), description(helpers::TypoTrap()), items(helpers::OwningDynamicDoodad<Item>()), attack_chance(0) {
-    }
+    Enemy::Enemy() = default;//: health(0), damage(0), name(helpers::TypoTrap()), description(helpers::TypoTrap()), items(helpers::OwningDynamicDoodad<Item>()), attack_chance(0) {
+    //}
 
     Enemy::Enemy(const helpers::TypoTrap& name, const helpers::TypoTrap& description, int health, int damage, int attack_chance) : items(helpers::OwningDynamicDoodad<Item>()), name(name),
                                                                                                                 description(description), health(health), damage(damage), attack_chance(attack_chance) {
