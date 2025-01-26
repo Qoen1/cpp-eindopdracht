@@ -39,92 +39,80 @@ bool playing {true};
 
 int main()
 {
-    // auto generator = RandomMapGenerator();
-    // auto locations = std::vector(generator.Generate());
+    bool retrying {true};
+    while (retrying) {
 
+        auto file_reader = FileMapGenerator("kasteelruine.xml", "kerkersendraken.db");
 
-    auto file_reader = FileMapGenerator("kasteelruine.xml", "kerkersendraken.db");
-
-    auto locations = helpers::OwningDynamicDoodad<backend::Location>();
-    {
-        auto locations_vector = file_reader.Generate();
-        for (auto i = 0; i < locations_vector.size(); ++i) {
-            locations.push_back(std::move(locations_vector.at(i)).release());
+        auto locations = helpers::OwningDynamicDoodad<backend::Location>();
+        {
+            auto locations_vector = file_reader.Generate();
+            for (auto i = 0; i < locations_vector.size(); ++i) {
+                locations.push_back(std::move(locations_vector.at(i)).release());
+            }
         }
-    }
-    auto game = std::make_unique<backend::Game>(std::move(locations));
+        auto game = std::make_unique<backend::Game>(std::move(locations));
 
 
-    auto player = std::make_unique<frontend::Player>(&game->locations.get(5));
-    player->AddItemToInventory(std::make_unique<backend::Weapon>("wooden sword", "a wooden sword", 5));
+        auto player = std::make_unique<frontend::Player>(&game->locations.get(5));
+        player->AddItemToInventory(std::make_unique<backend::Weapon>("wooden sword", "a wooden sword", 5));
 
-    std::shared_ptr<frontend::ICommand> move_enemies_command = std::make_shared<frontend::EnemyTurnCommand>(*game, *player);
-    std::vector<frontend::BaseInputHandler*> inputHandlers = {
-        new frontend::InvalidInputHandler(), //needs to be last because it always consumes the command.
-        new frontend::LookInputHandler("look",*player),
-        new frontend::SearchInputHandler("search", *player, move_enemies_command),
-        new frontend::MoveInputHandler("move", *player, move_enemies_command),
-        new frontend::TakeInputHandler("take", *player),
-        new frontend::PlaceInputHandler("place", *player),
-        new frontend::WearInputHandler("wear", *player, move_enemies_command),
-        new frontend::AttackInputHandler("attack", *player, move_enemies_command),
-        new frontend::WaitInputHandler("wait", move_enemies_command),
-        new frontend::ConsumeInputHandler("consume", *player),
-        new frontend::HelpInputManager("help"),
-        new frontend::QuitInputHandler("quit", playing)
-    };
-    frontend::BaseInputHandler* inputHandler = nullptr;
-    for(auto handler : inputHandlers) {
-        if(inputHandler != nullptr) {
-            handler->SetNextHandler(*inputHandler);
+        std::shared_ptr<frontend::ICommand> move_enemies_command = std::make_shared<frontend::EnemyTurnCommand>(*game, *player);
+        std::vector<frontend::BaseInputHandler*> inputHandlers = {
+            new frontend::InvalidInputHandler(), //needs to be last because it always consumes the command.
+            new frontend::LookInputHandler("look",*player),
+            new frontend::SearchInputHandler("search", *player, move_enemies_command),
+            new frontend::MoveInputHandler("move", *player, move_enemies_command),
+            new frontend::TakeInputHandler("take", *player),
+            new frontend::PlaceInputHandler("place", *player),
+            new frontend::WearInputHandler("wear", *player, move_enemies_command),
+            new frontend::AttackInputHandler("attack", *player, move_enemies_command),
+            new frontend::WaitInputHandler("wait", move_enemies_command),
+            new frontend::ConsumeInputHandler("consume", *player),
+            new frontend::HelpInputManager("help"),
+            new frontend::QuitInputHandler("quit", playing)
+        };
+        frontend::BaseInputHandler* inputHandler = nullptr;
+        for(auto handler : inputHandlers) {
+            if(inputHandler != nullptr) {
+                handler->SetNextHandler(*inputHandler);
+            }
+            inputHandler = handler;
         }
-        inputHandler = handler;
-    }
 
 
-    frontend::LookInRoomCommand(*player->currentLocation).Execute();
+        frontend::LookInRoomCommand(*player->currentLocation).Execute();
 
-    // ReSharper disable once CppDFALoopConditionNotUpdated
-    while (playing) {
+        while (playing) {
+            char result[MAX_INPUT_LENGTH];
+            std::cin.getline(result, MAX_INPUT_LENGTH);
+            std::string line{result};
+            std::vector<std::string> parts;
+
+            auto space = line.find(' ');
+            bool go_on{true};
+            while (go_on) {
+                parts.push_back(line.substr(0, space));
+                line = line.substr(space + 1);
+                go_on = space != std::string::npos;
+                space = line.find(' ');
+            }
+            auto command = parts[0];
+            parts.erase(parts.begin());
+            inputHandler->Handle(command, parts);
+            if (player->GetHitpoints() <= 0) {
+                playing = false;
+            }
+        }
+
+        //TODO: upload score to database
+
+        std::cout << "The end. Your score was: " << player->GetCoinCount() << ". Retry? (y/n)" << std::endl;
         char result[MAX_INPUT_LENGTH];
         std::cin.getline(result, MAX_INPUT_LENGTH);
-        std::string line {result};
-        std::vector<std::string> parts;
-
-        auto space = line.find(' ');
-        bool go_on {true};
-        while (go_on) {
-            parts.push_back(line.substr(0, space));
-            line = line.substr(space + 1);
-            go_on = space != std::string::npos;
-            space = line.find(' ');
-
-        }
-        auto command = parts[0];
-        parts.erase(parts.begin());
-        inputHandler->Handle(command, parts);
-        if (player->GetHitpoints() <= 0) {
-            //TODO game over.
-        }
+        retrying = result[0] == 'y';
+        playing = true;
     }
 
-    delete inputHandler;
     return 0;
-
-
-
-
-
-    // auto item_types = helpers::DynamicDoodad<backend::ItemTypeDTO>();
-    // item_types.push_back({"name1", "description1", "type1", 1, 2, 3});
-    //
-    // auto items = helpers::DynamicDoodad<backend::Item>();
-    // items.push_back(backend::Item(helpers::TypoTrap("name1"), helpers::TypoTrap("description1")));
-    //
-    // auto weapon = std::make_unique<backend::Weapon>("zwaard", "heel groot zwaard");
-    // {
-    //     auto weapons = helpers::DynamicDoodad<backend::Weapon*>();
-    //     weapons.push_back(weapon.get());
-    // }
-    // std::cout << weapon->GetName() << std::endl;
 }
