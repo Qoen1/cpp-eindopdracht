@@ -12,6 +12,8 @@
 
 class IMapGenerator {
 public:
+    virtual ~IMapGenerator() = default;
+
     virtual std::vector<std::unique_ptr<backend::Location>> Generate() = 0;
 };
 
