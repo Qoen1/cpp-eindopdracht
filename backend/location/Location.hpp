@@ -26,8 +26,6 @@ private:
     helpers::TypoTrap description_;
     helpers::OwningDynamicDoodad<Door> neighbors_;
 public:
-    ~Location(){std::cout << "Location destructor. name: " << name_ << std::endl;};
-
     Location(const helpers::TypoTrap& passedName, const helpers::TypoTrap& passedDescription);
     void AddHiddenItem(helpers::BigBrainPointer<Item>&& passedItem);
     helpers::DynamicDoodad<Item*> GetHiddenItems();

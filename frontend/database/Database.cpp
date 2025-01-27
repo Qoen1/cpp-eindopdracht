@@ -112,6 +112,45 @@ namespace frontend {
         return item;
     }
 
+    std::vector<backend::EnemyTypeDTO> Database::GetEnemies() {
+        std::string query {"SELECT naam, omschrijving, minimumobjecten, maximumobjecten, levenspunten, aanvalskans, minimumschade, maximumschade from Vijanden"};
+        sqlite3_stmt *statement {nullptr};
+        auto result = sqlite3_prepare_v2(connection_, query.c_str(), -1, &statement, nullptr);
+        if (result != SQLITE_OK) {
+            throw std::runtime_error("failed to prepare statement");
+        }
+
+        backend::ItemFactory factory;
+        std::vector<backend::EnemyTypeDTO> enemies;
+        while ((result = sqlite3_step(statement)) == SQLITE_ROW) {
+            auto name = std::string(reinterpret_cast<const char*>(sqlite3_column_text(statement, 0)));
+            auto description = std::string(reinterpret_cast<const char*>(sqlite3_column_text(statement, 1)));
+            auto minimum_items = sqlite3_column_int(statement, 2);
+            auto maximum_items = sqlite3_column_int(statement, 3);
+            auto hitpoints = sqlite3_column_int(statement, 4);
+            auto atk_chance = sqlite3_column_int(statement, 5);
+            auto minimum_damage = sqlite3_column_int(statement, 6);
+            auto maximum_damage = sqlite3_column_int(statement, 7);
+            enemies.push_back(backend::EnemyTypeDTO{
+                name,
+                description,
+                minimum_items,
+                maximum_items,
+                hitpoints,
+                atk_chance,
+                minimum_damage,
+                maximum_damage
+            });
+        }
+        if (result != SQLITE_DONE) {
+            throw std::runtime_error("failed to prepare statement");
+        }
+
+        sqlite3_finalize(statement);
+
+        return enemies;
+    }
+
     backend::EnemyTypeDTO Database::GetEnemy(const std::string &name) {
         std::string query {"SELECT naam, omschrijving, minimumobjecten, maximumobjecten, levenspunten, aanvalskans, minimumschade, maximumschade from Vijanden WHERE naam = "};
         query += "'" + name + "'";

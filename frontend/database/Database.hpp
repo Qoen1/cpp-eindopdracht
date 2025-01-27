@@ -19,8 +19,8 @@ public:
     std::vector<std::unique_ptr<backend::Location>> GetLocations();
     std::vector<backend::ItemTypeDTO> GetItems();
     backend::ItemTypeDTO GetItem(const std::string& name);
+    std::vector<backend::EnemyTypeDTO> GetEnemies();
     backend::EnemyTypeDTO GetEnemy(const std::string& name);
-    // std::vector<backend::EnemyTypeDTO> GetEnemies();
     void AddScore(Score score);
 
 private:

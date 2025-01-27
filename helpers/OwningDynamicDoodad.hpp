@@ -103,7 +103,6 @@ private:
 
         //rule of 5
         ~OwningDynamicDoodad() {
-            std::cout << "deleting OwningDynamicDoodad" << std::endl;
             delete[] _array;
         }
 

@@ -46,10 +46,11 @@ int main()
         std::shared_ptr<frontend::Database> database = std::make_shared<frontend::Database>("kerkersendraken.db");
 
         auto file_reader = FileMapGenerator("kasteelruine.xml", database);
+        auto random_reader = RandomMapGenerator(database);
 
         auto locations = helpers::OwningDynamicDoodad<backend::Location>();
         {
-            auto locations_vector = file_reader.Generate();
+            auto locations_vector = random_reader.Generate();
             for (auto i = 0; i < locations_vector.size(); ++i) {
                 locations.push_back(std::move(locations_vector.at(i)).release());
             }

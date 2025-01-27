@@ -12,7 +12,7 @@
 
 namespace frontend {
     Player::Player(backend::Location* currentLocation) : currentLocation(currentLocation), inventory_(0), state_(std::make_unique<RegularState>(*this)) {
-        hitpoints_ = 10;
+        hitpoints_ = 100;
         coinCount_ = 0;
         attack_chance_ = 50;
     }
@@ -45,7 +45,6 @@ namespace frontend {
                 if (dynamic_cast<backend::Weapon*>(i->get())) {
                     std::unique_ptr<backend::Weapon> wpn = nullptr;
                     if (weapon_ != nullptr) {
-                        // inventory_.push_back(std::move(weapon_));
                         wpn = std::move(weapon_);
                     }
                     weapon_ = std::unique_ptr<backend::Weapon>(dynamic_cast<backend::Weapon*>(i->release()));
@@ -56,11 +55,15 @@ namespace frontend {
                     return true;
                 }
                 if (dynamic_cast<backend::Armor*>(i->get())) {
+                    std::unique_ptr<backend::Armor> armor = nullptr;
                     if (armor_ != nullptr) {
-                        inventory_.push_back(std::move(armor_));
+                        armor = std::move(armor_);
                     }
                     armor_ = std::unique_ptr<backend::Armor>(dynamic_cast<backend::Armor*>(i->release()));
                     inventory_.erase(i);
+                    if (armor) {
+                        inventory_.push_back(std::move(armor));
+                    }
                     return true;
                 }
                 return false;
