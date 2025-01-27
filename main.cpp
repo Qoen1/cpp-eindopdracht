@@ -115,9 +115,15 @@ int main()
             }
         }
 
-        logger << "The end. Your score was: " << player->GetCoinCount() << " ";
+        logger << "The end. Your score was: " << player->GetCoinCount() << std::endl;
         char result[MAX_INPUT_LENGTH];
         result[0] = '\0';
+
+        logger << "leaderboard:" << std::endl;
+        auto scores = database->GetScores();
+        std::for_each(scores.begin(), scores.end(), [&logger](Score score) {
+            logger << score.name << "  |  " << score.score << std::endl;
+        });
 
         while (strlen(result) == 0 || (result[0] != 'y' && result[0] != 'n')) {
             logger << "save this to the leaderboard? (y/n)" << std::endl;

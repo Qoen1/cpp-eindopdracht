@@ -22,6 +22,7 @@ public:
     std::vector<backend::EnemyTypeDTO> GetEnemies();
     backend::EnemyTypeDTO GetEnemy(const std::string& name);
     void AddScore(Score score);
+    std::vector<Score> GetScores();
 
 private:
     std::string path_;

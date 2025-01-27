@@ -205,4 +205,27 @@ namespace frontend {
 
         sqlite3_finalize(statement);
     }
+
+    std::vector<Score> Database::GetScores() {
+        std::string query {"SELECT naam, goudstukken from Leaderboard ORDER BY goudstukken DESC"};
+        sqlite3_stmt *statement {nullptr};
+        auto result = sqlite3_prepare_v2(connection_, query.c_str(), -1, &statement, nullptr);
+        if (result != SQLITE_OK) {
+            throw std::runtime_error("failed to prepare statement");
+        }
+
+        std::vector<Score> scores;
+        while ((result = sqlite3_step(statement)) == SQLITE_ROW) {
+            auto name = std::string(reinterpret_cast<const char*>(sqlite3_column_text(statement, 0)));
+            auto score = sqlite3_column_int(statement, 1);
+            scores.push_back(Score{name, score});
+        }
+        if (result != SQLITE_DONE) {
+            throw std::runtime_error("failed to prepare statement");
+        }
+
+        sqlite3_finalize(statement);
+
+        return scores;
+    }
 } // frontend
