@@ -48,13 +48,25 @@ int main()
     bool retrying {true};
     while (retrying) {
         std::shared_ptr<frontend::Database> database = std::make_shared<frontend::Database>("kerkersendraken.db");
+        std::unique_ptr<IMapGenerator> reader = nullptr;
 
-        auto file_reader = FileMapGenerator("kasteelruine.xml", database);
-        auto random_reader = RandomMapGenerator(database);
+        char file_load_result[MAX_INPUT_LENGTH];
+        file_load_result[0] = '\0';
+        while (strlen(file_load_result) == 0 || (file_load_result[0] != 'f' && file_load_result[0] != 'r')) {
+            logger << "load from file or random? (f/r)" << std::endl;
+            std::cin.getline(file_load_result, MAX_INPUT_LENGTH);
+        }
+        if (file_load_result[0] == 'f') {
+            logger << "loading from file" << std::endl;
+            reader = std::make_unique<FileMapGenerator>("kasteelruine.xml", database);
+        } else {
+            logger << "loading random" << std::endl;
+            reader = std::make_unique<RandomMapGenerator>(database);
+        }
 
         auto locations = helpers::OwningDynamicDoodad<backend::Location>();
         {
-            auto locations_vector = random_reader.Generate();
+            auto locations_vector = reader->Generate();
             for (auto i = 0; i < locations_vector.size(); ++i) {
                 locations.push_back(std::move(locations_vector.at(i)).release());
             }

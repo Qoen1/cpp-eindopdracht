@@ -10,7 +10,7 @@
 #include "../database/Database.hpp"
 
 
-class RandomMapGenerator : IMapGenerator{
+class RandomMapGenerator : public IMapGenerator{
 public:
     RandomMapGenerator(std::shared_ptr<frontend::Database> database);
     std::vector<std::unique_ptr<backend::Location>> Generate() override;

@@ -10,7 +10,7 @@
 #include "../database/Database.hpp"
 
 
-class FileMapGenerator : IMapGenerator {
+class FileMapGenerator : public IMapGenerator {
 public:
     FileMapGenerator(const std::string& fileName, std::shared_ptr<frontend::Database> database);
     std::vector<std::unique_ptr<backend::Location>> Generate() override;
