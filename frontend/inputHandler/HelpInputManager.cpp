@@ -7,12 +7,11 @@
 #include <iostream>
 
 namespace frontend {
-    HelpInputManager::HelpInputManager(const std::string &inputCommand)
-        : BaseInputHandler(inputCommand) {
-    }
+    HelpInputManager::HelpInputManager(const std::string &inputCommand, std::ostream& output)
+        : BaseInputHandler(inputCommand), output_(output) {}
 
-    void HelpInputManager::Handle(const std::vector<std::string> &arguments) const {
-        std::cout
+    void frontend::HelpInputManager::Handle(const std::vector<std::string> &arguments) const {
+        output_
         << "=====================================================================" << std::endl
         << "AVAILABLE ACTIONS:" << std::endl
         << "---------------------------------------------------------------------" << std::endl

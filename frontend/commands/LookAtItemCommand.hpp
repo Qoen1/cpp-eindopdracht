@@ -11,10 +11,11 @@ namespace frontend {
 
 class LookAtItemCommand : public ICommand {
 public:
-    LookAtItemCommand(const backend::Item& item);
+    LookAtItemCommand(const backend::Item& item, std::ostream& output);
     void Execute() override;
 private:
     const backend::Item& item_;
+    std::ostream& output_;
 };
 
 } // frontend

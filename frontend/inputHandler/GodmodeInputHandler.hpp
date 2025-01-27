@@ -11,13 +11,14 @@ namespace frontend {
 
     class GodmodeInputHandler: public BaseInputHandler {
     public:
-        GodmodeInputHandler(const std::string &inputCommand, Player &player);
+        GodmodeInputHandler(const std::string &inputCommand, Player &player, std::ostream &output);
 
     protected:
         void Handle(const std::vector<std::string> &arguments) const override;
 
     private:
     Player& player_;
+    std::ostream &output;
 };
 
 } // frontend

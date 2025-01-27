@@ -13,12 +13,13 @@ namespace frontend {
 
     class ConsumeItemCommand: ICommand {
 public:
-        ConsumeItemCommand(Player &player, const std::string &item_name);
+        ConsumeItemCommand(Player &player, const std::string &item_name, std::ostream& output);
 
         void Execute() override;
 private:
     Player& player_;
     std::string item_name_;
+    std::ostream& output_;
 };
 
 } // frontend

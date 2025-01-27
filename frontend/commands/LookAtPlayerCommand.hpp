@@ -11,10 +11,11 @@ namespace frontend {
 
 class LookAtPlayerCommand : public ICommand {
 public:
-    LookAtPlayerCommand(Player &player);
+    LookAtPlayerCommand(Player &player, std::ostream& output);
     void Execute() override;
 private:
     Player &player_;
+    std::ostream& output_;
 };
 
 } // frontend

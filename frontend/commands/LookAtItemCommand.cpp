@@ -7,10 +7,10 @@
 #include <iostream>
 
 namespace frontend {
-    LookAtItemCommand::LookAtItemCommand(const backend::Item &item) : item_{item} {
+    LookAtItemCommand::LookAtItemCommand(const backend::Item &item, std::ostream& output) : item_{item}, output_(output) {
     }
 
     void LookAtItemCommand::Execute() {
-        std::cout << item_.GetDescription().cstring() << std::endl;
+        output_ << item_.GetDescription().cstring() << std::endl;
     }
 } // frontend

@@ -11,8 +11,8 @@ namespace frontend {
 
     class TakeInputHandler: public BaseInputHandler {
 public:
-    explicit TakeInputHandler(const std::string &inputCommand, Player &player)
-        : BaseInputHandler(inputCommand), player_(player) {
+    explicit TakeInputHandler(const std::string &inputCommand, Player &player, std::ostream &output)
+        : BaseInputHandler(inputCommand), player_(player), output_(output) {
     }
 
 protected:
@@ -20,6 +20,7 @@ protected:
 
 private:
     Player &player_;
+    std::ostream& output_;
 };
 
 } // frontend

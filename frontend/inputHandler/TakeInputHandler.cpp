@@ -11,7 +11,7 @@
 namespace frontend {
     void TakeInputHandler::Handle(const std::vector<std::string> &arguments) const {
         if (arguments.size() == 0) {
-            std::cout << "You need to specify what you want to take." << std::endl;
+            output_ << "You need to specify what you want to take." << std::endl;
             return;
         }
         std::string item_name;
@@ -25,10 +25,10 @@ namespace frontend {
         helpers::TypoTrap item = {item_name.c_str()};
         std::unique_ptr<backend::Item> itemPtr {player_.currentLocation->PopItemByName(item).pop()};
         if (itemPtr == nullptr) {
-            std::cout << "There is no " << item << " here." << std::endl;
+            output_ << "There is no " << item << " here." << std::endl;
             return;
         }
         player_.AddItemToInventory(std::move(itemPtr));
-        std::cout << "You took the " << item << "." << std::endl;
+        output_ << "You took the " << item << "." << std::endl;
     }
 } // frontend

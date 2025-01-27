@@ -48,8 +48,6 @@ add_executable(cpp_eindopdracht main.cpp
         frontend/inputHandler/BaseInputHandler.hpp
         frontend/inputHandler/LookInputHandler.cpp
         frontend/inputHandler/LookInputHandler.hpp
-        frontend/inputHandler/BaseInputHandlerBuilder.cpp
-        frontend/inputHandler/BaseInputHandlerBuilder.hpp
         frontend/commands/LookAtPlayerCommand.cpp
         frontend/commands/LookAtPlayerCommand.hpp
         frontend/commands/LookAtItemCommand.cpp
@@ -108,6 +106,7 @@ add_executable(cpp_eindopdracht main.cpp
         frontend/commands/EnemyTurnCommand.cpp
         frontend/commands/EnemyTurnCommand.hpp
         frontend/database/Score.hpp
+        helpers/Logger.hpp
 )
 
 target_link_libraries(cpp_eindopdracht SQLite::SQLite3)

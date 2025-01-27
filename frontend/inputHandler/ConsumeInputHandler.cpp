@@ -9,14 +9,14 @@
 #include "../commands/ConsumeItemCommand.hpp"
 
 namespace frontend {
-    ConsumeInputHandler::ConsumeInputHandler(const std::string &inputCommand, Player &player)
+    ConsumeInputHandler::ConsumeInputHandler(const std::string &inputCommand, Player &player, std::ostream &output)
             : BaseInputHandler(inputCommand),
-              player_(player) {
+              player_(player), output_(output) {
     }
 
     void ConsumeInputHandler::Handle(const std::vector<std::string> &arguments) const {
         if (arguments.size() < 1) {
-            std::cout << "Invalid number of arguments" << std::endl;
+            output_ << "Invalid number of arguments" << std::endl;
             return;
         }
 
@@ -28,6 +28,6 @@ namespace frontend {
             }
         }
 
-        ConsumeItemCommand(player_, item_name).Execute();
+        ConsumeItemCommand(player_, item_name, output_).Execute();
     }
 } // frontend

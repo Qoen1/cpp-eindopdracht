@@ -12,11 +12,12 @@ namespace frontend {
 
 class LookAtEnemyCommand : public ICommand {
 public:
-    LookAtEnemyCommand(backend::Enemy& enemy, Player& player);
+    LookAtEnemyCommand(backend::Enemy& enemy, Player& player, std::ostream& output);
     void Execute() override;
 private:
     backend::Enemy& enemy_;
     Player& player_;
+    std::ostream& output_;
 };
 
 } // frontend

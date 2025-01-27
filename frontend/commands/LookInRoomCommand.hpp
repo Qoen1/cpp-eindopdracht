@@ -12,8 +12,9 @@ namespace frontend {
 class LookInRoomCommand : ICommand {
 private:
     backend::Location& location;
+    std::ostream& output_;
 public:
-    LookInRoomCommand(backend::Location& passedLocation);
+    LookInRoomCommand(backend::Location& passedLocation, std::ostream& output);
     void Execute() override;
 };
 

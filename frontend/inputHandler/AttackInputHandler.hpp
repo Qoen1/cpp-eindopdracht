@@ -12,7 +12,7 @@ namespace frontend {
 
     class AttackInputHandler: public BaseInputHandler {
     public:
-        AttackInputHandler(const std::string &inputCommand, Player &player, ICommand &move_enemies_command);
+        AttackInputHandler(const std::string &inputCommand, Player &player, ICommand &move_enemies_command, std::ostream &output);
 
     protected:
         void Handle(const std::vector<std::string> &arguments) const override;
@@ -20,6 +20,7 @@ namespace frontend {
     private:
     Player& player_;
     ICommand& move_enemies_command;
+    std::ostream &output;
 };
 
 } // frontend

@@ -8,12 +8,12 @@
 
 namespace frontend {
     SearchInputHandler::SearchInputHandler(const std::string &inputCommand, Player &player,
-                                           ICommand &command) : BaseInputHandler(inputCommand),
-        player_(player), moveEnemiesCommand_(command) {
+                                           ICommand &command, std::ostream& output) : BaseInputHandler(inputCommand),
+        player_(player), moveEnemiesCommand_(command), output_(output) {
     }
 
     void SearchInputHandler::Handle(const std::vector<std::string> &arguments) const {
-        SearchLocationCommand(*player_.currentLocation).Execute();
+        SearchLocationCommand(*player_.currentLocation, output_).Execute();
         moveEnemiesCommand_.Execute();
     }
 } // frontend

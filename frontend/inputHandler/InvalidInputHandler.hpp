@@ -8,12 +8,14 @@ namespace frontend {
 
 class InvalidInputHandler: public BaseInputHandler {
 public:
-    InvalidInputHandler();
+    InvalidInputHandler(std::ostream& output);
 
     void Handle(const std::string& inputCommand, const std::vector<std::string>& arguments) const override;
 
 protected:
     void Handle(const std::vector<std::string>& arguments) const override;
+private:
+    std::ostream& output_;
 };
 
 } // frontend

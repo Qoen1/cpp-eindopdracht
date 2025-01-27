@@ -12,7 +12,7 @@ namespace frontend {
 
     class WearInputHandler: public BaseInputHandler{
 public:
-    explicit WearInputHandler(const std::string &inputCommand, Player& player, ICommand &move_enemies_command);
+    explicit WearInputHandler(const std::string &inputCommand, Player& player, ICommand &move_enemies_command, std::ostream& output);
 
 protected:
     void Handle(const std::vector<std::string> &arguments) const override;
@@ -20,6 +20,7 @@ protected:
 private:
     Player& player_;
     ICommand& move_enemies_command_;
+    std::ostream& output_;
 };
 
 } // frontend

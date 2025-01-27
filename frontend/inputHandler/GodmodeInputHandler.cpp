@@ -10,25 +10,25 @@
 #include "../player/RegularState.hpp"
 
 namespace frontend {
-    GodmodeInputHandler::GodmodeInputHandler(const std::string &inputCommand, Player &player)
+    GodmodeInputHandler::GodmodeInputHandler(const std::string &inputCommand, Player &player, std::ostream &output)
             : BaseInputHandler(inputCommand),
-              player_(player) {
+              player_(player), output(output) {
     }
 
     void GodmodeInputHandler::Handle(const std::vector<std::string> &arguments) const {
         if (arguments.size() < 1) {
-            std::cout << "Invalid number of arguments" << std::endl;
+            output << "Invalid number of arguments" << std::endl;
             return;
         }
 
         if (arguments[0] == "on") {
             player_.SetState(std::make_unique<GodState>(player_));
-            std::cout << "Godmode enabled" << std::endl;
+            output << "Godmode enabled" << std::endl;
         } else if (arguments[0] == "off") {
             player_.SetState(std::make_unique<RegularState>(player_));
-            std::cout << "Godmode disabled" << std::endl;
+            output << "Godmode disabled" << std::endl;
         } else {
-            std::cout << "Invalid argument" << std::endl;
+            output << "Invalid argument" << std::endl;
         }
     }
 } // frontend

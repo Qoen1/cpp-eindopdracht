@@ -10,8 +10,8 @@
 #include "../player/Player.hpp"
 
 namespace frontend {
-    EnemyTurnCommand::EnemyTurnCommand(backend::Game &game, Player& player)
-        : game_(game), player_(player) {
+    EnemyTurnCommand::EnemyTurnCommand(backend::Game &game, Player& player, std::ostream& output)
+        : game_(game), player_(player), output_(output) {
     }
 
     void EnemyTurnCommand::Execute() {
@@ -27,7 +27,7 @@ namespace frontend {
             for (auto i = 0; i < enemies.size(); ++i) {
                 auto enemy = enemies.get(i);
                 auto damage = enemy->Attack();
-                if (damage > 0) std::cout << "The " << enemy->GetName() << " attacks you for " << damage << " damage" << std::endl;
+                if (damage > 0) output_ << "The " << enemy->GetName() << " attacks you for " << damage << " damage" << std::endl;
                 player_.TakeDamage(damage);
             }
         }else {

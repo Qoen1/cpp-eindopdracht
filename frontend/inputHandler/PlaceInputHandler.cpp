@@ -9,7 +9,7 @@
 namespace frontend {
     void PlaceInputHandler::Handle(const std::vector<std::string> &arguments) const {
         if (arguments.size() < 1) {
-            std::cout << "please provide the name of the item to place" << std::endl;
+            output_ << "please provide the name of the item to place" << std::endl;
             return;
         }
 
@@ -23,12 +23,12 @@ namespace frontend {
         auto item = player_.PopItemByName(item_name);
 
         if (item == nullptr) {
-            std::cout << "You do not have an item with the name " << item_name << std::endl;
+            output_ << "You do not have an item with the name " << item_name << std::endl;
             return;
         }
 
         player_.currentLocation->AddVisibleItem({item.release()});
 
-        std::cout << "You placed the item " << item_name << std::endl;
+        output_ << "You placed the item " << item_name << std::endl;
     }
 } // frontend

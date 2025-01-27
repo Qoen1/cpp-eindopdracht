@@ -10,13 +10,14 @@ namespace frontend {
 
 class QuitInputHandler: public BaseInputHandler {
 public:
-    explicit QuitInputHandler(const std::string& inputCommand, bool& playing);
+    explicit QuitInputHandler(const std::string& inputCommand, bool& playing, std::ostream& output);
 
 protected:
     void Handle(const std::vector<std::string>& arguments) const override;
 
 private:
     bool& playing_;
+    std::ostream& output_;
 };
 
 } // frontend

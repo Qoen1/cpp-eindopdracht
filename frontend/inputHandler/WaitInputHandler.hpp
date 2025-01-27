@@ -11,13 +11,14 @@ namespace frontend {
 
     class WaitInputHandler: public BaseInputHandler {
 public:
-    WaitInputHandler(const std::string &inputCommand, ICommand &move_enemies_command);
+    WaitInputHandler(const std::string &inputCommand, ICommand &move_enemies_command, std::ostream& output);
 
 protected:
     void Handle(const std::vector<std::string> &arguments) const override;
 
 private:
     ICommand& move_enemies_command;
+    std::ostream& output_;
 };
 
 } // frontend

@@ -15,11 +15,11 @@ namespace frontend {
     static const std::string TARGET_SELF = "self";
     void LookInputHandler::Handle(const std::vector<std::string> &arguments) const {
         if(arguments.size() == 0) {
-            LookInRoomCommand(*player_.currentLocation).Execute();
+            LookInRoomCommand(*player_.currentLocation, output_).Execute();
             return;
         }
         if(arguments[0] == TARGET_SELF) {
-            LookAtPlayerCommand(player_).Execute();
+            LookAtPlayerCommand(player_, output_).Execute();
             return;
         }
         std::string entity_name;
@@ -32,12 +32,12 @@ namespace frontend {
         auto* item = player_.currentLocation->GetItemByName(entity_name.c_str());
         if(item == nullptr) item = player_.GetItemByName(arguments[0]);
         if(item != nullptr) {
-            LookAtItemCommand(*item).Execute();
+            LookAtItemCommand(*item, output_).Execute();
             return;
         }
         auto* enemy = player_.currentLocation->GetEnemyByName(entity_name.c_str());
         if(enemy != nullptr) {
-            LookAtEnemyCommand(*enemy, player_).Execute();
+            LookAtEnemyCommand(*enemy, player_, output_).Execute();
         }
     }
 } // frontend

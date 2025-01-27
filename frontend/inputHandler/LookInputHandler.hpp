@@ -13,8 +13,8 @@ namespace frontend {
 
 class LookInputHandler : public BaseInputHandler {
 public:
-    explicit LookInputHandler(const std::string& inputCommand, Player &player)
-        : BaseInputHandler(inputCommand), player_(player) {
+    explicit LookInputHandler(const std::string& inputCommand, Player &player, std::ostream& output)
+        : BaseInputHandler(inputCommand), player_(player), output_(output) {
     }
 
 protected:
@@ -22,6 +22,7 @@ protected:
 
 private:
     Player &player_;
+    std::ostream& output_;
 };
 
 } // frontend

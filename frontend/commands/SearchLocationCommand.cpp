@@ -7,15 +7,15 @@
 #include <iostream>
 
 namespace frontend {
-    SearchLocationCommand::SearchLocationCommand(backend::Location &location) : location_(location) {
+    SearchLocationCommand::SearchLocationCommand(backend::Location &location, std::ostream& output) : location_(location), output_(output) {
     }
 
     void SearchLocationCommand::Execute() {
         auto discovered_items = location_.MakeAllItemsVisible();
 
-        std::cout << "Je vindt:" << std::endl;
+        output_ << "Je vindt:" << std::endl;
         for (auto i = 0; i < discovered_items.size(); ++i) {
-            std::cout << discovered_items[i]->GetName() << std::endl;
+            output_ << discovered_items[i]->GetName() << std::endl;
         }
 
     }

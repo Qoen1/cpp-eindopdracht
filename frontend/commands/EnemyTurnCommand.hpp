@@ -4,6 +4,8 @@
 
 #ifndef MOVEENEMIESCOMMAND_HPP
 #define MOVEENEMIESCOMMAND_HPP
+#include <ostream>
+
 #include "ICommand.hpp"
 
 namespace backend {
@@ -15,7 +17,7 @@ namespace frontend {
 
     class EnemyTurnCommand: public ICommand {
 public:
-    explicit EnemyTurnCommand(backend::Game &game, Player& player);
+    explicit EnemyTurnCommand(backend::Game &game, Player& player, std::ostream& output);
 
     ~EnemyTurnCommand() override {
         auto i = 0;
@@ -25,6 +27,7 @@ public:
 private:
     backend::Game& game_;
     Player& player_;
+    std::ostream& output_;
 };
 
 } // frontend

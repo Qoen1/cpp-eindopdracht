@@ -8,8 +8,8 @@
 
 namespace frontend {
     WaitInputHandler::WaitInputHandler(const std::string &inputCommand,
-                                       ICommand &move_enemies_command): BaseInputHandler(
-        inputCommand), move_enemies_command(move_enemies_command) {
+                                       ICommand &move_enemies_command, std::ostream& output): BaseInputHandler(
+        inputCommand), move_enemies_command(move_enemies_command), output_(output) {
     }
 
     void WaitInputHandler::Handle(const std::vector<std::string> &arguments) const {

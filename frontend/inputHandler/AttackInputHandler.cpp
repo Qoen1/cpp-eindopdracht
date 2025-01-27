@@ -10,13 +10,13 @@
 
 namespace frontend {
     AttackInputHandler::AttackInputHandler(const std::string &inputCommand, Player &player,
-                                           ICommand &move_enemies_command): BaseInputHandler(
-        inputCommand), player_(player), move_enemies_command(move_enemies_command) {
+                                           ICommand &move_enemies_command, std::ostream &output): BaseInputHandler(
+        inputCommand), player_(player), move_enemies_command(move_enemies_command), output(output) {
     }
 
     void AttackInputHandler::Handle(const std::vector<std::string> &arguments) const {
         if(arguments.size() == 0) {
-            std::cout << "Attack what?" << std::endl;
+            output << "Attack what?" << std::endl;
             return;
         }
         std::string entity_name;
@@ -28,7 +28,7 @@ namespace frontend {
         }
         auto& enemy = *player_.currentLocation->GetEnemyByName(entity_name.c_str());
         if(&enemy == nullptr) {
-            std::cout << "There is no enemy with the name " << entity_name << std::endl;
+            output << "There is no enemy with the name " << entity_name << std::endl;
             return;
         }
 
@@ -37,14 +37,14 @@ namespace frontend {
         AttackCommand(player_, enemy).Execute();
 
         if (enemy.GetHealth() == old_hp) {
-            std::cout << "You missed!" << std::endl;
+            output << "You missed!" << std::endl;
         }
         else {
-            std::cout << "You hit the enemy for " << old_hp - enemy.GetHealth() << " damage!" << std::endl;
+            output << "You hit the enemy for " << old_hp - enemy.GetHealth() << " damage!" << std::endl;
         }
 
         if (enemy.GetHealth() <= 0) {
-            std::cout << "You have defeated the enemy!" << std::endl;
+            output << "You have defeated the enemy!" << std::endl;
             auto items = enemy.TransferItems();
             for (auto i = 0; i < items.size(); ++i) {
                 player_.currentLocation->AddVisibleItem(items.pop(i));

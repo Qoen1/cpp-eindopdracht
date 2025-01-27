@@ -12,12 +12,13 @@ namespace frontend {
 
     class MoveInputHandler : public BaseInputHandler {
 public:
-    MoveInputHandler(const std::string& command, Player& player, ICommand &move_enemies_command);
+    MoveInputHandler(const std::string& command, Player& player, ICommand &move_enemies_command, std::ostream& output);
 protected:
     void Handle(const std::vector<std::string> &arguments) const override;
 private:
     Player& player_;
     ICommand& move_enemies_command_;
+        std::ostream& output_;
 };
 
 } // frontend

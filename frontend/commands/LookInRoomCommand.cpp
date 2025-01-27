@@ -7,10 +7,9 @@
 #include <iostream>
 #include <ostream>
 
-using namespace std;
 
 namespace frontend {
-    LookInRoomCommand::LookInRoomCommand(backend::Location &passedLocation) :location(passedLocation){
+    LookInRoomCommand::LookInRoomCommand(backend::Location &passedLocation, std::ostream& output) :location(passedLocation), output_(output) {
     }
 
     void LookInRoomCommand::Execute() {
@@ -18,37 +17,37 @@ namespace frontend {
         auto enemies = location.GetEnemies();
         auto directions = location.GetDirections();
 
-        cout << "Je staat bij de locatie " << location.getName() << std::endl << location.getDescription() << std::endl;
+        output_ << "Je staat bij de locatie " << location.getName() << std::endl << location.getDescription() << std::endl;
 
-        cout << "zichtbare objecten: ";
-        if (items.size() == 0) cout << "Geen";
+        output_ << "zichtbare objecten: ";
+        if (items.size() == 0) output_ << "Geen";
         else {
             for (int i = 0; i < items.size(); i++) {
-                cout << items.get(i)->GetName();
-                if (i != items.size() - 1) cout << ", ";
+                output_ << items.get(i)->GetName();
+                if (i != items.size() - 1) output_ << ", ";
             }
         }
-        cout << endl;
+        output_ << std::endl;
 
-        if (enemies.size() == 0) cout << "Er zijn geen vijanden in deze kamer." << endl;
+        if (enemies.size() == 0) output_ << "Er zijn geen vijanden in deze kamer." << std::endl;
         else {
-            cout << "Vijanden: ";
+            output_ << "Vijanden: ";
             for (int i = 0; i < enemies.size(); i++) {
-                cout << enemies.get(i)->GetName();
-                if (enemies.get(i)->GetHealth() <= 0) cout << " (dood)";
-                if (i != enemies.size() - 1) cout << ", ";
+                output_ << enemies.get(i)->GetName();
+                if (enemies.get(i)->GetHealth() <= 0) output_ << " (dood)";
+                if (i != enemies.size() - 1) output_ << ", ";
             }
-            cout << endl;
+            output_ << std::endl;
         }
 
-        if (directions.size() == 0) cout << "Er zijn geen uitgangen in deze kamer." << endl;
+        if (directions.size() == 0) output_ << "Er zijn geen uitgangen in deze kamer." << std::endl;
         else {
-            cout << "Uitgangen: ";
+            output_ << "Uitgangen: ";
             for (int i = 0; i < directions.size(); i++) {
-                cout << GetStringFromDirection(directions.get(i));
-                if (i != directions.size() - 1) cout << ", ";
+                output_ << GetStringFromDirection(directions.get(i));
+                if (i != directions.size() - 1) output_ << ", ";
             }
-            cout << endl;
+            output_ << std::endl;
         }
     }
 } // frontend

@@ -8,8 +8,8 @@
 
 namespace frontend {
     MoveInputHandler::MoveInputHandler(const std::string &command, Player &player,
-                                       ICommand &move_enemies_command) : player_(player),
-        BaseInputHandler(command), move_enemies_command_(move_enemies_command) {
+                                       ICommand &move_enemies_command, std::ostream& output) : player_(player),
+        BaseInputHandler(command), move_enemies_command_(move_enemies_command), output_(output) {
     }
 
     void MoveInputHandler::Handle(const std::vector<std::string> &arguments) const {

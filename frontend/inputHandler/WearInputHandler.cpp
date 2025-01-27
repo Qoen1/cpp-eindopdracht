@@ -10,8 +10,8 @@
 #include "../player/Player.hpp"
 
 namespace frontend {
-    WearInputHandler::WearInputHandler(const std::string &inputCommand, Player &player, ICommand &move_enemies_command):
-    BaseInputHandler(inputCommand), player_(player), move_enemies_command_(move_enemies_command) {}
+    WearInputHandler::WearInputHandler(const std::string &inputCommand, Player &player, ICommand &move_enemies_command, std::ostream& output) :
+    BaseInputHandler(inputCommand), player_(player), move_enemies_command_(move_enemies_command), output_(output) {}
 
     void WearInputHandler::Handle(const std::vector<std::string> &arguments) const {
         std::string item_name;
@@ -27,9 +27,9 @@ namespace frontend {
 
         auto succeeded = player_.UseItemFromInventory(item_name);
         if (!succeeded) {
-            std::cout << "You don't have that item in your inventory, or it is not a weapon or armor" << std::endl;
+            output_ << "You don't have that item in your inventory, or it is not a weapon or armor" << std::endl;
         }else {
-            std::cout << "You have equipped the " << item_name << std::endl;
+            output_ << "You have equipped the " << item_name << std::endl;
         }
 
         if (succeeded && is_armor) {
