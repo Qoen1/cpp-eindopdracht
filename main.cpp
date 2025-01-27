@@ -131,12 +131,6 @@ int main()
         char result[MAX_INPUT_LENGTH];
         result[0] = '\0';
 
-        logger << "leaderboard:" << std::endl;
-        auto scores = database->GetScores();
-        std::for_each(scores.begin(), scores.end(), [&logger](Score score) {
-            logger << score.name << "  |  " << score.score << std::endl;
-        });
-
         while (strlen(result) == 0 || (result[0] != 'y' && result[0] != 'n')) {
             logger << "save this to the leaderboard? (y/n)" << std::endl;
             std::cin.getline(result, MAX_INPUT_LENGTH);
@@ -152,6 +146,12 @@ int main()
                 database->AddScore(Score{name, player->GetCoinCount()});
             }
         }
+
+        logger << "leaderboard:" << std::endl;
+        auto scores = database->GetScores();
+        std::for_each(scores.begin(), scores.end(), [&logger](Score score) {
+            logger << score.name << "  |  " << score.score << std::endl;
+        });
 
         char retry_result[MAX_INPUT_LENGTH];
         retry_result[0] = '\0';
